@@ -1,0 +1,12 @@
+__pycache__/
+*.py[cod]
+*.egg-info/
+.DS_Store
+resultados/
+.venv/
+.venv-portable/
+dist/
+metal/yoguicuentas_metal/.build/
+metal/yoguicuentas_metal/dist/
+metal/yoguicuentas_metal/.swiftpm/
+metal/technical_report/build/

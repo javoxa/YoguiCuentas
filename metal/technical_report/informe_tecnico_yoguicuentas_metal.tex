@@ -1,0 +1,1078 @@
+\documentclass[11pt,a4paper]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[spanish,es-nodecimaldot,es-noshorthands]{babel}
+\usepackage{lmodern,microtype,amsmath,amssymb,mathtools}
+\usepackage[margin=24mm,headheight=15pt]{geometry}
+\usepackage{booktabs,tabularx,longtable,array,enumitem}
+\usepackage{tikz,pgfplots}
+\usetikzlibrary{arrows.meta,positioning,calc,patterns}
+\pgfplotsset{compat=1.17}
+\usepackage{float,placeins,fancyhdr,xcolor}
+\usepackage[colorlinks=true,linkcolor=blue!45!black,citecolor=blue!45!black,urlcolor=blue!45!black]{hyperref}
+\usepackage{bookmark}
+\definecolor{azul}{HTML}{245B83}
+\definecolor{rojo}{HTML}{A13A30}
+\definecolor{verde}{HTML}{36745C}
+\pgfplotsset{every axis/.append style={width=.94\linewidth,height=6.2cm,grid=both,
+  major grid style={gray!25},minor grid style={gray!10},tick label style={font=\small},
+  label style={font=\small},legend style={font=\small,draw=none,fill=white},
+  cycle list name=color list}}
+\newcommand{\norm}[1]{\left\lVert #1\right\rVert}
+\newcommand{\dt}{\Delta t}
+\newcommand{\Rinf}{R_{\infty}}
+\newcommand{\Rone}{R_{1,w}}
+\newcommand{\code}[1]{\texttt{\detokenize{#1}}}
+\newcommand{\nota}[1]{\par\smallskip\noindent\textbf{Precaución.} #1\par\smallskip}
+\setlength{\parskip}{4pt}
+\setlength{\parindent}{0pt}
+\setlist{nosep,leftmargin=*}
+\emergencystretch=2em
+\pagestyle{fancy}\fancyhf{}
+\fancyhead[L]{\small YoguiCuentas Metal: informe técnico}
+\fancyhead[R]{\small Versión 0.11.0}
+\fancyfoot[C]{\thepage}
+\title{YoguiCuentas Metal\\[3mm]\large Informe técnico de la primera versión funcional\\
+Discretización, implementación CPU/GPU y límites de validez}
+\author{Proyecto YoguiCuentas Metal}
+\date{26 de octubre de 2026\\\small Documento para revisión técnica y posterior revisión por pares}
+\begin{document}
+\maketitle
+\begin{abstract}
+Se documenta una aplicación nativa para macOS que resuelve conducción térmica
+bidimensional en una malla cartesiana nodal con materiales heterogéneos,
+fuentes de área y línea y contornos Dirichlet, Neumann y Robin. La instantánea
+analizada es la versión 0.11.0: integra Euler explícito, resolución estacionaria
+mediante Jacobi ponderado y evolución Crank--Nicolson (CN) con resolución
+iterativa interna y arranque suavizado opcional. El informe deriva los
+coeficientes que efectivamente ensambla el código, distingue estabilidad,
+positividad, error temporal y convergencia algebraica, y describe el intercambio
+entre interfaz, CPU y GPU Metal. Se repitieron 77 pruebas automatizadas sin
+fallos ni omisiones y se generaron ensayos numéricos adicionales con las
+fuentes de cálculo originales. Se identifican, entre otras limitaciones, el
+sesgo de perímetro en fronteras curvas escalonadas, la diferencia entre la cota
+configurada de paso y una garantía de positividad por fila, el estancamiento por
+precisión simple y la pérdida de amortiguamiento de CN con pasos grandes.
+Los resultados constituyen verificación de implementación en casos definidos;
+no equivalen a una validación experimental ni certifican exactitud global en
+geometrías arbitrarias.
+\end{abstract}
+\textbf{Palabras clave:} conducción térmica; volúmenes nodales; diferencias
+finitas; Metal; Crank--Nicolson; Jacobi; verificación numérica.
+\tableofcontents
+\clearpage
+
+\section{Objeto, alcance y trazabilidad}
+\label{sec:scope}
+Este documento describe la primera versión funcional consolidada del port
+\emph{YoguiCuentas Metal}; la numeración 0.11.0 identifica la instantánea del
+software, no una afirmación de madurez industrial. No se analiza aquí el
+solver Python/OpenCL como si fuera el mismo programa. La equivalencia completa
+entre ambos proyectos continúa pendiente de una campaña específica.
+
+El propósito es hacer auditables las decisiones de implementación y permitir
+que un revisor contraste ecuaciones, código y ensayos. No se propone un método
+numérico nuevo: la contribución es integrar técnicas conocidas en un entorno
+interactivo de enseñanza y exploración. La interpretación mediante balances
+locales sigue la tradición de Patankar~\cite{patankar}; los esquemas temporales
+y el análisis espectral se contrastan con bibliografía de difusión y de
+métodos iterativos~\cite{langtangen,templates,petsc}.
+
+La referencia solicitada de Luis Cardon se incorpora como antecedente docente
+con los datos de edición proporcionados para este informe~\cite{cardon}.
+No se dispuso del ejemplar completo de noviembre de 2022: no se atribuyen
+páginas, demostraciones ni código a ese libro. El perfil público del autor
+fue localizado; ello no demuestra que el manuscrito esté alojado allí ni que
+sus repositorios estén abandonados.
+
+El modelo implementado es lineal, con parámetros constantes en el tiempo y
+conductividad escalar isotrópica por nodo. No incluye advección, dinámica de
+fluidos, radiación no lineal, cambio de fase, propiedades dependientes de
+la temperatura, anisotropía tensorial, contacto térmico con resistencia
+ajustable ni malla adaptativa. La superficie tridimensional es una
+representación de $T(x,y)$, no una solución de conducción en tres dimensiones.
+
+La carpeta del informe conserva datos JSON, registro de pruebas, manifiesto
+SHA-256 del código inspeccionado y una copia de los siete archivos necesarios
+para reproducir los ensayos numéricos. Las figuras de este documento están
+embebidas en el propio \code{.tex}, sin imágenes externas ni dependencia de
+una base bibliográfica separada. La autoría individual, afiliaciones y
+condiciones de distribución del software deben ser confirmadas por sus
+responsables antes de un envío editorial.
+
+\section{Modelo físico y convenciones}
+\label{sec:model}
+Para una sección plana $\Omega$, la ecuación de partida es
+\begin{equation}
+ C(\boldsymbol{x})\frac{\partial T}{\partial t}
+ =\nabla\!\cdot\!\left(k(\boldsymbol{x})\nabla T\right)+Q(\boldsymbol{x}),
+ \qquad C=\rho c_p>0,\quad k>0.
+ \label{eq:pde}
+\end{equation}
+$T$ se expresa en grados Celsius; sus diferencias e incrementos son
+numéricamente iguales en kelvin. $k$ tiene unidades
+$\mathrm{W\,m^{-1}K^{-1}}$, $C$ tiene unidades
+$\mathrm{J\,m^{-3}K^{-1}}$ y $Q$ tiene unidades $\mathrm{W\,m^{-3}}$.
+El flujo de calor es $\boldsymbol{q}=-k\nabla T$ y el flujo normal
+\emph{saliente} es positivo. En una frontera con normal exterior $\boldsymbol n$:
+\begin{align}
+ T&=T_D &&\text{(Dirichlet)},\\
+ -k\nabla T\cdot\boldsymbol n&=q_n &&\text{(Neumann)},\\
+ -k\nabla T\cdot\boldsymbol n&=h(T-T_\infty),\quad h\ge0
+ &&\text{(Robin/Cauchy)}.
+\end{align}
+Adiabático equivale a Neumann con $q_n=0$; Robin con $h=0$ no aporta una
+referencia térmica. $h$ se expresa en $\mathrm{W\,m^{-2}K^{-1}}$.
+
+Se usa un espesor de referencia $b=1\,\mathrm{m}$. El código almacena áreas
+nodales y no ofrece un parámetro independiente de espesor. La lectura de
+potencias como vatios presupone esa convención: no debe cambiarse el espesor
+físico sin reexaminar fuentes y balances. Una fuente de línea $Q_\ell$ se
+interpreta en $\mathrm{W\,m^{-1}}$ de trazo, de modo que un segmento de
+longitud $\ell$ entrega $Q_\ell\ell$ vatios al problema de espesor de referencia.
+
+La geometría puede ser discontinua en $k$ y $C$. Una interfaz entre dos
+regiones activas conduce calor; un trazo usado para seleccionar regiones
+no introduce, por sí solo, una pared aislante entre materiales. Para crear
+una frontera expuesta es necesario excluir material del dominio.
+
+\section{Arquitectura de diseño y ejecución}
+\label{sec:architecture}
+El proyecto usa Swift Package Manager, SwiftUI y AppKit para la aplicación;
+Metal para cómputo; Canvas para gráficos planos y SceneKit para la superficie.
+Los kernels se mantienen como cadenas de Metal Shading Language y se compilan
+en tiempo de ejecución. Esto simplifica la distribución mediante SwiftPM,
+a costa de introducir posibles fallos de compilación de kernels al iniciar
+el backend o al utilizar CN por primera vez.
+
+\begin{figure}[htbp]
+\centering
+\begin{tikzpicture}[box/.style={draw=azul,rounded corners=2pt,fill=azul!5,
+  align=center,text width=4.0cm,minimum height=1.1cm,font=\small},
+  link/.style={-{Stealth},thick,draw=azul}]
+\node[box] (json) {Escena JSON v1/v2\\\code{Scenario} / \code{SceneCanvas}};
+\node[box,right=1cm of json] (edit) {Editor geométrico y parámetros\\selección, regiones, historial};
+\node[box,below=9mm of json] (fields) {\code{SceneFields} / \code{ScenePartition}\\máscara, materiales, fuentes, caras};
+\node[box,below=9mm of fields] (op) {\code{ThermalOperator}\\$a_E,a_W,a_N,a_S,D,f$};
+\node[box,right=1cm of op] (solver) {CPU / Metal\\Euler, Jacobi o CN};
+\node[box,below=9mm of solver] (model) {\code{SimulationModel}\\lotes, cancelación, tiempo, residuos};
+\node[box,left=1cm of model] (visual) {\code{VisualFields} y vistas\\mapas, vectores, isotermas, CSV/PNG};
+\draw[link] (edit)--(json);\draw[link] (json)--(fields);
+\draw[link] (fields)--(op);\draw[link] (op)--(solver);
+\draw[link] (solver)--(model);\draw[link] (model)--(visual);
+\end{tikzpicture}
+\caption{Separación lógica de responsabilidades. Aplicar una escena reconstruye
+el operador y reinicia la corrida; editar un borrador no modifica el cálculo
+hasta aplicarlo. Las flechas describen flujo de datos, no transferencia a
+procesos o equipos externos.}
+\label{fig:architecture}
+\end{figure}
+
+\begin{table}[htbp]
+\centering\small
+\begin{tabularx}{\linewidth}{@{}p{4.6cm}X@{}}\toprule
+Componente & Responsabilidad verificable\\\midrule
+\code{Scenario.swift} & Parámetros, valores predeterminados, validación, paso de referencia y selección de integradores.\\
+\code{Scene.swift}, \code{ScenePartition.swift} & Composición geométrica, regiones conectadas, rasterización y fuentes.\\
+\code{ThermalSolver.swift} & Ensamblado común, inicialización, explícito CPU/Metal, Jacobi y residuos estacionarios.\\
+\code{CrankNicolson.swift} & Sistemas desplazados, Jacobi interno, reducción GPU y aceptación/rechazo del lote.\\
+\code{SimulationModel.swift} & Estado observable en hilo principal y cálculo en tarea separada; publicación del campo.\\
+\code{VisualFields.swift} & Gradientes y flujos nodales para representación; no ensambla los flujos conservativos del solver.\\\bottomrule
+\end{tabularx}
+\caption{Mapa entre módulos y responsabilidades. Los restantes archivos de vistas
+implementan interacción y presentación.}
+\end{table}
+
+El ensamblado utiliza principalmente \code{Double}; coeficientes, campos y
+buffers numéricos se convierten a \code{Float}. La CPU y la GPU reciben el
+mismo operador ensamblado. La CPU no constituye una referencia exacta en doble
+precisión: sus pasos de campo son también de precisión simple.
+
+Los escenarios v1 se migran a una escena editable v2. Las máscaras v1 se
+conservan como capas rasterizadas con edición limitada. En la escena v2,
+las operaciones de dominio se aplican en orden; las propiedades de material
+superpuestas siguen la precedencia implementada por el evaluador. Las fuentes
+se suman y se recortan al dominio activo. Ocultar una capa afecta su dibujo,
+no necesariamente sus roles físicos. Una región demasiado pequeña para la
+malla puede desaparecer o cambiar de conectividad al refinar.
+
+La grilla admite entre 3 y 2049 nodos por eje, con producto total limitado a
+un millón. Es un límite de validación de la aplicación, no una garantía de
+memoria o rendimiento en cualquier dispositivo compatible con macOS.
+
+\FloatBarrier
+\section{Discretización espacial y ensamblado}
+\label{sec:space}
+\subsection{Malla nodal y volúmenes duales}
+La malla uniforme incluye los extremos del lienzo:
+\begin{equation}
+ x_i=i\Delta x,\quad \Delta x=\frac{L_x}{n_x-1},\qquad
+ y_j=j\Delta y,\quad \Delta y=\frac{L_y}{n_y-1},\qquad p=j n_x+i.
+\end{equation}
+Se asocian anchos duales $w^x_i=\Delta x$ y $w^y_j=\Delta y$ en el interior,
+reducidos a la mitad en los bordes del lienzo. El volumen de referencia es
+$V_p=b\,w^x_iw^y_j$. La máscara elimina nodos, pero no calcula fracciones
+geométricas de volumen para las celdas atravesadas por una curva. Por ello el
+método es una discretización cartesiana con fronteras escalonadas y balances
+nodales; no es un método de celdas cortadas conforme al contorno exacto.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}[scale=1.05,>=Stealth]
+\draw[step=1,gray!45,thin] (0,0) grid (4,3);
+\fill[azul!14] (1.5,.5) rectangle (2.5,1.5);
+\draw[azul,thick,dashed] (1.5,.5) rectangle (2.5,1.5);
+\foreach \x/\y/\name in {2/1/P,3/1/E,1/1/W,2/2/N,2/0/S}{
+ \fill (\x,\y) circle(2pt);\node[above right] at (\x,\y) {$\name$};}
+\draw[->,rojo,thick] (2,1)--(2.5,1) node[midway,above] {$q_e$};
+\draw[<->] (2,-.45)--(3,-.45) node[midway,below] {$\Delta x$};
+\draw[<->] (4.4,1)--(4.4,2) node[midway,right] {$\Delta y$};
+\fill[verde!15] (-.02,.5) rectangle (.5,1.5);
+\draw[verde,thick] (0,0)--(0,3);
+\node[align=left,anchor=west,font=\small] at (5,.8)
+ {Interior: $V_P=b\Delta x\Delta y$\\Borde: $V=b\Delta x\Delta y/2$\\Esquina: $V=b\Delta x\Delta y/4$};
+\end{tikzpicture}
+\caption{Nodo interior, stencil de cinco puntos y volumen dual. El verde indica
+la media celda en un borde del lienzo. Los anchos reducidos explican los
+factores dos del ensamblado exterior. Esquema conceptual, no una captura de la interfaz.}
+\label{fig:dual}
+\end{figure}
+
+\subsection{Conductividad en caras y materiales discontinuos}
+Para dos nodos separados por $d$, con $k_P$ y $k_E$, las dos resistencias de
+media distancia en serie dan
+\begin{equation}
+ k_e^{\rm arm}=\frac{2k_Pk_E}{k_P+k_E},\qquad
+ G_e=\frac{k_e S_e}{d}.
+ \label{eq:harmonic}
+\end{equation}
+Esta es la elección predeterminada y conserva la resistencia de dos mitades
+homogéneas cuando la interfaz coincide con la cara. También se permiten las
+medias aritmética $(k_P+k_E)/2$ y geométrica $\sqrt{k_Pk_E}$ como opciones
+comparativas. Su disponibilidad no implica equivalencia física: para un
+contraste grande, la aritmética puede sobreestimar fuertemente la conducción.
+La media armónica tampoco elimina el error de posición de una interfaz
+oblicua representada en la grilla.
+
+En un nodo libre interior, los coeficientes normalizados son
+\begin{equation}
+ a_E=\frac{k_e}{C_P\Delta x^2},\quad
+ a_W=\frac{k_w}{C_P\Delta x^2},\quad
+ a_N=\frac{k_n}{C_P\Delta y^2},\quad
+ a_S=\frac{k_s}{C_P\Delta y^2}.
+\end{equation}
+Una conexión con un nodo inactivo se anula y se sustituye, si corresponde,
+por el aporte de la condición de borde. En el borde izquierdo del lienzo se
+duplica el acoplamiento al este; en el derecho, el del oeste; en el inferior,
+el del norte, y en el superior, el del sur. Esto es consistente con el volumen
+dual reducido. No se duplica indiscriminadamente todo el stencil.
+
+\subsection{Operador común a los tres métodos}
+Se almacenan cuatro vectores de acoplamiento, una diagonal $D_p$ y una fuerza
+$f_p$. Con $s_p$ como pérdida lineal de borde,
+\begin{align}
+ D_p&=a_E+a_W+a_N+a_S+s_p,\\
+ \dot T_p&=f_p-D_pT_p+\sum_{q\in\mathcal N(p)}a_{pq}T_q,
+ \qquad \dot{\boldsymbol T}=\boldsymbol f-A\boldsymbol T.
+ \label{eq:operator}
+\end{align}
+Los $a_{pq}$ y $D_p$ tienen unidades $\mathrm{s^{-1}}$ y $f_p$ unidades
+$\mathrm{K\,s^{-1}}$. La matriz se usa implícitamente a través de sus diagonales;
+no se construye una matriz densa en producción.
+
+En aritmética exacta y para las conexiones conservativas, la matriz reducida
+a nodos libres es simetrizable mediante la masa diagonal $M_{pp}=C_pV_p$:
+$K=MA$ es simétrica. Si cada componente está anclada térmicamente, $K$ es
+definida positiva; sin anclaje aparecen modos constantes de autovalor cero.
+$A$ normalizada por capacidades distintas no es, en general, simétrica en el
+producto escalar euclídeo. Las afirmaciones espectrales posteriores se refieren
+al sistema reducido y a esa estructura ideal; el redondeo y la geometría
+rasterizada deben comprobarse por separado.
+
+Un nodo Dirichlet exterior se inicializa a su temperatura fija y recibe fila
+nula de evolución: $D=f=a_E=a_W=a_N=a_S=0$ en esa fila. Sus vecinos libres
+conservan el acoplamiento a su valor. Un nodo inactivo también tiene fila nula,
+pero no pertenece al dominio físico. Al analizar una matriz invertible o aplicar
+Jacobi, esas filas no deben confundirse con incógnitas libres de diagonal cero.
+
+\subsection{Condiciones de borde: fórmulas implementadas}
+\label{sec:bc}
+En un lado del lienzo, con distancia normal de malla $d$:
+\begin{align}
+\text{Neumann: }& f_p\mathrel{-}=\frac{2q_n}{C_pd},\\
+\text{Robin: }&s_p\mathrel{+}=\frac{2h}{C_pd},\qquad
+ f_p\mathrel{+}=\frac{2hT_\infty}{C_pd}.
+\end{align}
+Un flujo saliente positivo enfría el nodo. Robin exterior se aplica directamente
+al nodo de borde; no se añade una resistencia de media celda entre ese nodo
+y el ambiente. Si dos lados Dirichlet exteriores alcanzan una esquina con
+valores distintos, el código fija el promedio de esos valores. Es una
+convención de resolución de conflicto, no una solución continua única de
+datos de esquina incompatibles.
+
+Para una cara expuesta interna, el código supone distancia $d/2$ entre nodo y
+frontera escalonada. Si $w$ es el ancho dual normal, se agregan:
+\begin{align}
+\text{Dirichlet: }&s_p\mathrel{+}=\frac{2k_p}{C_pwd},\quad
+ f_p\mathrel{+}=\frac{2k_pT_D}{C_pwd},\\
+\text{Neumann: }&f_p\mathrel{-}=\frac{q_n}{C_pw},\\
+\text{Robin: }&h_{\rm ef}=\left(\frac1h+\frac{d}{2k_p}\right)^{-1},\quad
+ s_p\mathrel{+}=\frac{h_{\rm ef}}{C_pw},\quad
+ f_p\mathrel{+}=\frac{h_{\rm ef}T_\infty}{C_pw}.
+ \label{eq:cutrobin}
+\end{align}
+$w=\Delta x$ o $\Delta y$ en el interior y media distancia en los bordes del
+lienzo. La temperatura Dirichlet interna es un valor de cara impuesto mediante
+una pérdida lineal, no un nodo de temperatura fija. Las condiciones
+Neumann/Robin de varias caras se suman; si una fila es Dirichlet exterior,
+esa imposición fija tiene precedencia en el ensamblado final.
+
+\subsection{Fuentes de área y línea}
+En una celda dual $P$ se usa
+\begin{equation}
+ Q_P^{\rm eq}=\sum_m Q_m\phi_{mP}
+ +\frac{\sum_\ell Q_\ell\,\ell_{\ell P}}{b\,w^x_iw^y_j},\qquad
+ f_P\mathrel{+}=\frac{Q_P^{\rm eq}}{C_P}.
+ \label{eq:sources}
+\end{equation}
+La cobertura $\phi$ se estima con $8\times8=64$ muestras regulares por celda
+activa. En regiones seleccionadas se evalúa la partición rasterizada; una
+fuente exterior no contribuye. El muestreo fijo no es una cuadratura adaptativa
+ni resuelve detalles submalla arbitrarios.
+
+Las longitudes de segmentos se recortan con Liang--Barsky sobre las celdas
+duales. Se emplean intervalos semiabiertos para evitar contar dos veces una
+línea sobre una cara compartida. El recorte es exacto para los segmentos
+poligonales dados, hasta redondeo, no para una curva suave ideal que los
+segmentos aproximen. La presencia física de una fuente dentro del dominio
+continúa dependiendo de la máscara nodal.
+
+En nodos inactivos o Dirichlet fijos se eliminan las fuerzas de evolución.
+El panel informa nodos con fuente y potencia geométrica integrada, incluyendo
+la distinción entre nodos libres y fijos. Esa potencia no debe identificarse
+sin más con el calor neto acumulado: el termostato Dirichlet puede absorber
+energía y su reacción no se presenta como un balance completo en la interfaz.
+
+\FloatBarrier
+\section{Evolución explícita: exactitud, estabilidad y positividad}
+\label{sec:explicit}
+Euler hacia adelante aplica
+\begin{equation}
+ \boldsymbol T^{n+1}=\boldsymbol T^n+dt(\boldsymbol f-A\boldsymbol T^n).
+ \label{eq:fe}
+\end{equation}
+Su error global temporal es de primer orden en un problema regular; el stencil
+central es de segundo orden en el interior uniforme y suave. No se deduce de
+ello orden global dos con máscaras, esquinas singulares o interfaces no
+alineadas.
+
+Para un modo del error con autovalor real $\lambda\ge0$, su factor de
+amplificación es $g_E=1-\dt\lambda$. La condición espectral de no crecimiento
+es $0\le\dt\lambda\le2$. Un autovalor cero conserva el modo constante;
+no produce, por sí mismo, decaimiento al estacionario.
+
+Una condición distinta, suficiente para que la matriz de propagación no tenga
+entradas negativas, es
+\begin{equation}
+ \dt\le\frac{1}{D_{\max}},\qquad D_{\max}=\max_{p\,\mathrm{libre}}D_p.
+ \label{eq:positive}
+\end{equation}
+Es útil para monotonía y conservación de cotas cuando los datos de borde y
+fuentes son compatibles con tales cotas. Para difusión homogénea interior,
+$D=2\alpha(\Delta x^{-2}+\Delta y^{-2})$, $\alpha=k/C$, y resulta la cota
+usual $\alpha\dt(\Delta x^{-2}+\Delta y^{-2})\le1/2$.
+La ausencia de crecimiento, la no negatividad del propagador y la ausencia
+de cambio de signo de cada modo son propiedades relacionadas pero diferentes.
+
+\subsection{Paso configurado y alcance de su garantía}
+La propiedad \code{dtLimit} calcula una referencia global con extremos de
+materiales y condiciones. En la escena v2, su forma es
+\begin{equation}
+ \dt_{\rm ref}^{-1}=
+ \beta\frac{k_{\max}}{C_{\min}}
+       \left(\Delta x^{-2}+\Delta y^{-2}\right)
+ +\frac{2}{C_{\min}}\left(\frac{h_x^{\max}}{\Delta x}
+                         +\frac{h_y^{\max}}{\Delta y}\right).
+ \label{eq:dtref}
+\end{equation}
+$h_x^{\max}$ y $h_y^{\max}$ toman Robin de lados exteriores. Por defecto
+$\beta=2$; en escenas con operaciones de dominio y caras internas con
+Dirichlet o Robin de $h>0$, la lógica inspecciona las caras y puede elevarlo
+a 4. En v1, la selección del factor de cortes se basa en la forma del dominio;
+una lista de ediciones sobre un rectángulo no activa por sí sola ese factor.
+La escena migrada puede recibir una referencia más restrictiva.
+
+El paso automático explícito es $\dt=\sigma\dt_{\rm ref}$, con
+$0<\sigma<1$ y valor inicial $\sigma=0.8$. El paso manual se valida contra la
+referencia. El programa no calcula de forma general $\lambda_{\max}$ ni
+verifica automáticamente \eqref{eq:positive} sobre el operador ensamblado.
+Es incorrecto presentar la referencia de la interfaz como prueba universal
+de positividad para cualquier ruta de geometría y contornos.
+
+\subsection{Contraejemplo reproducible de pérdida de positividad}
+\label{sec:counter}
+Se construyó un lienzo v1 de $1\times1\,\mathrm{m}$, malla $5\times5$,
+$k/C=1\,\mathrm{m^2/s}$, y cuatro exclusiones rectangulares que dejan un único
+nodo central. Sus cuatro caras internas son Dirichlet a $0\,{}^\circ\mathrm C$.
+Entonces $D=128\,\mathrm{s^{-1}}$, mientras que la referencia aceptada es
+$\dt_{\rm ref}=0.015625\,\mathrm s$. Con $\sigma=0.8$ se tiene
+$\dt=0.0125\,\mathrm s$ y $g_E=1-\dt D=-0.6$. Partiendo de $20\,{}^\circ\mathrm C$
+se obtiene $-12\,{}^\circ\mathrm C$ en el primer paso, aunque la amplitud del
+error luego decrece. La temperatura respecto del borde no debería cambiar
+de signo en la solución física de este problema.
+El arnés construye directamente el objeto \code{Scenario} v1: este ensayo
+no pasa por \code{Scenario.load}. La carga normal de un JSON v1 lo migra
+a v2 y puede cambiar la referencia de paso; no se afirma que importar este
+caso por la interfaz conserve el paso del contraejemplo.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}\begin{axis}[xlabel={Paso físico $n$},ylabel={$T_n-T_D$ (K)},
+ xmin=0,xmax=8,xtick={0,2,4,6,8},legend pos=north east]
+\addplot[azul,thick,mark=*] coordinates {(0,20) (1,-12) (2,7.200000763) (3,-4.320000648) (4,2.592000484) (5,-1.555200577) (6,0.9331204891) (7,-0.5598722696) (8,0.3359233737)};\addlegendentry{Euler implementado}
+\addplot[verde,thick,domain=0:8,samples=60] {20*exp(-1.6*x)};\addlegendentry{Solución semidiscreta exacta}
+\addplot[gray,dashed,domain=0:8] {0};
+\end{axis}\end{tikzpicture}
+\caption{Ensayo del código original: paso estable en el sentido espectral,
+pero no monótono ni positivo respecto de la temperatura impuesta. La referencia
+manual y las exclusiones reproducibles se conservan en el script de medición.}
+\label{fig:positivity}
+\end{figure}
+
+\nota{Antes de usar el explícito como referencia en una máscara extrema,
+contrastar el paso seleccionado con $1/D_{\max}$ del operador real. El ejemplo
+no demuestra inestabilidad exponencial: demuestra que la validación del paso
+no basta para garantizar el comportamiento cualitativo físico.}
+
+\FloatBarrier
+\section{Crank--Nicolson y resolución de sus sistemas}
+\label{sec:cn}
+\subsection{Formulación temporal e incrementos}
+Para datos independientes del tiempo, CN es la regla trapezoidal
+\cite{petsc,langtangen}:
+\begin{equation}
+ \left(I+\frac{\dt}{2}A\right)\boldsymbol T^{n+1}
+ =\left(I-\frac{\dt}{2}A\right)\boldsymbol T^n+\dt\boldsymbol f.
+ \label{eq:cn}
+\end{equation}
+La implementación evita resolver directamente por temperaturas absolutas.
+Con $\boldsymbol\delta=\boldsymbol T^{n+1}-\boldsymbol T^n$,
+\begin{equation}
+ B\boldsymbol\delta=\boldsymbol b,
+ \quad B=I+\theta\dt A,\quad
+ \boldsymbol b=\dt(\boldsymbol f-A\boldsymbol T^n),
+ \qquad \theta=\frac12.
+ \label{eq:increment}
+\end{equation}
+Se inicia cada sistema con $\delta^{(0)}=0$. La fuente constante aparece con
+factor $\dt$ completo, no con $\dt/2$. La diagonal de $B$ es
+$d_{B,p}=1+\theta\dt D_p$. El desplazamiento identidad hace invertible el
+problema transitorio incluso con una componente puramente adiabática o
+Neumann; no se aplica a CN el rechazo de componentes sin anclaje del solver
+estacionario directo.
+
+El paso automático CN es $\sigma\dt_{\rm ref}F$, con $F=10$ por defecto.
+Un paso manual CN puede exceder la referencia explícita. No hay adaptación
+automática de paso ni estimador incorporado de error temporal.
+
+\subsection{Estabilidad y amortiguamiento: qué no garantiza CN}
+Para un modo difusivo,
+\begin{equation}
+ g_{CN}(z)=\frac{1-z/2}{1+z/2},\qquad z=\dt\lambda\ge0.
+ \label{eq:gain}
+\end{equation}
+Se verifica $|g_{CN}|\le1$ para todo $z\ge0$; bajo las hipótesis de difusión
+simetrizable y resolución exacta de los sistemas, no requiere la restricción
+espectral de Euler. Sin embargo, $g_{CN}<0$ para $z>2$ y
+$g_{CN}\to-1$ cuando $z\to\infty$. Las frecuencias rápidas alternan de signo
+y pueden quedar poco amortiguadas. CN es A-estable, pero no L-estable.
+Un solver interno sin converger no hereda automáticamente esa garantía.
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}\begin{axis}[xlabel={$z=\lambda\dt$},ylabel={Factor de amplificación},
+ xmin=0,xmax=8,xtick={0,2,4,6,8},ymin=-1.15,ymax=1.1,ytick={-1,0,1},legend pos=north east]
+\addplot[rojo,thick,domain=0:2.15,samples=60] {1-x};\addlegendentry{Euler explícito}
+\addplot[azul,thick,domain=0:8,samples=100] {(1-x/2)/(1+x/2)};\addlegendentry{Crank--Nicolson}
+\addplot[verde,thick,domain=0:8,samples=100] {1/(1+x)};\addlegendentry{Euler implícito}
+\addplot[black,dashed,domain=0:8,samples=100] {exp(-x)};\addlegendentry{Exacto}
+\addplot[gray,densely dotted] coordinates {(2,-1.15)(2,1.1)};
+\end{axis}\end{tikzpicture}
+\caption{Análisis modal de las fórmulas temporales, no medición de rendimiento.
+La línea $z=2$ separa el cambio de signo de CN y el extremo estable de Euler.
+La estabilidad en módulo no implica aproximar bien $e^{-z}$.}
+\label{fig:gain}
+\end{figure}
+
+La ausencia de cambio de signo en todos los modos exige
+$\dt\lambda_{\max}\le2$. Para preservar no negatividad de la matriz de avance,
+una condición suficiente diferente es $\dt D_{\max}\le2$, ya que
+$I-\dt A/2$ tiene entonces entradas no negativas y $B^{-1}\ge0$ en el caso
+ideal de M-matriz. No deben confundirse ambos criterios: una matriz de avance
+con entradas no negativas puede tener algunos autovalores negativos.
+
+La interfaz advierte posible oscilación cuando $\dt D_{\max}>1$. Se trata de
+un indicador conservador asociado a la cota espectral
+$\lambda_{\max}\le2D_{\max}$ bajo las hipótesis anteriores. No calcula el
+espectro ni garantiza una determinada precisión. Un campo inicial suave puede
+disimular frecuencias problemáticas que reaparecen con una fuente localizada,
+un cambio brusco de material o una condición de borde incompatible.
+
+\subsection{Jacobi interno y aceptación de un sistema}
+Para $r_B=b-B\delta$, se itera
+\begin{equation}
+ \delta_p^{(m+1)}=\delta_p^{(m)}+
+ \omega\frac{r_{B,p}^{(m)}}{1+\theta\dt D_p},\qquad \omega=\frac23.
+ \label{eq:innerjacobi}
+\end{equation}
+La identidad aumenta la dominancia diagonal frente al problema estacionario;
+para coeficientes difusivos ideales, la fila normalizada tiene razón de
+acoplamiento $\theta\dt\sum a_{pq}/(1+\theta\dt D_p)<1$.
+Al crecer $\dt$, esa ventaja se reduce y la convergencia puede hacerse lenta.
+La elección $\omega=2/3$ no es óptima universalmente.
+
+El criterio implementado es
+\begin{equation}
+ \norm{r_B}_\infty\le \varepsilon_{a,B}
+           +\varepsilon_{r,B}\norm{b}_\infty.
+ \label{eq:innerstop}
+\end{equation}
+Ambos lados tienen unidades de kelvin. Valores predeterminados:
+$\varepsilon_{a,B}=10^{-6}\,\mathrm K$,
+$\varepsilon_{r,B}=10^{-5}$, comprobación cada 16 iteraciones y máximo 2000.
+También se comprueba el último bloque parcial. Un RHS nulo o suficientemente
+pequeño puede aceptar el incremento inicial sin iteraciones.
+
+La CPU acumula la comprobación de $b-B\delta$ en \code{Double} usando el
+sistema ensamblado; la GPU reduce el residuo evaluado en \code{Float}.
+Si no se alcanza el criterio, se lanza un error de convergencia y no se
+publica ni el campo ni el tiempo del lote. Si dentro de ese lote se habían
+resuelto pasos previos, tampoco se publican: el rechazo es del lote completo,
+no una recuperación parcial. Se informa el problema, sin relajar tolerancias
+ni reducir $\dt$ automáticamente.
+
+\subsection{Tolerancia algebraica y error temporal}
+Si $B$ es una M-matriz con suma reducida por fila al menos 1, en aritmética
+exacta puede acotarse $\norm{B^{-1}}_\infty\le1$; por tanto el error del
+incremento satisface $\norm{e_\delta}_\infty\le\norm{r_B}_\infty$.
+Esto no identifica el residuo con el error global de la simulación: existen
+redondeo, error espacial y acumulación de errores de resolución de sistemas.
+
+Para una duración fija y $N_t\sim1/\dt$, una cota pesimista acumula
+$N_t\varepsilon_B$. Para observar orden temporal dos asintótico, el error
+algebraico por paso debería quedar por debajo del error local $O(\dt^3)$,
+dentro del rango representable. Mantener una tolerancia fija mientras se hace
+$\dt\to0$ puede ocultar el orden esperado. Deben compararse corridas con
+$\dt$, $\dt/2$ y $\dt/4$ y repetirse la comparación con tolerancias internas
+más estrictas que aún sean alcanzables.
+
+\subsection{Arranque suavizado opcional}
+Cuando está habilitado, el primer paso físico de duración $\dt$ se sustituye
+por dos medios pasos de Euler implícito: cada uno usa $\theta=1$ y paso
+$\dt/2$. Después se usa CN puro. Para un modo homogéneo, el factor del
+primer paso es $(1+z/2)^{-2}$, que amortigua las frecuencias rápidas.
+La técnica es un arranque tipo Rannacher, motivado por datos poco regulares
+\cite{langtangen}. No equivale a convertir todos los pasos CN en L-estables.
+
+El arranque está desactivado por defecto. Reiniciar lo repite; pausar y
+reanudar una corrida ya avanzada no lo hace. La resolución de dos sistemas
+en el primer paso aumenta su costo. La mejora cualitativa de una imagen no
+sustituye una prueba de convergencia; para enseñar CN puro conviene mostrar
+ambas variantes sin recortar las temperaturas oscilantes.
+
+\FloatBarrier
+\section{Estacionario directo y criterios de convergencia}
+\label{sec:steady}
+El estacionario satisface $AT=f$. Jacobi ponderado aplica
+\begin{equation}
+ T_p^{(m+1)}=T_p^{(m)}+\omega\frac{f_p-(AT^{(m)})_p}{D_p},
+ \qquad \omega=\frac23.
+ \label{eq:stationary}
+\end{equation}
+``Directo'' significa aquí que se busca el sistema estacionario sin recorrer
+el transitorio físico; no significa factorización directa de la matriz ni
+solución en una única iteración. Los contadores son iteraciones algebraicas
+y no representan segundos de evolución.
+
+En el sistema reducido anclado ideal, los autovalores de $D^{-1}A$ son
+positivos y no exceden 2. La matriz de error es
+$I-\omega D^{-1}A$; su radio espectral es menor que uno para la elección
+indicada. La relajación amortigua el modo alternante que puede dificultar
+Jacobi sin ponderar. Los modos suaves convergen lentamente y su número de
+iteraciones aumenta con el refinamiento~\cite{templates}. No hay
+precondicionamiento multinivel, Chebyshev ni multigrid implementados.
+
+Antes de iniciar, se recorren por conectividad las componentes libres.
+Cada una debe estar conectada a un nodo fijo o tener una pérdida $s_p>0$
+producida por Dirichlet interno o Robin positivo. Una sola región con
+referencia no regulariza otras componentes aisladas. Una diagonal no positiva
+o no finita también se rechaza.
+
+En una componente de Neumann puro, la existencia exige compatibilidad:
+\begin{equation}
+ \int_\Omega Q\,dV-\int_{\partial\Omega}q_n\,dS=0,
+ \label{eq:compat}
+\end{equation}
+y la solución solo se determina hasta una constante si no se prescribe una
+media. El solver estacionario actual rechaza estas componentes incluso si
+son compatibles. La evolución temporal CN sí puede tratarlas porque conserva
+la información inicial y la masa no desaparece del problema.
+
+\subsection{Dos residuos y tres confirmaciones}
+Se evalúa $r_p=f_p-(AT)_p$ en nodos activos libres y se calcula
+\begin{equation}
+ \Rinf=\max_p|r_p|,\qquad
+ \Rone=\sum_p w_p|r_p|,\qquad w_p=C_pV_p.
+ \label{eq:steadyres}
+\end{equation}
+$\Rinf$ se expresa en $\mathrm{K/s}$; $\Rone$, con el espesor de referencia,
+en vatios. En el código se guarda numéricamente el factor $C_p$ por el área
+nodal, equivalente al volumen para $b=1\,\mathrm m$.
+
+Con valores iniciales $R^0$ y $W=\sum_pw_p$, se exigen simultáneamente
+\begin{align}
+ \Rinf&\le\varepsilon_a+\varepsilon_r R_\infty^0,\\
+ \Rone&\le\varepsilon_a W+\varepsilon_r R_{1,w}^0.
+ \label{eq:steadystop}
+\end{align}
+Por defecto, $\varepsilon_a=10^{-5}\,\mathrm{K/s}$,
+$\varepsilon_r=10^{-5}$, verificación cada 128 pasos/iteraciones,
+tres confirmaciones consecutivas y máximo un millón. Un residuo no finito
+no cuenta como convergencia. Llegar al máximo se informa como límite sin
+convergencia, y se permite que la última comprobación válida alcance el
+criterio antes de clasificar el límite.
+
+\nota{La variable llamada \code{balance} almacena $\sum w|r|$, no
+$\sum wr$. Un balance energético firmado cercano a cero puede ocultar residuos
+locales grandes de signo opuesto; por ello la norma absoluta es útil, pero no
+reemplaza el diagnóstico físico completo de fuentes, flujos de cara y
+reacciones Dirichlet.}
+
+La tolerancia relativa depende del residuo de la condición inicial. Dos
+corridas con la misma configuración física pero distinta inicialización
+pueden finalizar con residuos absolutos diferentes. El criterio tampoco es
+una cota directa del error de temperatura estacionaria:
+$e=A^{-1}r$ depende del condicionamiento del problema, particularmente de
+referencias Robin débiles, dominios largos y materiales de contraste alto.
+
+\FloatBarrier
+\section{Aritmética flotante y consistencia CPU--GPU}
+\label{sec:precision}
+En precisión simple IEEE 754, la unidad de redondeo es aproximadamente
+$u=2^{-24}\simeq5.96\times10^{-8}$; la separación relativa habitual se expresa
+también como $2^{-23}$. Cerca de $25\,{}^\circ\mathrm C$, un salto entre
+valores representables es aproximadamente $1.91\times10^{-6}\,\mathrm K$.
+Una corrección menor puede no modificar el campo almacenado.
+
+La expresión $f-DT+\sum aT_q$ puede restar cantidades grandes para recuperar
+un residuo pequeño. Jacobi y CN acumulan en cambio diferencias:
+\begin{equation}
+ r_p=f_p-\eta_pT_p+\sum_q a_{pq}(T_q-T_p),\qquad
+ \eta_p=D_p-\sum_q a_{pq}.
+ \label{eq:stablecalc}
+\end{equation}
+$\eta$ se construye a partir de los coeficientes ya convertidos a \code{Float},
+con acumulación intermedia en \code{Double}, y se almacena en \code{Float}.
+No debe sustituirse sin más por el $s_p$ anterior al redondeo: la intención
+es conservar el operador realmente almacenado, dentro de la precisión de
+la corrección. La comprobación estacionaria se acumula en doble precisión;
+ello reduce cancelación en la medición, pero no convierte el campo a doble
+precisión.
+
+Al refinar, los coeficientes crecen como $1/\Delta x^2$ y $1/\Delta y^2$.
+Por tanto, una pequeña cuantización de temperatura puede producir un residuo
+en $\mathrm{K/s}$ apreciable. No existe una tolerancia universal mínima que
+sirva a todas las grillas, materiales y escalas térmicas. Los síntomas son:
+residuo estancado, diferencia entre campo y residuo que deja de mejorar o
+rechazo de sistemas CN al exigir tolerancias inalcanzables.
+
+Los kernels explícito y estacionario se compilan con las opciones
+predeterminadas de Metal. CN desactiva \code{fastMathEnabled}; esa propiedad
+produce una advertencia de deprecación en SDK macOS 15, aunque sigue
+compilando en la configuración ensayada. Debe planificarse su migración a la
+API de modo matemático sin perder el tratamiento de valores no finitos.
+
+Orden de sumas, operaciones fusionadas y evaluación de residuos difieren
+entre CPU y GPU. Se comparan con tolerancias, no se exige identidad bit a bit.
+La coincidencia CPU--GPU verifica consistencia de dos realizaciones del mismo
+modelo; no detecta un error físico o de ensamblado compartido por ambas.
+
+\section{Implementación Metal, costo y capacidad de ampliación}
+\label{sec:gpu}
+Cada barrido lee un buffer y escribe otro; al finalizar se intercambian sus
+roles. Cada hilo actualiza un nodo usando el campo anterior completo. Un
+encoder separado por barrido establece las dependencias de lectura/escritura
+entre iteraciones. Se reutilizan buffers en almacenamiento compartido y un
+bloqueo evita que tareas reiniciadas usen simultáneamente los mismos campos.
+
+En CN, las iteraciones y el RHS permanecen en GPU durante la resolución de
+cada sistema. El residuo máximo se reduce en grupos de 256 hilos usando memoria
+compartida de grupo y barreras; la CPU lee solo los máximos de cada grupo.
+No obstante, la secuencia temporal completa no es enteramente residente: en
+cada paso se carga el campo anterior, se obtiene el incremento y se suma al
+campo en CPU. Los lotes publicados también generan arreglos Swift. La memoria
+unificada reduce costos de transferencia, pero no elimina copias ni
+sincronizaciones.
+
+Para $N=n_xn_y$ nodos, un barrido y el almacenamiento del operador son $O(N)$.
+El costo temporal de CN es $O(NN_t m)$ para $N_t$ pasos físicos y $m$
+iteraciones internas medias. Jacobi estacionario tiene costo $O(Nm_s)$;
+en Poisson regular bidimensional, $m_s$ para una reducción fija crece
+aproximadamente como $O(h^{-2})$. Con $N=O(h^{-2})$, el trabajo total puede
+crecer como $O(N^2)$, aunque cada barrido se paralelice bien.
+
+Los buffers Metal del stepper general ocupan aproximadamente $36N$ bytes
+(seis coeficientes, corrección diagonal y dos campos). El stepper CN agrega
+aproximadamente $44N$ bytes más máximos de reducción; se crea de forma diferida.
+Para un millón de nodos, solo esos buffers rondan 80 MB decimales. No incluyen
+arreglos CPU, campos temporales del ensamblado, máscaras por primitiva,
+particiones, geometría de visualización ni duplicaciones por publicación.
+La memoria pico real puede ser significativamente mayor.
+
+La tarea de simulación publica lotes de hasta 32 pasos explícitos o hasta
+8 pasos CN a velocidad máxima, con límites adicionales por tiempo final y
+comprobaciones estacionarias. Entre lotes existe una espera de 30 ms. Esta
+política favorece interacción, pero mezcla el costo del solver con la cadencia
+de animación. El factor $F$ de CN no es un factor de aceleración medido:
+menos pasos físicos pueden requerir más barridos y sincronizaciones.
+Cualquier comparación de rendimiento debe separar compilación de kernels,
+calentamiento, cálculo, transferencia, postproceso y dibujo.
+
+La cancelación del modelo se propaga a la tarea de trabajo. CN observa la
+cancelación entre bloques internos; un comando ya enviado a GPU termina antes
+de devolver el control. Una falla del cálculo detiene la corrida. Si es una
+falla de GPU distinta de falta de convergencia CN, el modelo selecciona CPU
+para un intento posterior; no se debe afirmar que continúa automáticamente
+la corrida fallida.
+
+\section{Postproceso, exportación y lectura de imágenes}
+El gradiente visual promedia diferencias hacia los vecinos activos. Es central
+cuando existen ambos vecinos y unilateral cuando hay uno; si no hay ninguno
+en esa dirección, el aporte se anula. El flujo visual se obtiene como
+$\boldsymbol q_p=-k_p\boldsymbol{\nabla}_hT_p$ con la conductividad local.
+No es necesariamente el mismo flujo de cara $G_{pq}(T_p-T_q)$ que conserva
+el solver. En una interfaz de materiales, una flecha nodal puede mostrar un
+salto o una media distinta de la magnitud conservativa de interés.
+
+Los vectores usan longitud normalizada para mostrar dirección. Su longitud
+no es una escala cuantitativa del flujo; la densidad de flechas modifica el
+muestreo. Las isotermas se interpolan y sus cantidades y rótulos pueden
+ajustarse; una figura suave no demuestra que la malla resuelva el fenómeno.
+
+Las escalas automáticas de color cambian durante la corrida y pueden exagerar
+cambios pequeños o ocultar comparaciones entre corridas. Para comparar dos
+integradores se debe fijar un mismo rango y tiempo físico. Temperaturas
+oscilantes fuera del rango inicial requieren ampliar la escala; no se recorta
+el campo numérico para suprimirlas.
+
+CSV exporta el campo nodal y la máscara y es la base preferible para un
+análisis cuantitativo externo. La exportación PNG se renderiza mediante
+\code{ThermalCanvas}; no constituye una exportación del estado tridimensional
+completo de SceneKit con su cámara. Los parámetros de vista y la pantalla no
+reemplazan el guardado del escenario y de los datos numéricos.
+
+\FloatBarrier
+\section{Verificación y resultados reproducibles}
+\label{sec:results}
+\subsection{Entorno, procedencia y alcance de las pruebas}
+La suite Swift se volvió a ejecutar sobre la instantánea inspeccionada:
+\textbf{77 pruebas, cero fallos y cero omisiones}. Las pruebas incluyen las
+ramas Metal. El arnés adicional compila los siete archivos numéricos originales
+con \code{swiftc -O}, sin reescribir el solver en Python. El dispositivo
+identificado fue \textbf{Apple M1}; el sistema informó \textbf{Version 15.4.1 (Build 24E263)}.
+El manifiesto de fuentes y los logs se conservan en \code{data/}.
+
+La suite comprende geometría, fuentes, migración, selección de regiones,
+ensamblado y controles de corrida, además de 11 pruebas estacionarias y 9 de
+CN. El número total no equivale a cobertura exhaustiva. Entre las pruebas
+numéricas se incluyen: placa con fuente y solución analítica, comparación
+CN con eliminación densa independiente en malla pequeña, materiales distintos,
+contornos mixtos, conservación en un dominio aislado, rechazo del sistema
+interno sin convergencia, cancelación y último paso acortado. No se dispone
+aún de una validación experimental, de un benchmark independiente completo
+ni de un estudio de orden global para todas las geometrías.
+
+\subsection{Orden temporal separado del error espacial}
+Se considera $[0,1]^2$, $k=C=1$, borde Dirichlet cero y
+$T^0=\sin(\pi x)\sin(\pi y)$ en una malla $9\times9$. El modo propio discreto
+tiene
+\begin{equation}
+ \lambda_h=\frac{4}{\Delta x^2}\left[1-\cos\left(\frac{\pi}{8}\right)\right],
+ \qquad T_{h,\mathrm{exacta}}(t)=e^{-\lambda_h t}T^0.
+\end{equation}
+Se mide el error absoluto del nodo central en $t=0.2$. Usar
+$\lambda_h$, en vez de $2\pi^2$, separa el error temporal del error de
+semidiscretización espacial. Las tolerancias internas del ensayo son
+$\varepsilon_{a,B}=2\times10^{-6}\,\mathrm K$ y
+$\varepsilon_{r,B}=10^{-6}$; no son las tolerancias predeterminadas de la app.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}lrrrr@{}}\toprule
+Método & $\dt$ (s) & Pasos & Error CPU (K) & Orden observado\\\midrule
+CN & 0.0200 & 10 & $9.9874\times10^{-4}$ & -- \\
+CN & 0.0100 & 20 & $2.4982\times10^{-4}$ & 1.999 \\
+CN & 0.0050 & 40 & $5.6858\times10^{-5}$ & 2.135 \\
+\addlinespace
+Euler & 0.0020 & 100 & $1.5225\times10^{-3}$ & -- \\
+Euler & 0.0010 & 200 & $7.6602\times10^{-4}$ & 0.991 \\
+Euler & 0.0005 & 400 & $3.8418\times10^{-4}$ & 0.996 \\
+\bottomrule\end{tabular}
+\caption{Ensayo de orden temporal con el solver real. El orden se calcula
+entre dos refinamientos consecutivos como $\log_2(E_{\dt}/E_{\dt/2})$.
+La discrepancia máxima CPU--Metal entre las corridas CN fue
+$1.8626\times10^{-9}\,\mathrm K$; este dato corresponde solo al caso ensayado.}
+\label{tab:temporal}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}\begin{loglogaxis}[xlabel={Paso temporal $\dt$ (s)},ylabel={Error central (K)},
+ legend pos=north west]
+\addplot[azul,thick,mark=*] coordinates {(0.02,0.0009987364575) (0.01,0.000249818997) (0.005,5.68582728e-05)};\addlegendentry{CN CPU}
+\addplot[rojo,thick,mark=square*] coordinates {(0.002,0.00152249551) (0.001,0.0007660175725) (0.0005,0.0003841753169)};\addlegendentry{Euler CPU}
+\end{loglogaxis}\end{tikzpicture}
+\caption{Errores contra la solución exacta de la ecuación semidiscreta. Los
+rangos de paso difieren porque Euler debe respetar su restricción. La pendiente
+CN es próxima a dos; el último cociente también refleja errores de resolución
+interna y redondeo, por lo que no debe interpretarse como orden superior a dos.}
+\label{fig:temporal}
+\end{figure}
+
+\subsection{Refinamiento y costo de Jacobi estacionario}
+Se usa el problema de cobre de referencia: $k=401$, $C=3449600$,
+lienzo $0.5\times0.5\,\mathrm m$, bordes a $25\,{}^\circ\mathrm C$,
+condición inicial $25+50\sin(\pi x/L_x)\sin(\pi y/L_y)$ y fuente nula.
+La solución estacionaria es constante. Se registran residuos cada 128
+iteraciones y se aplican los criterios predeterminados con tres confirmaciones.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}rrrr@{}}\toprule
+Nodos por eje & Incógnitas libres & Iteraciones Metal & Cota de $R_\infty$ (K/s)\\\midrule
+17 & 225 & 1152 & $1.4574\times10^{-5}$ \\
+33 & 961 & 3584 & $1.4586\times10^{-5}$ \\
+65 & 3969 & 14080 & $1.4588\times10^{-5}$ \\
+\bottomrule\end{tabular}
+\caption{El refinamiento aumenta las iteraciones necesarias. No se midió aquí
+una aceleración en tiempo de pared ni se compararon dispositivos distintos.}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}\begin{semilogyaxis}[xlabel={Iteraciones Jacobi},
+ ylabel={$R_\infty/R_\infty^0$},xmin=0,xmax=16000,xtick={0,4000,8000,12000,16000},scaled x ticks=false,xticklabel style={/pgf/number format/1000 sep={}},legend pos=north east]
+\addplot[thick,azul,mark=*,mark repeat=8] coordinates {(0,1) (128,0.1920016518) (256,0.03686490479) (384,0.007079058336) (512,0.001359925671) (640,0.0002600733764) (768,5.16176167e-05) (896,9.926464749e-06) (1024,2.977939425e-06) (1152,1.488969712e-06)};\addlegendentry{$17\times17$}
+\addplot[thick,verde,mark=square*,mark repeat=8] coordinates {(0,1) (128,0.6626053616) (256,0.4390487357) (384,0.2909088028) (512,0.1927720388) (640,0.1277330629) (768,0.08463582927) (896,0.05608126307) (1024,0.03715975347) (1152,0.02462133215) (1280,0.01631915838) (1408,0.01080550098) (1536,0.007161417073) (1664,0.004745231003) (1792,0.003146983332) (1920,0.002077523924) (2048,0.001378414348) (2176,0.0009189428988) (2304,0.0006099879587) (2432,0.0004040179986) (2560,0.0002693453324) (2688,0.0001822041954) (2816,0.0001227897839) (2944,8.11996958e-05) (3072,5.34729704e-05) (3200,3.960960771e-05) (3328,2.772672539e-05) (3456,1.782432347e-05) (3584,1.584384308e-05)};\addlegendentry{$33\times33$}
+\addplot[thick,rojo,mark=triangle*,mark repeat=8] coordinates {(0,1) (128,0.9022358753) (256,0.8140993159) (384,0.734561059) (512,0.6627818596) (640,0.5980491513) (768,0.5395553585) (896,0.486825437) (1024,0.4392734989) (1152,0.3963136559) (1280,0.3576133772) (1408,0.322650114) (1536,0.29110717) (1664,0.2627311882) (1792,0.237078794) (1920,0.2138332911) (2048,0.1929313403) (2176,0.1741195845) (2304,0.1570971624) (2432,0.1417057259) (2560,0.1278977705) (2688,0.1153645174) (2816,0.1041059666) (2944,0.09394001773) (3072,0.0847479098) (3200,0.07647422093) (3328,0.06900810742) (3456,0.06224664302) (3584,0.05618982772) (3712,0.05070306562) (3840,0.04573885229) (3968,0.04129718774) (4096,0.03721180644) (4224,0.03360146947) (4352,0.03029991133) (4480,0.02733088422) (4608,0.02467063593) (4736,0.02226374462) (4864,0.02011021029) (4992,0.01811502407) (5120,0.01634152521) (5248,0.01475804408) (5376,0.01330124145) (5504,0.01201070433) (5632,0.01083101089) (5760,0.009785913352) (5888,0.008835824677) (6016,0.007956992653) (6144,0.007189004307) (6272,0.006492272612) (6400,0.005858880162) (6528,0.005288826957) (6656,0.004766278186) (6784,0.004291233848) (6912,0.003887446162) (7040,0.003515328097) (7168,0.003159044844) (7296,0.002850266025) (7424,0.002581074234) (7552,0.002343552065) (7680,0.002106029896) (7808,0.001916012161) (7936,0.001725994426) (8064,0.001535976691) (8192,0.00139346339) (8320,0.001258867494) (8448,0.001148023816) (8576,0.001045097542) (8704,0.0009342538637) (8832,0.0008550798074) (8960,0.0007759057512) (9088,0.0006808968837) (9216,0.00063339245) (9344,0.000570053205) (9472,0.0005146313656) (9600,0.0004750443375) (9728,0.0004275399037) (9856,0.0003879528756) (9984,0.0003483658475) (10112,0.0003087788194) (10240,0.0002850266025) (10368,0.00025335698) (10496,0.0002454395744) (10624,0.0002137699519) (10752,0.0002058525462) (10880,0.0001741829237) (11008,0.0001662655181) (11136,0.0001583481125) (11264,0.0001425133012) (11392,0.0001187610844) (11520,0.0001187610844) (11648,0.0001108436787) (11776,0.0001029262731) (11904,9.500886749e-05) (12032,7.125665062e-05) (12160,7.125665062e-05) (12288,7.125665062e-05) (12416,7.125665062e-05) (12544,6.3339245e-05) (12672,6.3339245e-05) (12800,6.3339245e-05) (12928,5.542183937e-05) (13056,5.542183937e-05) (13184,5.542183937e-05) (13312,5.542183937e-05) (13440,4.750443375e-05) (13568,4.750443375e-05) (13696,3.958702812e-05) (13824,3.16696225e-05) (13952,2.375221687e-05) (14080,2.375221687e-05)};\addlegendentry{$65\times65$}
+\end{semilogyaxis}\end{tikzpicture}
+\caption{Residuos estacionarios medidos con Metal. Los criterios relativos se
+normalizan con el residuo inicial de cada malla; por ello la comparación no es
+una prueba de igual error de temperatura entre mallas.}
+\label{fig:jacobi}
+\end{figure}
+
+\subsection{Frontera curva: un sesgo que refinar no elimina}
+\label{sec:curve}
+Se evalúa un círculo de radio $r=0.2\,\mathrm m$, conductividad $401$ y Robin
+$h=15$. Para aislar el efecto de la frontera, se suma la conductancia
+geométrica de sus caras, $G_h=\sum_f h_{\rm ef,f}S_f$, y se compara con
+$G_\circ=h\,2\pi r$. Esto es un diagnóstico del operador de borde, no una
+simulación de un cuerpo isotermo con una solución continua completa.
+
+\begin{table}[htbp]\centering\small
+\begin{tabular}{@{}rrrr@{}}\toprule
+$n_x=n_y$ & $\Delta x$ (m) & $G_h$ (W/K) & Exceso sobre $G_\circ$ (\%)\\\midrule
+41 & 0.012500 & 24.744215 & 31.272 \\
+81 & 0.006250 & 24.372151 & 29.298 \\
+161 & 0.003125 & 24.186086 & 28.311 \\
+\bottomrule\end{tabular}
+\caption{Refinamiento de Robin sobre el círculo escalonado. La comparación
+usa espesor de referencia de 1 m.}
+\end{table}
+
+\begin{figure}[htbp]\centering
+\begin{tikzpicture}\begin{axis}[xlabel={Nodos por eje},ylabel={Conductancia $G$ (W/K)},xtick={41,81,161},
+ xmin=35,xmax=180,ymin=17,ymax=26,legend pos=south east]
+\addplot[azul,thick,mark=*] coordinates {(41,24.74421504) (81,24.37215101) (161,24.18608638)};\addlegendentry{Caras del operador}
+\addplot[verde,dashed,domain=35:180] {18.8495559215};\addlegendentry{Círculo ideal: $h2\pi r$}
+\addplot[rojo,densely dotted,domain=35:180] {24};\addlegendentry{Límite escalonado: $h8r$}
+\end{axis}\end{tikzpicture}
+\caption{La distancia de media celda desaparece al refinar, pero la medida
+escalonada del perímetro tiende a $8r$, no a $2\pi r$. Por ello el sesgo de
+conductancia se aproxima a $4/\pi-1\simeq27.3\%$. Los tres puntos son mediciones;
+las líneas horizontales son referencias analíticas.}
+\label{fig:robin}
+\end{figure}
+
+La discretización usa longitudes de caras cartesianas, sin ponderación por
+normal del contorno real. El volumen del dominio puede mejorar al refinar sin
+que el intercambio de frontera converja al círculo ideal. Con Dirichlet,
+Neumann, esquinas y contornos oblicuos deben estudiarse además errores de
+posición y de medida específicos. No corresponde prometer orden espacial
+global dos para estas escenas. Un test que recupera una temperatura ambiente
+uniforme con Robin no detecta este sesgo de potencia.
+
+\subsection{Qué falta medir antes de extraer conclusiones generales}
+Los ensayos no prueban que CN sea siempre más rápido que Euler ni que Metal
+supere a CPU en mallas pequeñas. Faltan series temporizadas con repetición,
+medianas y dispersión, separación del calentamiento de kernels, mismo error
+físico objetivo, control de temperatura del equipo y registro del dispositivo.
+También falta ampliar la validación con soluciones manufacturadas espaciales,
+flujos de interfaz independientes, balances de energía con signo, casos de
+alta heterogeneidad y referencias externas que no compartan ensamblado.
+
+\FloatBarrier
+\section{Ventajas, desventajas y plan de revisión}
+\label{sec:discussion}
+\begin{longtable}{@{}p{.19\linewidth}p{.35\linewidth}p{.38\linewidth}@{}}
+\toprule
+Aspecto & Ventaja & Desventaja o precaución\\\midrule\endhead
+Discretización común & Los tres métodos usan las mismas fuentes y contornos; facilita comparar tiempo y estacionario. & Un error de ensamblado se comparte entre CPU, GPU y métodos; la concordancia interna no lo descarta.\\
+Malla cartesiana & Stencil regular, memoria lineal y paralelismo local. & Curvas escalonadas, detalles submalla y sesgo de intercambio en fronteras.\\
+Euler explícito & Un barrido por paso, fácil interpretación y referencia educativa. & Restricción temporal severa al refinar; referencia global no equivale a positividad en toda máscara.\\
+Jacobi estacionario & Actualizaciones independientes por nodo; no exige integrar un tiempo ficticio. & Convergencia lenta de modos suaves; no resuelve componentes Neumann puras compatibles con restricción de media.\\
+Crank--Nicolson & Orden temporal dos en condiciones regulares y pasos mayores sin la restricción espectral explícita. & Oscilaciones con pasos grandes, sistemas internos costosos, ausencia de adaptación de paso.\\
+Arranque suavizado & Amortigua datos iniciales abruptos y permite una comparación docente clara. & Cambia el primer paso de CN puro; no sustituye convergencia temporal ni corrige todos los artefactos.\\
+Precisión simple & Compatible con Metal y menor tráfico de memoria. & Piso de precisión dependiente de malla y escala; discrepancias de residuos CPU/GPU.\\
+Interfaz y escena & Edición geométrica, visualización inmediata y archivo JSON legible. & El muestreo visual y las escalas pueden inducir interpretaciones incorrectas; reproducir requiere guardar parámetros y datos.\\
+\bottomrule
+\end{longtable}
+
+Antes de una publicación con afirmaciones de exactitud o eficiencia general,
+se proponen las siguientes prioridades, que \emph{no están implementadas} por
+el hecho de figurar aquí:
+\begin{enumerate}
+\item Calcular y mostrar la cota positiva $1/D_{\max}$ del operador ensamblado;
+añadir regresiones de máscaras extremas y documentar la distinción entre cota
+espectral y monotonía en todas las rutas de carga/migración.
+\item Incorporar una medida geométrica coherente del contorno o un método de
+celdas cortadas si se desea convergencia física de potencia en curvas.
+\item Añadir balances firmados de energía con flujos de cara, fuentes efectivas
+y reacciones Dirichlet, separados de las normas de residuo.
+\item Ampliar los estudios de refinamiento espacial, de tiempo y de tolerancia
+interna con soluciones manufacturadas y comparaciones independientes.
+\item Incorporar detección explícita de estancamiento y diagnósticos de escala
+numérica; estudiar doble precisión de referencia sin atribuirla a la GPU.
+\item Evaluar aceleración de Jacobi mediante Chebyshev, multigrid o un método
+Krylov adecuado a la matriz reducida y a su producto escalar ponderado.
+\item Implementar, si se requiere, compatibilidad y restricción de media para
+componentes Neumann puras, sin fijar una temperatura arbitraria no declarada.
+\item Medir rendimiento reproducible a igual error de solución, antes de
+publicitar factores de aceleración por método o dispositivo.
+\end{enumerate}
+
+\section{Conclusiones}
+La versión analizada integra tres rutas numéricas coherentes sobre un mismo
+operador y ofrece una base útil para estudiar conducción, estabilidad y
+convergencia. La resolución estacionaria evita representar sus iteraciones
+como tiempo físico; CN incorpora resolución interna controlada y muestra
+la diferencia entre pasos estables y pasos precisos. La ejecución Metal es
+localmente paralela, con reducción del residuo CN en GPU.
+
+La evidencia disponible respalda los casos de verificación definidos, no una
+certificación general de geometrías, escalas o rendimiento. Las fronteras
+curvas escalonadas, la referencia global del paso y la precisión simple son
+límites sustantivos que deben acompañar los resultados. La revisión por pares
+puede apoyarse en el código congelado, los datos y los ensayos anexos para
+repetir y ampliar estas comprobaciones.
+
+\clearpage
+\appendix
+\section{Notación y parámetros predeterminados}
+\begin{longtable}{@{}p{.24\linewidth}p{.68\linewidth}@{}}\toprule
+Símbolo o parámetro & Significado / valor\\\midrule\endhead
+$C=\rho c_p$ & Capacidad térmica volumétrica; no confundir con conductividad.\\
+$A,D_p,a_{pq},f_p$ & Operador normalizado por capacidad; diagonal, acoplamientos y fuerza.\\
+$w_p=C_pV_p$ & Peso de masa para residuo estacionario integrado; excluye nodos inactivos y fijos.\\
+$\sigma$ & Factor del paso explícito de referencia: $0.8$.\\
+$F$ & Multiplicador del paso automático CN: $10$.\\
+$\omega$ & Relajación Jacobi estacionario e interno: $2/3$.\\
+$\varepsilon_a,\varepsilon_r$ & Estacionario: $10^{-5}\,\mathrm{K/s}$ y $10^{-5}$.\\
+Verificación estacionaria & Cada 128 pasos/iteraciones; 3 confirmaciones; máximo $10^6$.\\
+$\varepsilon_{a,B},\varepsilon_{r,B}$ & CN interno: $10^{-6}\,\mathrm K$ y $10^{-5}$.\\
+Verificación CN & Cada 16 iteraciones; máximo 2000 por sistema.\\
+Arranque CN & Desactivado por defecto; dos medios pasos de Euler implícito al activarlo.\\
+\bottomrule\end{longtable}
+
+\section{Reproducción y vínculo con el código}
+\label{app:reproduce}
+Desde la raíz del espacio de trabajo, el ensayo adicional se reproduce con:
+\begin{verbatim}
+bash technical_report/scripts/run_measurements.sh
+python3 technical_report/scripts/render_report.py
+\end{verbatim}
+El segundo comando genera las tablas y coordenadas de figuras a partir del
+JSON y recompone el \code{.tex} final desde su plantilla. Solo requiere la
+biblioteca estándar de Python. Los ensayos se compilan con los archivos de
+\code{source_snapshot/}; no modifican las fuentes del solver de la aplicación.
+Para repetir las pruebas de la app se requiere el proyecto adyacente:
+\begin{verbatim}
+swift test --package-path yoguicuentas_metal
+\end{verbatim}
+Metal debe estar disponible para considerar ejecutadas sus pruebas; una
+omisión por falta de dispositivo no equivale a una prueba GPU pasada. El
+registro archivado contiene las 77 pruebas sin omisiones de esta revisión.
+El compilador emitió la advertencia de deprecación descrita en
+la sección~\ref{sec:precision}.
+
+Para compilar el documento autocontenido en una instalación LaTeX con
+\code{babel}, \code{tikz} y \code{pgfplots}, desde \code{technical_report/}:
+\begin{verbatim}
+pdflatex informe_tecnico_yoguicuentas_metal.tex
+pdflatex informe_tecnico_yoguicuentas_metal.tex
+\end{verbatim}
+No se necesita ejecutar BibTeX ni descargar imágenes. Los datos numéricos
+están embebidos en el documento, por lo que mover solo el \code{.tex} preserva
+las figuras, pero no los scripts ni el registro de trazabilidad de los ensayos.
+
+\begin{table}[htbp]\centering\small
+\begin{tabularx}{\linewidth}{@{}p{4.6cm}X@{}}\toprule
+Archivo / función & Punto de auditoría\\\midrule
+\code{ThermalOperator.init} & Coeficientes, bordes, eliminación de filas fijas y máscara.\\
+\code{Scenario.dtLimit} & Cota de referencia y selección de factor de cortes.\\
+\code{advanceCPU}, \code{heatStep} & Euler explícito CPU y kernel Metal.\\
+\code{stationaryCPU}, \code{steadyJacobi} & Jacobi ponderado y corrección diagonal.\\
+\code{validateStationarySystem} & Componentes conectadas y referencias térmicas.\\
+\code{residualStats}, \code{checkSteadyIfNeeded} & Normas, tolerancias y confirmaciones.\\
+\code{thetaCPU}, \code{cnIterate}, \code{cnResidual} & Sistema CN, iteración y reducción.\\
+\code{SceneFields}, \code{clippedLength} & Fuentes, cobertura y longitud sin doble conteo.\\
+\code{VisualFields.init} & Gradiente y flujo de representación, distintos de flujos de cara.\\\bottomrule
+\end{tabularx}
+\caption{Funciones que permiten contrastar las ecuaciones de este informe con
+la implementación. Los hashes exactos se encuentran en el manifiesto externo.}
+\end{table}
+
+\FloatBarrier
+\begin{thebibliography}{9}
+\bibitem{patankar}
+S. V. Patankar, \emph{Numerical Heat Transfer and Fluid Flow}.
+Hemisphere Publishing Corporation / McGraw--Hill, 1980.
+Ficha de la edición distribuida actualmente por CRC Press:
+\url{https://www.routledge.com/p/book/9780891165224}.
+Referencia general de discretización por balances; no implica que este código
+sea una reproducción de una implementación del libro.
+
+\bibitem{cardon}
+L. Cardon, \emph{Métodos numéricos y aplicaciones a la física y la ingeniería
+con C}. Impresión: noviembre de 2022. Manuscrito/apuntes docentes; datos
+bibliográficos proporcionados por el solicitante. Identificación interna:
+\code{dell:REPO/cursoMN.tex}. Perfil público del autor:
+\url{https://github.com/luiscardon} (consultado el 26 de octubre de 2026).
+No se verificó el ejemplar completo ni una URL pública de esa edición;
+la ficha deberá cotejarse con la portada antes del envío editorial.
+
+\bibitem{templates}
+R. Barrett et al., \emph{Templates for the Solution of Linear Systems:
+Building Blocks for Iterative Methods}, segunda edición. SIAM, 1994.
+Versión electrónica de los autores en Netlib:
+\url{https://www.netlib.org/templates/templates.html}.
+
+\bibitem{langtangen}
+H. P. Langtangen y S. Linge, \emph{Finite difference methods for diffusion
+processes}, versión preliminar del 14 de julio de 2016.
+\url{https://hplgit.github.io/fdm-book/doc/pub/diffu/pdf/diffu-4print.pdf}.
+Notas de los autores sobre difusión, análisis modal, heterogeneidad e
+iteraciones; incluyen la referencia histórica al arranque de Rannacher.
+
+\bibitem{petsc}
+Equipo PETSc, \emph{TSTHETA: theta method for timestepping}, documentación
+oficial, consulta del 26 de octubre de 2026.
+\url{https://petsc.org/main/manualpages/TS/TSTHETA/}.
+Se utiliza para contrastar la identificación de la regla trapezoidal con
+$\theta=1/2$; la app no depende de PETSc.
+\end{thebibliography}
+\end{document}

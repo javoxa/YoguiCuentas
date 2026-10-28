@@ -1,0 +1,35 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[2/7] Write swift-version--58304C5D6DBC2206.txt
+[4/9] Compiling YoguiCuentasMetal ContentView.swift
+[5/9] Emitting module YoguiCuentasMetal
+[5/10] Write Objects.LinkFileList
+[6/10] Linking yoguicuentas_metal
+[7/10] Applying yoguicuentas_metal
+[9/12] Emitting module SceneTests
+[10/12] Compiling SceneTests RegionApplyTests.swift
+[10/12] Write Objects.LinkFileList
+[11/12] Linking YoguiCuentasMetalPackageTests
+Build complete! (5.49s)
+Test Suite 'Selected tests' started at 2026-10-25 14:02:11.191.
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' started at 2026-10-25 14:02:11.199.
+Test Suite 'RegionApplyTests' started at 2026-10-25 14:02:11.199.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' started.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' passed (0.531 seconds).
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' started.
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' passed (0.832 seconds).
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' started.
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' passed (0.446 seconds).
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' started.
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' passed (0.093 seconds).
+Test Suite 'RegionApplyTests' passed at 2026-10-25 14:02:13.101.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 1.902 (1.902) seconds
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' passed at 2026-10-25 14:02:13.101.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 1.902 (1.902) seconds
+Test Suite 'Selected tests' passed at 2026-10-25 14:02:13.101.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 1.902 (1.910) seconds
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

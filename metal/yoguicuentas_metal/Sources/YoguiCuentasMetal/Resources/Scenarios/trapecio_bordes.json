@@ -1,0 +1,81 @@
+{
+  "version": 2,
+  "canvas": {
+    "Lx": 0.5,
+    "Ly": 0.5,
+    "nx": 65,
+    "ny": 65,
+    "material": {
+      "k": 237,
+      "rho": 2700,
+      "cp": 900
+    },
+    "initial": {
+      "type": "uniform",
+      "temperature": 30
+    },
+    "time": {
+      "tEnd": 100,
+      "safety": 0.8
+    },
+    "defaultBoundary": {
+      "kind": "Adiabático"
+    },
+    "boundaries": {
+      "bottom": {
+        "kind": "Adiabático"
+      },
+      "right": {
+        "kind": "Neumann",
+        "value": 1200
+      },
+      "top": {
+        "kind": "Dirichlet",
+        "value": 50
+      }
+    }
+  },
+  "scene": [
+    {
+      "id": "lado-inclinado",
+      "type": "segment",
+      "name": "Lado inclinado",
+      "geometry": {
+        "points": [
+          {
+            "x": 0.1,
+            "y": 0
+          },
+          {
+            "x": 0.3,
+            "y": 0.5
+          }
+        ]
+      },
+      "boundaries": {
+        "edge": {
+          "kind": "Robin",
+          "value": 80,
+          "h": 15
+        }
+      }
+    },
+    {
+      "id": "trapecio",
+      "type": "region",
+      "name": "Trapecio rectángulo",
+      "geometry": {
+        "regionSeed": {
+          "x": 0.4,
+          "y": 0.25
+        },
+        "regionBoundaries": [
+          "lado-inclinado"
+        ]
+      },
+      "domain": {
+        "operation": "replace"
+      }
+    }
+  ]
+}

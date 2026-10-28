@@ -1,0 +1,7 @@
+# Propuesta caricaturesca
+
+Vista previa generada con ImageGen integrado. Retrato simplificado con trazos negros sobre una placa blanca de esquinas redondeadas; el gris exterior sirve para mostrar su silueta. El usuario aprobó esta propuesta y se instaló como icono. La vista previa conserva el gris exterior; `preparar_icono.swift` exporta el PNG de producción con transparencia exterior y esquinas redondeadas, sin alterar el retrato.
+
+## Prompt final de la vista previa
+
+Create a clean PREVIEW of one macOS app icon, using the supplied cartoon portrait as the exact subject and drawing style. Keep the simplified friendly black-and-white caricature of this same bespectacled balding bearded man. Make the icon less detailed than a realistic engraving: bold smooth contours, simple beard silhouette, no hatching. White rounded-square app-icon tile with gently rounded continuous macOS corners, centered on a uniform LIGHT GRAY (#e5e5e5) opaque preview canvas so the rounded corners are clearly visible. The white tile takes 86% of the square canvas; all four edges and corners geometrically pristine, smoothly antialiased, NO ragged or fuzzy edges, NO distressed paint texture, NO fragments, NO stray pixels. Keep entire head and shoulders comfortably inside the tile with white breathing room. Black drawing on white tile only; outer light gray backdrop only for this preview. No transparency in this preview. No border, no shadow, no text or branding, no extra shapes. One large icon fills the image, flat front view. Preserve identity and cheerful expression.

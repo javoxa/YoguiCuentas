@@ -1,0 +1,12 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[1/5] Copying Scenarios
+[2/5] Write swift-version--58304C5D6DBC2206.txt
+[4/6] Compiling YoguiCuentasMetal ContentView.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking yoguicuentas_metal
+Build of product 'yoguicuentas_metal' complete! (16.65s)
+/Users/javo/Documents/yogui/yoguicuentas_metal/dist/YoguiCuentas Metal.app: replacing existing signature
+App compilada: /Users/javo/Documents/yogui/yoguicuentas_metal/dist/YoguiCuentas Metal.app (build 20261025044143)
+Abriendo la app recién compilada. Cerrá cualquier instancia anterior para evitar confundirla.

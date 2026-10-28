@@ -1,0 +1,50 @@
+{
+  "version": 1,
+  "grid": {
+    "nx": 81,
+    "ny": 65,
+    "lx": 0.6,
+    "ly": 0.4
+  },
+  "conductivity": 401.0,
+  "capacity": 3449600.0,
+  "boundary": 25.0,
+  "initial": "uniform",
+  "amplitude": 50.0,
+  "source": 2000000.0,
+  "safety": 0.8,
+  "final_time": 120,
+  "dt": null,
+  "steady": false,
+  "steady_rtol": 1e-05,
+  "steady_atol": 1e-05,
+  "steady_check_every": 128,
+  "steady_confirmations": 3,
+  "steady_max_steps": 1000000,
+  "domain": {
+    "shape": "El\u00edptica",
+    "fraction_x": 0.5,
+    "fraction_y": 0.5,
+    "boundary": {
+      "kind": "Dirichlet",
+      "value": 25,
+      "h": 0.0
+    },
+    "edits": [],
+    "center_x": null,
+    "center_y": null,
+    "radius_x": null,
+    "radius_y": null
+  },
+  "sources": [],
+  "regions": [],
+  "interface_mean": "Arm\u00f3nica",
+  "density": null,
+  "specific_heat": null,
+  "initial_temperature": 25,
+  "initial_sigma": 0.05,
+  "left": null,
+  "right": null,
+  "bottom": null,
+  "top": null
+}

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "YoguiCuentas"
+version = "0.2.4"
+description = "Conducción 2D CPU/OpenCL, escenas editables y visualización científica"
+requires-python = ">=3.10"
+dependencies = ["numpy>=1.23"]
+
+[project.scripts]
+yoguicuentas = "yoguicuentas.app:main"
+
+[tool.setuptools.packages.find]
+include = ["yoguicuentas*"]
+
+[project.optional-dependencies]
+opencl = ["pyopencl>=2022.1"]
+gui = ["pyopencl>=2022.1", "PyOpenGL>=3.1", "pyopengltk==0.0.4", "Pillow>=9"]
+
+[tool.setuptools.package-data]
+yoguicuentas = ["compute/kernels/*.cl", "assets/*.png"]

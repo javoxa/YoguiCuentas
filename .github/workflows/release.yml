@@ -1,0 +1,85 @@
+name: Build release packages
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  linux:
+    name: Debian/Devuan package
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Build .deb
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: |
+          VERSION="$(sed -n 's/^version = "\(.*\)"$/\1/p' pyproject.toml)"
+          test "${RELEASE_TAG#v}" = "$VERSION"
+          bash construir_deb.sh
+      - name: Upload Linux package
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-linux
+          path: dist/yoguicuentas_*_all.deb
+          if-no-files-found: error
+
+  macos:
+    name: macOS Apple Silicon app
+    runs-on: macos-15
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v7
+      - name: Build app bundle
+        env:
+          YOGUI_SKIP_OPEN: '1'
+        run: bash metal/yoguicuentas_metal/crear_app.sh "$RUNNER_TEMP/YoguiCuentas Metal.app"
+      - name: Package app bundle
+        run: |
+          mkdir -p dist
+          ditto -c -k --sequesterRsrc --keepParent \
+            "$RUNNER_TEMP/YoguiCuentas Metal.app" \
+            "dist/YoguiCuentas_Metal_macOS_arm64.zip"
+      - name: Upload macOS package
+        uses: actions/upload-artifact@v7
+        with:
+          name: release-macos
+          path: dist/YoguiCuentas_Metal_macOS_arm64.zip
+          if-no-files-found: error
+
+  publish:
+    name: Attach assets to GitHub Release
+    needs: [linux, macos]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out release notes
+        uses: actions/checkout@v7
+      - name: Download packages
+        uses: actions/download-artifact@v6
+        with:
+          pattern: release-*
+          path: dist
+          merge-multiple: true
+      - name: Include technical report
+        run: |
+          cp metal/technical_report/informe_tecnico_yoguicuentas_metal.pdf dist/YoguiCuentas_Informe_tecnico_Metal_0.11.0.pdf
+          cp LICENSE NOTICE dist/
+      - name: Create checksums
+        run: sha256sum dist/* > dist/SHA256SUMS
+      - name: Prepare release notes
+        env:
+          RELEASE_TAG: ${{ github.ref_name }}
+        run: sed "s/@VERSION@/${RELEASE_TAG#v}/g" RELEASE_NOTES.md > "$RUNNER_TEMP/release-notes.md"
+      - name: Publish GitHub Release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --verify-tag \
+            --title "YoguiCuentas $GITHUB_REF_NAME" \
+            --notes-file "$RUNNER_TEMP/release-notes.md"

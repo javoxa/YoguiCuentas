@@ -1,0 +1,14 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--58304C5D6DBC2206.txt
+[3/11] Compiling YoguiCuentasMetal NumericEntry.swift
+[4/11] Compiling YoguiCuentasMetal FieldOverlays.swift
+[5/11] Compiling YoguiCuentasMetal ContentView.swift
+[6/11] Compiling YoguiCuentasMetal SimulationModel.swift
+[7/11] Compiling YoguiCuentasMetal SceneEditor.swift
+[8/11] Emitting module YoguiCuentasMetal
+[8/11] Write Objects.LinkFileList
+[9/11] Linking yoguicuentas_metal
+[10/11] Applying yoguicuentas_metal
+Build complete! (4.81s)

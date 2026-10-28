@@ -1,0 +1,64 @@
+[0/1] Planning build
+Building for debugging...
+[0/5] Write sources
+[1/5] Write swift-version--58304C5D6DBC2206.txt
+[3/7] Compiling YoguiCuentasMetal Scene.swift
+[4/7] Emitting module YoguiCuentasMetal
+[4/8] Write Objects.LinkFileList
+[5/8] Linking yoguicuentas_metal
+[6/8] Applying yoguicuentas_metal
+[7/9] Write Objects.LinkFileList
+[8/9] Linking YoguiCuentasMetalPackageTests
+Build complete! (2.82s)
+Test Suite 'All tests' started at 2026-10-25 00:31:46.400.
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' started at 2026-10-25 00:31:46.409.
+Test Suite 'SceneTests' started at 2026-10-25 00:31:46.409.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' started.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' passed (0.004 seconds).
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' started.
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' passed (0.006 seconds).
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' started.
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' passed (0.029 seconds).
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' started.
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' passed (0.011 seconds).
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' started.
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' passed (0.019 seconds).
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' started.
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' passed (0.217 seconds).
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' started.
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' passed (0.009 seconds).
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' started.
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' passed (0.103 seconds).
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' started.
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' passed (7.357 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' started.
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' passed (0.001 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' started.
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' passed (0.234 seconds).
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' started.
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' passed (0.030 seconds).
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' started.
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' passed (0.004 seconds).
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' started.
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' passed (0.000 seconds).
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' started.
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' passed (0.005 seconds).
+Test Case '-[SceneTests.SceneTests testSourcesSum]' started.
+Test Case '-[SceneTests.SceneTests testSourcesSum]' passed (0.123 seconds).
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' started.
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' passed (0.049 seconds).
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' started.
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' passed (0.011 seconds).
+Test Suite 'SceneTests' passed at 2026-10-25 00:31:54.621.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 8.212 (8.212) seconds
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' passed at 2026-10-25 00:31:54.621.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 8.212 (8.212) seconds
+Test Suite 'All tests' passed at 2026-10-25 00:31:54.621.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 8.212 (8.221) seconds
+Robin staircase n=41: G=24.74421503700825 W/K, ideal=18.84955592153876, relative error=31.27213786895564%
+Robin staircase n=81: G=24.37215101102574 W/K, ideal=18.84955592153876, relative error=29.29827690622937%
+Robin staircase n=161: G=24.186086380549575 W/K, ideal=18.84955592153876, relative error=28.311173383734413%
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

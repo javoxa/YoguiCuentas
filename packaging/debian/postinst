@@ -1,0 +1,14 @@
+#!/bin/sh
+set -eu
+
+APP_DIR=/opt/yoguicuentas
+VENV_DIR=/var/lib/yoguicuentas/.venv-portable
+
+if [ "$1" = configure ]; then
+    install -d -m 0755 /var/lib/yoguicuentas
+    PIP_NO_CACHE_DIR=1 YOGUI_VENV="$VENV_DIR" bash "$APP_DIR/instalar.sh"
+    install -d -m 0755 /usr/local/bin
+    install -m 0755 "$APP_DIR/packaging/debian/yoguicuentas-launcher" /usr/local/bin/yoguicuentas
+fi
+
+exit 0

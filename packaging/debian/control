@@ -1,0 +1,10 @@
+Package: yoguicuentas
+Version: 0.2.4
+Section: science
+Priority: optional
+Architecture: all
+Depends: python3 (>= 3.10), python3-venv, python3-tk, pocl-opencl-icd, clinfo, mesa-utils, libgl1-mesa-dri, libglx-mesa0, libopencl1
+Maintainer: YoguiCuentas
+Description: Simulación interactiva de conducción térmica 2D
+ Aplicación gráfica para resolver y visualizar conducción térmica en 2D
+ usando CPU NumPy o GPU OpenCL. Si no hay GPU OpenCL, el lanzador elige CPU.

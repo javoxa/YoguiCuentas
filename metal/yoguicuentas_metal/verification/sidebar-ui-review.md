@@ -1,0 +1,8 @@
+## Actualización 0.9.6 — barra lateral y edición de contornos
+
+Orden: Escenario, Cálculo, Corrida, Superposiciones, Escala. Superposiciones empieza contraído y oculta todos sus controles al cerrarse. Vectores e isotermas admiten entrada numérica y pasos de una unidad, de 1 a max(nx,ny); el límite sigue la resolución. El generador de superposiciones usa el mismo límite y ya no fuerza densidad mínima 4.
+
+Se agregó NumericEntry (NSTextField con delegado): actualiza el valor sin reemplazar el texto mientras se edita, conservando la posición del cursor. Temperaturas de contorno y h se presentan con al menos una cifra decimal (25,0), conservando decimales adicionales ingresados y sin redondear el valor físico. Acepta coma, punto y notación científica. Se aplica al editor geométrico y a los campos de contorno del editor de parámetros. La barra lateral se recorta y la barra de título es opaca para que el contenido desplazado no cubra los controles de ventana.
+
+Validación: compilación debug y release, firma verificada. Revisión CUA de release 0.9.6 build 20261025230605: orden de secciones; expansión y contracción de Superposiciones; entrada por teclado de densidad 48 y 40 isotermas (malla 65x65); captura al desplazar hasta el fondo con título/controles de ventana despejados; edición T ambiente 25,0 e inserción inicial de “12” -> 1225,0, y h 50,0 con inserción inicial -> 1250,0, sin salto al final durante la inserción. Cambios de prueba descartados y copia de revisión cerrada. No se agregaron pruebas que repliquen cambios de presentación; se verificaron directamente las interacciones afectadas. Logs: verification/sidebar-build-debug.log y verification/sidebar-release-build.log.
+

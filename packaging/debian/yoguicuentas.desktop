@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=YoguiCuentas
+Comment=Simulación y visualización de conducción térmica 2D
+Exec=/usr/local/bin/yoguicuentas
+Icon=applications-science
+Terminal=false
+Categories=Science;Education;

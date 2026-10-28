@@ -1,0 +1,68 @@
+{
+  "version": 2,
+  "canvas": {
+    "Lx": 0.5,
+    "Ly": 0.5,
+    "nx": 65,
+    "ny": 65,
+    "material": {
+      "k": 237,
+      "rho": 2700,
+      "cp": 900
+    },
+    "initial": {
+      "type": "uniform",
+      "temperature": 75
+    },
+    "time": {
+      "tEnd": 200,
+      "safety": 0.8
+    },
+    "defaultBoundary": {
+      "kind": "Adiabático"
+    }
+  },
+  "scene": [
+    {
+      "id": "corte-diagonal",
+      "type": "segment",
+      "name": "Corte diagonal",
+      "geometry": {
+        "points": [
+          {
+            "x": 0,
+            "y": 0.24
+          },
+          {
+            "x": 0.28,
+            "y": 0.5
+          }
+        ]
+      },
+      "boundaries": {
+        "edge": {
+          "kind": "Robin",
+          "value": 20,
+          "h": 15
+        }
+      }
+    },
+    {
+      "id": "region-superior",
+      "type": "region",
+      "name": "Región superior excluida",
+      "geometry": {
+        "regionSeed": {
+          "x": 0.05,
+          "y": 0.45
+        },
+        "regionBoundaries": [
+          "corte-diagonal"
+        ]
+      },
+      "domain": {
+        "operation": "subtract"
+      }
+    }
+  ]
+}

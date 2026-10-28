@@ -1,0 +1,2 @@
+bash instalar.sh
+bash ejecutar.sh --transfer host

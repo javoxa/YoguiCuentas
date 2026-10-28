@@ -1,0 +1,103 @@
+{
+  "version": 2,
+  "canvas": {
+    "Lx": 0.5,
+    "Ly": 0.5,
+    "nx": 65,
+    "ny": 65,
+    "material": {
+      "k": 237,
+      "rho": 2700,
+      "cp": 900
+    },
+    "initial": {
+      "type": "uniform",
+      "temperature": 30,
+      "amplitude": 0,
+      "sigma": 0.05
+    },
+    "time": {
+      "dt": null,
+      "tEnd": 10,
+      "safety": 0.8,
+      "steady": false,
+      "rtol": 1e-05,
+      "atol": 1e-05,
+      "checkEvery": 128,
+      "confirmations": 3,
+      "maxSteps": 1000000
+    },
+    "defaultBoundary": {
+      "kind": "Adiabático",
+      "value": 0,
+      "h": 0
+    },
+    "boundaries": {},
+    "interfaceMean": "Armónica"
+  },
+  "scene": [
+    {
+      "id": "pieza-cobre",
+      "type": "circle",
+      "name": "Pieza circular de cobre",
+      "geometry": {
+        "x": 0.25,
+        "y": 0.25,
+        "radius": 0.2
+      },
+      "domain": {
+        "operation": "replace"
+      },
+      "material": {
+        "k": 401,
+        "rho": 8960,
+        "cp": 385
+      },
+      "boundaries": {
+        "edge": {
+          "kind": "Robin",
+          "value": 20,
+          "h": 15
+        }
+      }
+    },
+    {
+      "id": "fuente-lineal",
+      "type": "polyline",
+      "name": "Fuente de 50 W/m",
+      "geometry": {
+        "points": [
+          {
+            "x": 0.1,
+            "y": 0.25
+          },
+          {
+            "x": 0.4,
+            "y": 0.25
+          }
+        ]
+      },
+      "source": {
+        "Q": 50,
+        "unit": "W/m",
+        "type": "line"
+      }
+    },
+    {
+      "id": "inserto-agua",
+      "type": "rectangle",
+      "name": "Inserto de agua",
+      "geometry": {
+        "x": 0.2,
+        "y": 0.2,
+        "width": 0.1,
+        "height": 0.1
+      },
+      "material": {
+        "k": 0.6,
+        "rho": 1000,
+        "cp": 4186
+      }
+    }
+  ]
+}

@@ -1,0 +1,85 @@
+{
+  "version": 1,
+  "grid": {
+    "nx": 125,
+    "ny": 125,
+    "lx": 1.0,
+    "ly": 1.0
+  },
+  "conductivity": 401.0,
+  "capacity": 3449600.0,
+  "boundary": 25.0,
+  "initial": "gaussian",
+  "amplitude": 75.0,
+  "source": 0.0,
+  "safety": 0.8,
+  "final_time": null,
+  "dt": null,
+  "regions": [
+    {
+      "xmin": 0.0,
+      "xmax": 0.5,
+      "ymin": 0.0,
+      "ymax": 0.5,
+      "conductivity": 237.0,
+      "density": 2700.0,
+      "specific_heat": 900.0,
+      "name": "Al \u2014 Aluminio"
+    },
+    {
+      "xmin": 0.5,
+      "xmax": 1.0,
+      "ymin": 0.0,
+      "ymax": 0.5,
+      "conductivity": 401.0,
+      "density": 8960.0,
+      "specific_heat": 385.0,
+      "name": "Cu \u2014 Cobre"
+    },
+    {
+      "xmin": 0.0,
+      "xmax": 0.5,
+      "ymin": 0.5,
+      "ymax": 1.0,
+      "conductivity": 429.0,
+      "density": 10490.0,
+      "specific_heat": 235.0,
+      "name": "Ag \u2014 Plata"
+    },
+    {
+      "xmin": 0.5,
+      "xmax": 1.0,
+      "ymin": 0.5,
+      "ymax": 1.0,
+      "conductivity": 80.0,
+      "density": 7870.0,
+      "specific_heat": 449.0,
+      "name": "Fe \u2014 Hierro"
+    }
+  ],
+  "interface_mean": "Arm\u00f3nica",
+  "density": 8960.0,
+  "specific_heat": 385.0,
+  "initial_temperature": 25.0,
+  "initial_sigma": 0.1,
+  "left": {
+    "kind": "Adiab\u00e1tico",
+    "value": 0,
+    "h": 0
+  },
+  "right": {
+    "kind": "Adiab\u00e1tico",
+    "value": 0,
+    "h": 0
+  },
+  "bottom": {
+    "kind": "Adiab\u00e1tico",
+    "value": 0,
+    "h": 0
+  },
+  "top": {
+    "kind": "Adiab\u00e1tico",
+    "value": 0,
+    "h": 0
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "version": 1,
+  "grid": {
+    "nx": 65,
+    "ny": 65,
+    "lx": 0.5,
+    "ly": 0.5
+  },
+  "conductivity": 401.0,
+  "capacity": 3449600.0,
+  "boundary": 25.0,
+  "initial": "gaussian",
+  "amplitude": 100,
+  "source": 0.0,
+  "safety": 0.8,
+  "final_time": 20,
+  "temporal_method": "crankNicolson",
+  "cn": {
+    "stepFactor": 50,
+    "rtol": 1e-05,
+    "atol": 1e-06,
+    "maxIterations": 2000,
+    "checkEvery": 16,
+    "rannacher": false
+  },
+  "dt": null,
+  "steady": false,
+  "steady_method": "explicit",
+  "steady_rtol": 1e-05,
+  "steady_atol": 1e-05,
+  "steady_check_every": 128,
+  "steady_confirmations": 3,
+  "steady_max_steps": 1000000,
+  "domain": {
+    "shape": "Rect\u00e1ngulo",
+    "fraction_x": 0.5,
+    "fraction_y": 0.5,
+    "boundary": {
+      "kind": "Adiab\u00e1tico",
+      "value": 25.0,
+      "h": 0.0
+    },
+    "edits": [],
+    "center_x": null,
+    "center_y": null,
+    "radius_x": null,
+    "radius_y": null
+  },
+  "sources": [],
+  "regions": [],
+  "interface_mean": "Arm\u00f3nica",
+  "density": null,
+  "specific_heat": null,
+  "initial_temperature": null,
+  "initial_sigma": 0.01,
+  "left": null,
+  "right": null,
+  "bottom": null,
+  "top": null
+}

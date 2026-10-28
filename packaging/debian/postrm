@@ -1,0 +1,8 @@
+#!/bin/sh
+set -eu
+
+if [ "$1" = purge ]; then
+    rm -rf /var/lib/yoguicuentas
+fi
+
+exit 0
