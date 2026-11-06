@@ -1,0 +1,8 @@
+[0/1] Planning build
+Building for production...
+[0/5] Write sources
+[1/5] Copying Scenarios
+[2/5] Write swift-version--58304C5D6DBC2206.txt
+[4/6] Compiling YoguiCuentasMetal ContentView.swift
+<unknown>:0: error: PCH was compiled with module cache path '/Users/javo/Documents/yogui/para_mc/yoguicuentas_metal/.build/arm64-apple-macosx/release/ModuleCache/38Z9OO2VJ8GT9', but the path is currently '/Users/javo/Documents/yogui/para_mac_revisado/yoguicuentas_metal/.build/arm64-apple-macosx/release/ModuleCache/38Z9OO2VJ8GT9'
+<unknown>:0: error: missing required module 'SwiftShims'

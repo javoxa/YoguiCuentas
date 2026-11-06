@@ -1,0 +1,531 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[2/7] Copying Scenarios
+[3/7] Write swift-version--58304C5D6DBC2206.txt
+[5/25] Emitting module YoguiCuentasMetal
+[6/27] Compiling YoguiCuentasMetal VisualFields.swift
+[7/27] Compiling YoguiCuentasMetal resource_bundle_accessor.swift
+[8/27] Compiling YoguiCuentasMetal ThermalSolver.swift
+[9/27] Compiling YoguiCuentasMetal TranslationCatalogue.swift
+[10/27] Compiling YoguiCuentasMetal Surface3DView.swift
+[11/27] Compiling YoguiCuentasMetal ThermalCanvas.swift
+[12/27] Compiling YoguiCuentasMetal FieldOverlays.swift
+[13/27] Compiling YoguiCuentasMetal Language.swift
+[14/27] Compiling YoguiCuentasMetal NumericEntry.swift
+[15/27] Compiling YoguiCuentasMetal ResultExport.swift
+[16/27] Compiling YoguiCuentasMetal Scenario.swift
+[17/27] Compiling YoguiCuentasMetal Scene.swift
+[18/27] Compiling YoguiCuentasMetal ContentView.swift
+[19/27] Compiling YoguiCuentasMetal Convergence.swift
+[20/27] Compiling YoguiCuentasMetal CrankNicolson.swift
+[21/27] Compiling YoguiCuentasMetal ScenePartition.swift
+[22/27] Compiling YoguiCuentasMetal SimulationModel.swift
+[23/27] Compiling YoguiCuentasMetal SceneBoundarySegments.swift
+[24/27] Compiling YoguiCuentasMetal SceneEditor.swift
+[24/28] Write Objects.LinkFileList
+[25/28] Linking yoguicuentas_metal
+[26/28] Applying yoguicuentas_metal
+[28/41] Compiling SceneTests SourceDomainTests.swift
+[29/41] Compiling SceneTests NumericalVerificationTests.swift
+[30/41] Compiling SceneTests ParityContractTests.swift
+[31/41] Compiling SceneTests RegionApplyTests.swift
+[32/41] Compiling SceneTests RegionTests.swift
+[33/42] Compiling SceneTests SceneTests.swift
+[34/42] Compiling SceneTests FreehandWorkflowTests.swift
+[35/42] Compiling SceneTests LanguageTests.swift
+[36/42] Compiling SceneTests ConvergenceCriteriaTests.swift
+[37/42] Compiling SceneTests CrankNicolsonTests.swift
+[38/42] Compiling SceneTests BoundarySegmentTests.swift
+[39/42] Compiling SceneTests CampaignSupplementTests.swift
+[40/42] Emitting module SceneTests
+[41/42] Compiling SceneTests StationaryTests.swift
+[41/43] Write Objects.LinkFileList
+[42/43] Linking YoguiCuentasMetalPackageTests
+Build complete! (7.92s)
+Test Suite 'All tests' started at 2026-11-06 19:23:28.760.
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' started at 2026-11-06 19:23:28.767.
+Test Suite 'BoundarySegmentTests' started at 2026-11-06 19:23:28.767.
+Test Case '-[SceneTests.BoundarySegmentTests testCanvasOwnsCoincidentRectangleSide]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testCanvasOwnsCoincidentRectangleSide]' passed (0.018 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testChooseOnlyRegionBuildsTrapezoidWithoutExcludingComplementManually]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testChooseOnlyRegionBuildsTrapezoidWithoutExcludingComplementManually]' passed (0.154 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testClickPicksEachTrapezoidEdgeWithoutSelectingWholeRegion]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testClickPicksEachTrapezoidEdgeWithoutSelectingWholeRegion]' passed (0.037 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testClosedPolylineExposesEachTraceAndInheritsPerTraceDefault]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testClosedPolylineExposesEachTraceAndInheritsPerTraceDefault]' passed (0.209 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testIndependentTrapezoidConditionsReachSolverAndPersist]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testIndependentTrapezoidConditionsReachSolverAndPersist]' passed (0.664 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testRegionClickWithLegacyMaskAndExistingRegionsDoesNotQueryEmptyPathBounds]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testRegionClickWithLegacyMaskAndExistingRegionsDoesNotQueryEmptyPathBounds]' passed (0.017 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testStraightCutDividesCanvasIntoRightTrapezoidAndComplement]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testStraightCutDividesCanvasIntoRightTrapezoidAndComplement]' passed (0.051 seconds).
+Test Suite 'BoundarySegmentTests' passed at 2026-11-06 19:23:29.919.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 1.151 (1.151) seconds
+Test Suite 'CampaignSupplementTests' started at 2026-11-06 19:23:29.919.
+Test Case '-[SceneTests.CampaignSupplementTests testAllCriteriaAndSamplingOnBothProcessors]' started.
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0098354986985214055,"seed":123,"steps":64,"value_K":0.014524862141115591}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0021184711098903605,"seed":123,"steps":64,"value_K":0.0031285145257996965}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00042369422197807211,"seed":123,"steps":64,"value_K":0.00062570290515993931}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00070615706499665976,"seed":123,"steps":64,"value_K":0.0010428380919620395}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0026354140136390924,"seed":123,"steps":64,"value_K":0.0038919249782338738}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0026354139554314315,"seed":123,"steps":64,"value_K":0.0038919250364415348}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.002118471049470827,"seed":123,"steps":64,"value_K":0.0031285144505091012}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00039341994794085623,"seed":123,"steps":64,"value_K":0.00058099448564462362}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00096462847432121634,"seed":123,"steps":64,"value_K":0.0014245434431359172}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00055826616929826776,"seed":123,"steps":64,"value_K":0.00082443596469341206}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00032231512312381604,"seed":123,"steps":64,"value_K":0.00047598832614535025}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00035307853249832988,"seed":123,"steps":64,"value_K":0.00052141904598101974}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00035307853249832988,"seed":123,"steps":64,"value_K":0.00052141904598101974}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00065885350340977311,"seed":123,"steps":64,"value_K":0.00097298127366229892}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.002118471049470827,"seed":123,"steps":64,"value_K":0.0031285144505091012}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":1,"equilibrium_linf_K":0.00070615706499665976,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623425376125819,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0003215428247737388,"seed":123,"steps":64,"value_K":0.00047484781437863904}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0098354922083672136,"seed":123,"steps":64,"value_K":0.014524854981573299}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0021184697137213416,"seed":123,"steps":64,"value_K":0.0031285129986759366}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00042369394274426834,"seed":123,"steps":64,"value_K":0.0006257025997351873}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00070615654112771153,"seed":123,"steps":64,"value_K":0.0010428376845084131}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0026354121218901128,"seed":123,"steps":64,"value_K":0.0038919232611078769}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.002635412267409265,"seed":123,"steps":64,"value_K":0.003891922882758081}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0021184696524869651,"seed":123,"steps":64,"value_K":0.0031285131408367306}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.00039341968833468856,"seed":123,"steps":64,"value_K":0.00058099419926293193}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00096462777582928538,"seed":123,"steps":64,"value_K":0.0014245428028516471}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00055826576205794079,"seed":123,"steps":64,"value_K":0.00082443559919894696}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00032231488800350366,"seed":123,"steps":64,"value_K":0.00047598811512702244}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00035307824146002531,"seed":123,"steps":64,"value_K":0.00052141887135803699}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00035307824146002531,"seed":123,"steps":64,"value_K":0.00052141887135803699}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00065885300864465535,"seed":123,"steps":64,"value_K":0.00097298083710484207}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0021184696524869651,"seed":123,"steps":64,"value_K":0.0031285131408367306}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":1,"equilibrium_linf_K":0.00070615654112771153,"limit_K":0.001,"method":"Euler","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0013623404421368446,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.00032154259194309515,"seed":123,"steps":64,"value_K":0.00047484760095054906}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":16,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":9.6315846462857735e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.0745081533699171e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.1490163067398345e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.9221323428791948e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.5812195758589951e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.5813385491346708e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.0773661049133807e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.8526338585143095e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":16,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":9.4410899009744753e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.4646032520845592e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.1549901586055245e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4637798762560124e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4637798762560124e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":6.4526648202445358e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":2.0773661049133807e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":6.9221323428791948e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.354550304809765e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.1470299669914919e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":16,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":9.6314526274454693e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.0745077727306655e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.1490155454613308e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.922685997778899e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.5809562771428318e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.5810260808611929e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":2.0763037298365816e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.8525810509781876e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":16,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":9.4430185981764225e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.465350391325916e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.1554215196476439e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4602112464199308e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4602112464199308e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":6.4523652554271393e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":2.0763037298365816e-06,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":6.922685997778899e-07,"limit_K":0.001,"method":"CN","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":1.3542363927217639e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.1476728660588077e-07,"seed":123,"steps":24,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.034947504173032939,"seed":123,"steps":64,"value_K":0.038923845742829144}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.007527353633762922,"seed":123,"steps":64,"value_K":0.0083838192807636127}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0015054707267525844,"seed":123,"steps":64,"value_K":0.0016767638561527227}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0025091178249567747,"seed":123,"steps":64,"value_K":0.0027946063783019781}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0093641552375629544,"seed":123,"steps":64,"value_K":0.010429613175801933}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0093641551211476326,"seed":123,"steps":64,"value_K":0.010429613292217255}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0075273537077009678,"seed":123,"steps":64,"value_K":0.0083838191349059343}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0013979001669213176,"seed":123,"steps":64,"value_K":0.0015569538297131658}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0034275189973413944,"seed":123,"steps":64,"value_K":0.0038175031077116728}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0019836319893611338,"seed":123,"steps":64,"value_K":0.0022093302111104774}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0011452504630308034,"seed":123,"steps":64,"value_K":0.0012755573921134069}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0012545590288937092,"seed":123,"steps":64,"value_K":0.0013973030727356672}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0012545590288937092,"seed":123,"steps":64,"value_K":0.0013973030727356672}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0023410390131175518,"seed":123,"steps":64,"value_K":0.00260740309022367}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0075273537077009678,"seed":123,"steps":64,"value_K":0.0083838191349059343}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":0,"equilibrium_linf_K":0.0025091178249567747,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0011425063324471314,"seed":123,"steps":64,"value_K":0.0012725010359038909}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.034947495441883802,"seed":123,"steps":64,"value_K":0.038923832238651812}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0075273518390767142,"seed":123,"steps":64,"value_K":0.0083838162207823079}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0015054703678153427,"seed":123,"steps":64,"value_K":0.0016767632441564617}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0025091173592954874,"seed":123,"steps":64,"value_K":0.0027946054469794035}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0093641532585024834,"seed":123,"steps":64,"value_K":0.010429609566926956}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0093641532585024834,"seed":123,"steps":64,"value_K":0.010429609566926956}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0075273519614711404,"seed":123,"steps":64,"value_K":0.0083838161081075668}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0.0013978998176753521,"seed":123,"steps":64,"value_K":0.0015569532895460725}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":64,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.003427517949603498,"seed":123,"steps":64,"value_K":0.0038175020599737763}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0019836313858988047,"seed":123,"steps":64,"value_K":0.002209329607648147}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0011452501146216652,"seed":123,"steps":64,"value_K":0.0012755570437042679}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0012545586796477437,"seed":123,"steps":64,"value_K":0.0013973027234897017}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0012545586796477437,"seed":123,"steps":64,"value_K":0.0013973027234897017}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0023410383146256208,"seed":123,"steps":64,"value_K":0.002607402391731739}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0075273519614711404,"seed":123,"steps":64,"value_K":0.0083838161081075668}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":0,"equilibrium_linf_K":0.0025091173592954874,"limit_K":0.001,"method":"Jacobi","nx":7,"ny":7,"physical_confirmations":0,"reason":"max_steps","residual_K_s":0.0048406763582580226,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0.0011425059832011659,"seed":123,"steps":64,"value_K":0.0012725006866579254}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":40,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":1.1638583430340077e-07,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":4,"reason":"converged","residual_K_s":4.1898894123374906e-07,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":1.5130158885767742e-06,"seed":123,"steps":56,"value_K":1.3600075078556983e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.2623851031247622e-06,"seed":123,"steps":48,"value_K":2.9324673170615414e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.5174116547480357e-06,"seed":123,"steps":40,"value_K":5.8583195726847325e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":1.1625454590102891e-06,"seed":123,"steps":48,"value_K":1.0449798310219194e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.0689091065360117e-06,"seed":123,"steps":48,"value_K":3.6574293631019827e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.0689091065360117e-06,"seed":123,"steps":48,"value_K":3.6574293631019827e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.4876363770308672e-06,"seed":123,"steps":48,"value_K":3.1349394475910231e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.0384186508599665e-06,"seed":123,"steps":40,"value_K":5.4277661110972989e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":40,"value_K":0}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":1.4531818237628613e-06,"seed":123,"steps":48,"value_K":1.3062247660400317e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":8.4638771211151684e-06,"seed":123,"steps":40,"value_K":7.6079429893570572e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":4.8866217342637578e-06,"seed":123,"steps":40,"value_K":4.3924479328846229e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.8061718846147414e-06,"seed":123,"steps":40,"value_K":5.219005697654211e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.8061718846147414e-06,"seed":123,"steps":40,"value_K":5.219005697654211e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":1.016080068438896e-05,"seed":123,"steps":40,"value_K":9.1332601641624933e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4876363770308672e-06,"seed":123,"steps":48,"value_K":3.1349394475910231e-05}
+CAMPAIGN,{"backend":"CPU · Swift","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":1.1612343769229483e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804439735967577e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":4.8384764947210597e-06,"seed":123,"steps":40,"value_K":4.3491715435569254e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":0,"seed":123,"steps":40,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":1.1638579877626398e-07,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":4,"reason":"converged","residual_K_s":4.1898883891559782e-07,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":1.5130154054077138e-06,"seed":123,"steps":56,"value_K":1.3600075561726044e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.2623851031247622e-06,"seed":123,"steps":48,"value_K":2.932466928145248e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.5174108769154483e-06,"seed":123,"steps":40,"value_K":5.8583191448768078e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":1.1625454590102891e-06,"seed":123,"steps":48,"value_K":1.044979649122979e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.0689091065360117e-06,"seed":123,"steps":48,"value_K":3.6574288174051617e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":4.0689091065360117e-06,"seed":123,"steps":48,"value_K":3.6574288174051617e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":3.4876363770308672e-06,"seed":123,"steps":48,"value_K":3.1349389928436722e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"all","scale_K":6.0384179232642052e-06,"seed":123,"steps":40,"value_K":5.4277657181955877e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"residual","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":0,"seed":123,"steps":40,"value_K":0}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l1","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":1.4531818237628613e-06,"seed":123,"steps":48,"value_K":1.3062245841410913e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_l2","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":8.4638760292757877e-06,"seed":123,"steps":40,"value_K":7.6079424746327751e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_rms","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":4.8866211038899961e-06,"seed":123,"steps":40,"value_K":4.3924476357084198e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_linf","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.8061709751200397e-06,"seed":123,"steps":40,"value_K":5.2190054248058004e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_1","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":5.8061709751200397e-06,"seed":123,"steps":40,"value_K":5.2190054248058004e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_matrix_inf","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":1.0160799320146907e-05,"seed":123,"steps":40,"value_K":9.1332595729909372e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_trace","criterion_confirmations":2,"equilibrium_linf_K":1.1625454590102891e-06,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":3,"reason":"converged","residual_K_s":4.185163541568066e-06,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":3.4876363770308672e-06,"seed":123,"steps":48,"value_K":3.1349389928436722e-05}
+CAMPAIGN,{"backend":"GPU · Metal","case":"criterion","criterion":"delta_mean","criterion_confirmations":2,"equilibrium_linf_K":1.1612341950240079e-05,"limit_K":0.001,"method":"GS","nx":7,"ny":7,"physical_confirmations":2,"reason":"converged","residual_K_s":4.1804426639244219e-05,"residual_limit_K_s":0.001,"sample_count":3,"sampling":"random","scale_K":4.8384758883912582e-06,"seed":123,"steps":40,"value_K":4.3491712403920246e-05}
+Test Case '-[SceneTests.CampaignSupplementTests testAllCriteriaAndSamplingOnBothProcessors]' passed (32.269 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testCircleRefinementCPU]' started.
+CAMPAIGN,{"area_error_m2":-0.032375804009979137,"area_m2":0.26953125,"backend":"Swift","case":"circle","dx":0.0625,"iterations":128,"linf_K":0.012905393993854528,"nx":17,"ny":17,"rate_limit_K_s":0.0001,"residual_K_s":3.8146973224684189e-07,"rms_K":0.010111763471422291}
+CAMPAIGN,{"area_error_m2":-0.0040554915099791367,"area_m2":0.2978515625,"backend":"Swift","case":"circle","dx":0.03125,"iterations":320,"linf_K":0.0060339842796325732,"nx":33,"ny":33,"rate_limit_K_s":0.0001,"residual_K_s":7.9345704307343112e-05,"rms_K":0.0025961788011726549}
+CAMPAIGN,{"area_error_m2":-0.0018582258849791367,"area_m2":0.300048828125,"backend":"Swift","case":"circle","dx":0.015625,"iterations":1280,"linf_K":0.0026944422036409427,"nx":65,"ny":65,"rate_limit_K_s":0.0001,"residual_K_s":9.7656251455191523e-05,"rms_K":0.0011600125912451522}
+Test Case '-[SceneTests.CampaignSupplementTests testCircleRefinementCPU]' passed (3.541 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testCircleRefinementMetal]' started.
+CAMPAIGN,{"area_error_m2":-0.032375804009979137,"area_m2":0.26953125,"backend":"Metal","case":"circle","dx":0.0625,"iterations":128,"linf_K":0.012905395856499677,"nx":17,"ny":17,"rate_limit_K_s":0.0001,"residual_K_s":3.8146973224684189e-07,"rms_K":0.010111761172733606}
+CAMPAIGN,{"area_error_m2":-0.0040554915099791367,"area_m2":0.2978515625,"backend":"Metal","case":"circle","dx":0.03125,"iterations":320,"linf_K":0.0060339842796325732,"nx":33,"ny":33,"rate_limit_K_s":0.0001,"residual_K_s":7.7819825378355745e-05,"rms_K":0.002596177827781947}
+CAMPAIGN,{"area_error_m2":-0.0018582258849791367,"area_m2":0.300048828125,"backend":"Metal","case":"circle","dx":0.015625,"iterations":1344,"linf_K":0.0026943402238190223,"nx":65,"ny":65,"rate_limit_K_s":0.0001,"residual_K_s":6.1035157159494702e-05,"rms_K":0.0011588167061903447}
+Test Case '-[SceneTests.CampaignSupplementTests testCircleRefinementMetal]' passed (0.098 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testHighFrequencyCPU]' started.
+CAMPAIGN,{"backend":"Swift","case":"high-frequency","dt":0.081216104328632355,"expected_gain":-0.33333333333333331,"gain":-0.33333325386047363,"internal_iterations":8,"lambda":49.251316032288941,"method":"CN"}
+CAMPAIGN,{"backend":"Swift","case":"high-frequency","dt":0.081216104328632355,"expected_gain":0.1111111111111111,"gain":0.1111111044883728,"internal_iterations":16,"lambda":49.251316032288941,"method":"Rannacher"}
+Test Case '-[SceneTests.CampaignSupplementTests testHighFrequencyCPU]' passed (0.003 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testHighFrequencyMetal]' started.
+CAMPAIGN,{"backend":"Metal","case":"high-frequency","dt":0.081216104328632355,"expected_gain":-0.33333333333333331,"gain":-0.33333337306976318,"internal_iterations":8,"lambda":49.251316032288941,"method":"CN"}
+CAMPAIGN,{"backend":"Metal","case":"high-frequency","dt":0.081216104328632355,"expected_gain":0.1111111111111111,"gain":0.1111111044883728,"internal_iterations":16,"lambda":49.251316032288941,"method":"Rannacher"}
+Test Case '-[SceneTests.CampaignSupplementTests testHighFrequencyMetal]' passed (0.004 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testHistoryIsBoundedAndReportsTruncation]' started.
+Test Case '-[SceneTests.CampaignSupplementTests testHistoryIsBoundedAndReportsTruncation]' passed (0.003 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testPhysicalTolerancesAllowOneZeroAndRejectInvalidPairs]' started.
+Test Case '-[SceneTests.CampaignSupplementTests testPhysicalTolerancesAllowOneZeroAndRejectInvalidPairs]' passed (0.001 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testResetCancellationBackendSwitchAndExportSnapshots]' started.
+Test Case '-[SceneTests.CampaignSupplementTests testResetCancellationBackendSwitchAndExportSnapshots]' passed (2.406 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testTraceWithoutEligibleDiagonalCannotConfirm]' started.
+Test Case '-[SceneTests.CampaignSupplementTests testTraceWithoutEligibleDiagonalCannotConfirm]' passed (0.002 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testTransientBoundaryBalanceCPU]' started.
+CAMPAIGN,{"backend":"Swift","case":"transient-boundary-balance","dt":0.0020000000949949026,"error_J_m":1.7022415426011517e-08,"expected_J_m":0.0048034958372311131,"measured_J_m":0.0048034788148156871,"method":"Euler","nx":9,"ny":7,"steps":8}
+CAMPAIGN,{"backend":"Swift","case":"transient-boundary-balance","dt":0.029999999329447746,"error_J_m":3.5794130881505737e-08,"expected_J_m":0.047194900259210137,"measured_J_m":0.047194864465079256,"method":"CN","nx":9,"ny":7,"steps":8}
+Test Case '-[SceneTests.CampaignSupplementTests testTransientBoundaryBalanceCPU]' passed (0.021 seconds).
+Test Case '-[SceneTests.CampaignSupplementTests testTransientBoundaryBalanceMetal]' started.
+CAMPAIGN,{"backend":"Metal","case":"transient-boundary-balance","dt":0.0020000000949949026,"error_J_m":7.8814768269055979e-08,"expected_J_m":0.0048034958324503236,"measured_J_m":0.0048034170176820545,"method":"Euler","nx":9,"ny":7,"steps":8}
+CAMPAIGN,{"backend":"Metal","case":"transient-boundary-balance","dt":0.029999999329447746,"error_J_m":3.8254063944309635e-08,"expected_J_m":0.047194900546057489,"measured_J_m":0.047194862291993545,"method":"CN","nx":9,"ny":7,"steps":8}
+Test Case '-[SceneTests.CampaignSupplementTests testTransientBoundaryBalanceMetal]' passed (0.025 seconds).
+Test Suite 'CampaignSupplementTests' passed at 2026-11-06 19:24:08.291.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 38.371 (38.372) seconds
+Test Suite 'ConvergenceCriteriaTests' started at 2026-11-06 19:24:08.291.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testOptionsRoundTripAndLegacyDefaults]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testOptionsRoundTripAndLegacyDefaults]' passed (0.033 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testSeedMatchesPythonFixtureAndSamplingCanMissChanges]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testSeedMatchesPythonFixtureAndSamplingCanMissChanges]' passed (0.001 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testTinyDtStopsByCriterionWithoutClaimingStationary]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testTinyDtStopsByCriterionWithoutClaimingStationary]' passed (0.209 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testVectorAndMatrixNormsAndTraceCancellation]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testVectorAndMatrixNormsAndTraceCancellation]' passed (0.001 seconds).
+Test Suite 'ConvergenceCriteriaTests' passed at 2026-11-06 19:24:08.535.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.244 (0.244) seconds
+Test Suite 'CrankNicolsonTests' started at 2026-11-06 19:24:08.535.
+Test Case '-[SceneTests.CrankNicolsonTests testAnimationShortenedLastStepAndRejectsFailedSolveOnBothBackends]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testAnimationShortenedLastStepAndRejectsFailedSolveOnBothBackends]' passed (0.300 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testBundledExamplesRunWithDefaultTolerancesOnBothBackends]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testBundledExamplesRunWithDefaultTolerancesOnBothBackends]' passed (0.468 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testCancelledSolveDoesNotContinueIterating]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testCancelledSolveDoesNotContinueIterating]' passed (0.001 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testCPUAndMetalMatchIndependentDenseSystemWithMaskMaterialsAndMixedBoundaries]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testCPUAndMetalMatchIndependentDenseSystemWithMaskMaterialsAndMixedBoundaries]' passed (0.012 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testInsulatedSourceAndConservationWithoutTemperatureReference]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testInsulatedSourceAndConservationWithoutTemperatureReference]' passed (0.057 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testLargeStepIsStableButHighFrequencyOscillatesAndStartupDampsIt]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testLargeStepIsStableButHighFrequencyOscillatesAndStartupDampsIt]' passed (0.002 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testMetalStartupOnlyOnceAndInsulatedUniformHeating]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testMetalStartupOnlyOnceAndInsulatedUniformHeating]' passed (0.076 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testSecondOrderTemporalConvergenceToDiscreteEigenmode]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testSecondOrderTemporalConvergenceToDiscreteEigenmode]' passed (0.081 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testSettingsRoundTripAndExplicitCFLStillEnforced]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testSettingsRoundTripAndExplicitCFLStillEnforced]' passed (0.001 seconds).
+Test Suite 'CrankNicolsonTests' passed at 2026-11-06 19:24:09.533.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 0.998 (0.998) seconds
+Test Suite 'FreehandWorkflowTests' started at 2026-11-06 19:24:09.533.
+Test Case '-[SceneTests.FreehandWorkflowTests testClosedGestureThenAssignAreaSourceAndApplyToSolver]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testClosedGestureThenAssignAreaSourceAndApplyToSolver]' passed (1.674 seconds).
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanExplicitlyBecomeInteriorSource]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanExplicitlyBecomeInteriorSource]' passed (0.454 seconds).
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanRemainLineSource]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanRemainLineSource]' passed (0.055 seconds).
+Test Suite 'FreehandWorkflowTests' passed at 2026-11-06 19:24:11.715.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 2.182 (2.182) seconds
+Test Suite 'LanguageTests' started at 2026-11-06 19:24:11.715.
+Test Case '-[SceneTests.LanguageTests testLanguageChangesDoNotMutateScenarioOrCanonicalChoices]' started.
+Test Case '-[SceneTests.LanguageTests testLanguageChangesDoNotMutateScenarioOrCanonicalChoices]' passed (0.032 seconds).
+Test Case '-[SceneTests.LanguageTests testLegacyMigrationIsRepeatableWithoutLanguageChange]' started.
+Test Case '-[SceneTests.LanguageTests testLegacyMigrationIsRepeatableWithoutLanguageChange]' passed (0.062 seconds).
+Test Case '-[SceneTests.LanguageTests testSpanishDefaultAndBritishEnglish]' started.
+Test Case '-[SceneTests.LanguageTests testSpanishDefaultAndBritishEnglish]' passed (0.007 seconds).
+Test Suite 'LanguageTests' passed at 2026-11-06 19:24:11.816.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.101 (0.101) seconds
+Test Suite 'NumericalVerificationTests' started at 2026-11-06 19:24:11.816.
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyCPU]' started.
+NUMERIC,energy-Euler-box-Q0.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,4.3576398707070527e-07
+NUMERIC,energy-Euler-box-Q3.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,3.275636469560689e-07
+NUMERIC,energy-Euler-ellipse-Q0.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,4.317927278845041e-07
+NUMERIC,energy-Euler-ellipse-Q3.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,2.2009446595069994e-07
+NUMERIC,energy-CN-box-Q0.0,Swift-float32,425,0.041666666666666664,0.00375,3.6277826726755673e-07
+NUMERIC,energy-CN-box-Q3.0,Swift-float32,425,0.041666666666666664,0.00375,3.6808327397016916e-07
+NUMERIC,energy-CN-ellipse-Q0.0,Swift-float32,425,0.041666666666666664,0.00375,3.418146072489961e-07
+NUMERIC,energy-CN-ellipse-Q3.0,Swift-float32,425,0.041666666666666664,0.00375,3.3733868270498707e-07
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyCPU]' passed (0.216 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyMetal]' started.
+NUMERIC,energy-Euler-box-Q0.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.086759543939677e-07
+NUMERIC,energy-Euler-box-Q3.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.143068896190954e-07
+NUMERIC,energy-Euler-ellipse-Q0.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,3.8905312137108524e-07
+NUMERIC,energy-Euler-ellipse-Q3.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.183189913549533e-07
+NUMERIC,energy-CN-box-Q0.0,Metal-float32,425,0.041666666666666664,0.00375,3.5908063440804455e-07
+NUMERIC,energy-CN-box-Q3.0,Metal-float32,425,0.041666666666666664,0.00375,3.662568927010561e-07
+NUMERIC,energy-CN-ellipse-Q0.0,Metal-float32,425,0.041666666666666664,0.00375,3.4126928536451056e-07
+NUMERIC,energy-CN-ellipse-Q3.0,Metal-float32,425,0.041666666666666664,0.00375,3.457911733632501e-07
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyMetal]' passed (0.085 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialCPU]' started.
+NUMERIC,spatial-Euler,Swift-float32,153,0.0625,0.00125,0.00044067333222963523
+NUMERIC,spatial-Euler,Swift-float32,561,0.03125,0.0003225806451612903,0.00010980794908144187
+NUMERIC,spatial-Euler,Swift-float32,2145,0.015625,8.064516129032258e-05,2.8507213607809057e-05
+NUMERIC,spatial-CN,Swift-float32,153,0.0625,0.002,0.0005447430420074673
+NUMERIC,spatial-CN,Swift-float32,561,0.03125,0.002,0.00013663003923036765
+NUMERIC,spatial-CN,Swift-float32,2145,0.015625,0.002,3.464649201967429e-05
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialCPU]' passed (0.701 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialMetal]' started.
+NUMERIC,spatial-Euler,Metal-float32,153,0.0625,0.00125,0.0004407329368744106
+NUMERIC,spatial-Euler,Metal-float32,561,0.03125,0.0003225806451612903,0.00010968873979189109
+NUMERIC,spatial-Euler,Metal-float32,2145,0.015625,8.064516129032258e-05,2.8566818252584447e-05
+NUMERIC,spatial-CN,Metal-float32,153,0.0625,0.002,0.0005447430420074673
+NUMERIC,spatial-CN,Metal-float32,561,0.03125,0.002,0.00013663003923036765
+NUMERIC,spatial-CN,Metal-float32,2145,0.015625,0.002,3.45868873748989e-05
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialMetal]' passed (0.093 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryCPU]' started.
+NUMERIC,stationary-jacobi-source,Swift-float32,126,0.058823529411764705,0.0,1.4340124740719329e-05
+NUMERIC,stationary-jacobi-interface,Swift-float32,126,0.058823529411764705,0.0,1.0419593137855898e-05
+NUMERIC,flux-jacobi,Swift-float32,126,0.058823529411764705,0.0,0.00015392303466787993
+NUMERIC,stationary-jacobi-mixed,Swift-float32,126,0.058823529411764705,0.0,0.00018049478530879348
+NUMERIC,stationary-jacobi-circle,Swift-float32,1089,0.03125,0.0,0.006033997318148618
+NUMERIC,stationary-gaussSeidel-source,Swift-float32,126,0.058823529411764705,0.0,8.439264907955657e-06
+NUMERIC,stationary-gaussSeidel-interface,Swift-float32,126,0.058823529411764705,0.0,7.260546964760195e-06
+NUMERIC,flux-gaussSeidel,Swift-float32,126,0.058823529411764705,0.0,0.00010933876037588774
+NUMERIC,stationary-gaussSeidel-mixed,Swift-float32,126,0.058823529411764705,0.0,0.00011558532714839309
+NUMERIC,stationary-gaussSeidel-circle,Swift-float32,1089,0.03125,0.0,0.0060335717037320186
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryCPU]' passed (1.694 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryMetal]' started.
+NUMERIC,stationary-jacobi-source,Metal-float32,126,0.058823529411764705,0.0,1.4340124740719329e-05
+NUMERIC,stationary-jacobi-interface,Metal-float32,126,0.058823529411764705,0.0,1.0419593137855898e-05
+NUMERIC,flux-jacobi,Metal-float32,126,0.058823529411764705,0.0,0.00015392303466787993
+NUMERIC,stationary-jacobi-mixed,Metal-float32,126,0.058823529411764705,0.0,0.00018061399459834426
+NUMERIC,stationary-jacobi-circle,Metal-float32,1089,0.03125,0.0,0.006033996386826043
+NUMERIC,stationary-gaussSeidel-source,Metal-float32,126,0.058823529411764705,0.0,8.439264907955657e-06
+NUMERIC,stationary-gaussSeidel-interface,Metal-float32,126,0.058823529411764705,0.0,7.260546964760195e-06
+NUMERIC,flux-gaussSeidel,Metal-float32,126,0.058823529411764705,0.0,0.00010933876037588774
+NUMERIC,stationary-gaussSeidel-mixed,Metal-float32,126,0.058823529411764705,0.0,0.00011558532714839309
+NUMERIC,stationary-gaussSeidel-circle,Metal-float32,1089,0.03125,0.0,0.0060335717037320186
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryMetal]' passed (0.383 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalCPU]' started.
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.04,0.01437932789224372
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.02,0.007053738235413887
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.01,0.0034939700354932324
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.04,0.00017908751863227046
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.02,4.473864930853999e-05
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.01,1.1062025010444287e-05
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalCPU]' passed (0.061 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalMetal]' started.
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.04,0.014379238485276558
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.02,0.007053738235413887
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.01,0.0034939700354932324
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.04,0.00017908751863227046
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.02,4.473864930853999e-05
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.01,1.1062025010444287e-05
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalMetal]' passed (0.092 seconds).
+Test Suite 'NumericalVerificationTests' passed at 2026-11-06 19:24:15.142.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 3.325 (3.326) seconds
+Test Suite 'ParityContractTests' started at 2026-11-06 19:24:15.142.
+Test Case '-[SceneTests.ParityContractTests testEveryDeltaMetricScaleIsInvariantUnderTemperatureOffset]' started.
+Test Case '-[SceneTests.ParityContractTests testEveryDeltaMetricScaleIsInvariantUnderTemperatureOffset]' passed (0.002 seconds).
+Test Case '-[SceneTests.ParityContractTests testOneFullRedBlackSweepMatchesIndependentRows]' started.
+Test Case '-[SceneTests.ParityContractTests testOneFullRedBlackSweepMatchesIndependentRows]' passed (0.003 seconds).
+Test Case '-[SceneTests.ParityContractTests testV1V2CriteriaAndExampleInteroperability]' started.
+Test Case '-[SceneTests.ParityContractTests testV1V2CriteriaAndExampleInteroperability]' passed (0.039 seconds).
+Test Suite 'ParityContractTests' passed at 2026-11-06 19:24:15.186.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 0.044 (0.045) seconds
+Test Suite 'RegionApplyTests' started at 2026-11-06 19:24:15.186.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' started.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' passed (0.407 seconds).
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' started.
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' passed (0.602 seconds).
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' started.
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' passed (0.373 seconds).
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' started.
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' passed (0.077 seconds).
+Test Suite 'RegionApplyTests' passed at 2026-11-06 19:24:16.647.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 1.460 (1.460) seconds
+Test Suite 'RegionTests' started at 2026-11-06 19:24:16.647.
+Test Case '-[SceneTests.RegionTests testCanvasMouseDragAndRegionClickReachPhysics]' started.
+Test Case '-[SceneTests.RegionTests testCanvasMouseDragAndRegionClickReachPhysics]' passed (0.135 seconds).
+Test Case '-[SceneTests.RegionTests testClosedShapesPartitionInteriorAndExterior]' started.
+Test Case '-[SceneTests.RegionTests testClosedShapesPartitionInteriorAndExterior]' passed (0.034 seconds).
+Test Case '-[SceneTests.RegionTests testDrawnExampleExcludesWholeUpperRegionAndAppliesCutRobin]' started.
+Test Case '-[SceneTests.RegionTests testDrawnExampleExcludesWholeUpperRegionAndAppliesCutRobin]' passed (0.282 seconds).
+Test Case '-[SceneTests.RegionTests testEditorSelectsRegionSetsRoleUndoesAndUpdatesSimulation]' started.
+Test Case '-[SceneTests.RegionTests testEditorSelectsRegionSetsRoleUndoesAndUpdatesSimulation]' passed (0.475 seconds).
+Test Case '-[SceneTests.RegionTests testIncludedExampleLoadsAsEditableRegions]' started.
+Test Case '-[SceneTests.RegionTests testIncludedExampleLoadsAsEditableRegions]' passed (0.519 seconds).
+Test Case '-[SceneTests.RegionTests testIntersectingCutsAndOpenPolylineDefineRegionsWithoutStripes]' started.
+Test Case '-[SceneTests.RegionTests testIntersectingCutsAndOpenPolylineDefineRegionsWithoutStripes]' passed (0.044 seconds).
+Test Case '-[SceneTests.RegionTests testMaterialRegionKeepsBothSidesActiveAndChangesOperator]' started.
+Test Case '-[SceneTests.RegionTests testMaterialRegionKeepsBothSidesActiveAndChangesOperator]' passed (0.066 seconds).
+Test Case '-[SceneTests.RegionTests testRegionRecomputesAfterMovingCutAndRefiningGridAndRoundTrips]' started.
+Test Case '-[SceneTests.RegionTests testRegionRecomputesAfterMovingCutAndRefiningGridAndRoundTrips]' passed (0.653 seconds).
+Test Case '-[SceneTests.RegionTests testRegionSourcesSumOnlyInActiveRegionAndMatchMetal]' started.
+Test Case '-[SceneTests.RegionTests testRegionSourcesSumOnlyInActiveRegionAndMatchMetal]' passed (0.179 seconds).
+Test Case '-[SceneTests.RegionTests testResizeKeepsOppositeHandleAndTracksPointerOnRotatedShapes]' started.
+Test Case '-[SceneTests.RegionTests testResizeKeepsOppositeHandleAndTracksPointerOnRotatedShapes]' passed (0.005 seconds).
+Test Case '-[SceneTests.RegionTests testScenarioLibraryListsAndLoadsBundledCutExample]' started.
+Test Case '-[SceneTests.RegionTests testScenarioLibraryListsAndLoadsBundledCutExample]' passed (0.477 seconds).
+Test Case '-[SceneTests.RegionTests testUniformSourceEditsReachSceneSolverAndPersist]' started.
+Test Case '-[SceneTests.RegionTests testUniformSourceEditsReachSceneSolverAndPersist]' passed (0.022 seconds).
+Test Suite 'RegionTests' passed at 2026-11-06 19:24:19.538.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 2.891 (2.891) seconds
+Test Suite 'SceneTests' started at 2026-11-06 19:24:19.538.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' started.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' passed (0.002 seconds).
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' started.
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' passed (0.005 seconds).
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' started.
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' passed (0.035 seconds).
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' started.
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' passed (0.009 seconds).
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' started.
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' passed (0.034 seconds).
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' started.
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' passed (0.195 seconds).
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' started.
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' passed (0.008 seconds).
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' started.
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' passed (0.041 seconds).
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' started.
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' passed (10.206 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' started.
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' passed (0.001 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' started.
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' passed (0.423 seconds).
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' started.
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' passed (0.040 seconds).
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' started.
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' passed (0.004 seconds).
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' started.
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' passed (0.000 seconds).
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' started.
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' passed (0.005 seconds).
+Test Case '-[SceneTests.SceneTests testSourcesSum]' started.
+Test Case '-[SceneTests.SceneTests testSourcesSum]' passed (0.116 seconds).
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' started.
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' passed (0.046 seconds).
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' started.
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' passed (0.010 seconds).
+Test Suite 'SceneTests' passed at 2026-11-06 19:24:30.720.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 11.181 (11.182) seconds
+Test Suite 'SourceDomainTests' started at 2026-11-06 19:24:30.720.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToLegacyMaterialBoundaryKeepsDomainAndMaterial]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToLegacyMaterialBoundaryKeepsDomainAndMaterial]' passed (0.097 seconds).
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToReferencedCutPreservesThatCutAndItsDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToReferencedCutPreservesThatCutAndItsDomain]' passed (0.506 seconds).
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToSelectedDomainPreservesReplaceAndMask]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToSelectedDomainPreservesReplaceAndMask]' passed (0.694 seconds).
+Test Case '-[SceneTests.SourceDomainTests testBundledTrapezoidSourceExampleHeatsInsideRetainedDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testBundledTrapezoidSourceExampleHeatsInsideRetainedDomain]' passed (1.326 seconds).
+Test Case '-[SceneTests.SourceDomainTests testDrawingAndConvertingSourceShapesDoNotSplitRegions]' started.
+Test Case '-[SceneTests.SourceDomainTests testDrawingAndConvertingSourceShapesDoNotSplitRegions]' passed (0.456 seconds).
+Test Case '-[SceneTests.SourceDomainTests testExistingSourceIsIncludedWhenSelectingNewTrapezoidDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testExistingSourceIsIncludedWhenSelectingNewTrapezoidDomain]' passed (1.164 seconds).
+Test Case '-[SceneTests.SourceDomainTests testInactiveRegionsAreNotReactivatedBySourceOrMaterialRoles]' started.
+Test Case '-[SceneTests.SourceDomainTests testInactiveRegionsAreNotReactivatedBySourceOrMaterialRoles]' passed (0.695 seconds).
+Test Case '-[SceneTests.SourceDomainTests testLineSourceCrossingCutAddsPowerWithoutSplittingDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testLineSourceCrossingCutAddsPowerWithoutSplittingDomain]' passed (0.158 seconds).
+Test Case '-[SceneTests.SourceDomainTests testLoadingOldRegionReferencesDoesNotExcludeSourceOrDeleteDomainWithSource]' started.
+Test Case '-[SceneTests.SourceDomainTests testLoadingOldRegionReferencesDoesNotExcludeSourceOrDeleteDomainWithSource]' passed (0.773 seconds).
+Test Case '-[SceneTests.SourceDomainTests testMovingAndClippingSourceNeverChangesRetainedMask]' started.
+Test Case '-[SceneTests.SourceDomainTests testMovingAndClippingSourceNeverChangesRetainedMask]' passed (1.623 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourceOutlineSelectsSourcePropertiesInsteadOfBoundaryCondition]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourceOutlineSelectsSourcePropertiesInsteadOfBoundaryCondition]' passed (0.439 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourcesBeforeOrAfterDomainKeepPowerAndMixedBoundaryConditions]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourcesBeforeOrAfterDomainKeepPowerAndMixedBoundaryConditions]' passed (2.208 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourceWarmsRetainedDomainAndMatchesCPUAndMetal]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourceWarmsRetainedDomainAndMatchesCPUAndMetal]' passed (1.186 seconds).
+Test Suite 'SourceDomainTests' passed at 2026-11-06 19:24:42.045.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 11.325 (11.326) seconds
+Test Suite 'StationaryTests' started at 2026-11-06 19:24:42.045.
+Test Case '-[SceneTests.StationaryTests testAnalyticalSlabWithSourceAndInsulatedSides]' started.
+Test Case '-[SceneTests.StationaryTests testAnalyticalSlabWithSourceAndInsulatedSides]' passed (0.169 seconds).
+Test Case '-[SceneTests.StationaryTests testBundledJacobiExampleMeetsDefaultResidualTolerancesOnMetal]' started.
+Test Case '-[SceneTests.StationaryTests testBundledJacobiExampleMeetsDefaultResidualTolerancesOnMetal]' passed (0.418 seconds).
+Test Case '-[SceneTests.StationaryTests testHeterogeneousSlabUsesInterfaceConductivity]' started.
+Test Case '-[SceneTests.StationaryTests testHeterogeneousSlabUsesInterfaceConductivity]' passed (0.158 seconds).
+Test Case '-[SceneTests.StationaryTests testLastIterationCanConvergeAndLimitIsNotSuccess]' started.
+Test Case '-[SceneTests.StationaryTests testLastIterationCanConvergeAndLimitIsNotSuccess]' passed (0.142 seconds).
+Test Case '-[SceneTests.StationaryTests testMetalMatchesCPUAndAnalyticalSolutionAcrossBatches]' started.
+Test Case '-[SceneTests.StationaryTests testMetalMatchesCPUAndAnalyticalSolutionAcrossBatches]' passed (0.142 seconds).
+Test Case '-[SceneTests.StationaryTests testMethodRoundTripAndLegacyDefaults]' started.
+Test Case '-[SceneTests.StationaryTests testMethodRoundTripAndLegacyDefaults]' passed (0.001 seconds).
+Test Case '-[SceneTests.StationaryTests testNeumannAndRobinSlab]' started.
+Test Case '-[SceneTests.StationaryTests testNeumannAndRobinSlab]' passed (0.194 seconds).
+Test Case '-[SceneTests.StationaryTests testNonfiniteResidualNeverReportsConvergence]' started.
+Test Case '-[SceneTests.StationaryTests testNonfiniteResidualNeverReportsConvergence]' passed (0.000 seconds).
+Test Case '-[SceneTests.StationaryTests testRobinEquilibriumAndInactiveNodes]' started.
+Test Case '-[SceneTests.StationaryTests testRobinEquilibriumAndInactiveNodes]' passed (0.056 seconds).
+Test Case '-[SceneTests.StationaryTests testRunConvergesAndReportsIterationsOnBothBackends]' started.
+Test Case '-[SceneTests.StationaryTests testRunConvergesAndReportsIterationsOnBothBackends]' passed (0.374 seconds).
+Test Case '-[SceneTests.StationaryTests testUnreferencedComponentRejectedEvenWhenAnotherIsAnchored]' started.
+Test Case '-[SceneTests.StationaryTests testUnreferencedComponentRejectedEvenWhenAnotherIsAnchored]' passed (0.006 seconds).
+Test Suite 'StationaryTests' passed at 2026-11-06 19:24:43.707.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 1.660 (1.661) seconds
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' passed at 2026-11-06 19:24:43.707.
+	 Executed 106 tests, with 0 failures (0 unexpected) in 74.933 (74.939) seconds
+Test Suite 'All tests' passed at 2026-11-06 19:24:43.707.
+	 Executed 106 tests, with 0 failures (0 unexpected) in 74.933 (74.947) seconds
+cn_animacion: dt=1.050109102244389 s; referencia explícita=0.13126363778054861 s; iteraciones internas CPU/GPU=160/160; residuo GPU=4.85770351588144e-06 K
+cn_oscilaciones: dt=21.00218204488778 s; referencia explícita=0.5250545511221945 s; iteraciones internas CPU/GPU=192/192; residuo GPU=0.010649358853697777 K
+Robin staircase n=41: G=24.74421503700825 W/K, ideal=18.84955592153876, relative error=31.27213786895564%
+Robin staircase n=81: G=24.37215101102574 W/K, ideal=18.84955592153876, relative error=29.29827690622937%
+Robin staircase n=161: G=24.186086380549575 W/K, ideal=18.84955592153876, relative error=28.311173383734413%
+Trapecio con fuente: 50287.24670410156 W integrados; 102 nodos; ΔT centro = 2.5746536 K en 10 pasos.
+Ejemplo Jacobi 65×65: 14080 iteraciones; residuo 1.0898002756221103e-05 K/s
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

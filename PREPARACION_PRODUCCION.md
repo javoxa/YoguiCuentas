@@ -1,18 +1,22 @@
-# Candidata de distribución — 29/10/2026
+# Beta y preparación de producción futura — 06/11/2026
 
-Estado: verificación numérica aprobada en el alcance ensayado; preparada para
-aceptación en equipos de destino. No se publicó ni se modificaron etiquetas.
+Estado: beta preparada para instalación mediante `git clone`. La edición estable
+tendrá otro nombre, aún por definir después de validar la entrega.
+Verificación numérica aprobada en el alcance ensayado; la aceptación manual de
+equipos de destino sigue pendiente de registro. No se publicó ni se modificaron etiquetas.
 Versiones de la candidata: Linux **0.2.5** y Metal **0.12.0**. Versiones base
 anteriores: Linux 0.2.4 y Metal 0.11.0. No reutilizar una etiqueta publicada.
-La modificación posterior a la campaña M1 del script de construcción cambia
-únicamente la versión de la app; las fuentes de cálculo y XCTest son las ensayadas.
+La devolución M1 nueva acredita 106 XCTest aprobados y la app release
+0.12.0 reconstruida. Se integró una corrección de IDs de migración v1 y su test.
+[Informe de revisión](INFORME_REVISION_METAL_20261106.md). La aceptación visual
+completa permanece pendiente; el checklist recibido no está completado.
 
 ## Contenido listo
 
 - [Informe final de validación](INFORME_VALIDACION_CPU_GPU_20261029.md),
   [estado actualizado](ESTADO_PROYECTO.md) y evidencia con hashes en
   `verification/2026-10-29/m1`.
-- Fuentes finales Metal integradas, idénticas a las identificadas por la campaña M1.
+- Fuentes finales Metal integradas, cotejadas con la campaña M1 del 06/11.
 - Construcción Debian/Devuan y macOS automatizada. La publicación depende de la
   campaña CPU y de los tests Swift/Metal; una falla detiene el empaquetado/publicación.
   Un test Metal omitido en CI no reemplaza la evidencia GPU del M1 real.

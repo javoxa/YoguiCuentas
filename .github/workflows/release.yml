@@ -83,7 +83,7 @@ jobs:
           cp output/pdf/yoguicuentas_paper_20261030.pdf dist/YoguiCuentas_Paper_ES.pdf
           cp output/pdf/yoguicuentas_paper_en.pdf dist/YoguiCuentas_Paper_EN.pdf
           cp LICENSE NOTICE dist/
-          cp INFORME_VALIDACION_CPU_GPU_20261029.md PREPARACION_PRODUCCION.md dist/
+          cp INFORME_VALIDACION_CPU_GPU_20261029.md INFORME_REVISION_METAL_20261106.md PREPARACION_PRODUCCION.md dist/
       - name: Create checksums
         run: (cd dist && sha256sum * > SHA256SUMS)
       - name: Prepare release notes

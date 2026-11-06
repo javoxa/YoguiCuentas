@@ -1,0 +1,9 @@
+{
+  "prepared": "2026-11-06",
+  "repository": "https://github.com/javoxa/YoguiCuentas",
+  "base_commit": "317065cb65a1e8541bd29e6494465b81db45c40c",
+  "macos_version": "0.12.0",
+  "macos_compilation_status": "Pending execution on Mac",
+  "contents": "Clean macOS project, full XCTest suite, benchmark, technical papers, manual acceptance protocol and evidence collection scripts",
+  "fixture_v2": "Converted from Linux prueba_01 v1; do not overwrite original. Used to exercise independent cut boundaries on Metal."
+}

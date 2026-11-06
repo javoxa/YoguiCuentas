@@ -1,0 +1,8 @@
+{
+  "revision": "mac-20261106-stable-v1-ids",
+  "base": "317065cb65a1e8541bd29e6494465b81db45c40c",
+  "version": "0.12.0",
+  "tests_passed": 106,
+  "benchmark_records": 120,
+  "manual_acceptance": "pending"
+}

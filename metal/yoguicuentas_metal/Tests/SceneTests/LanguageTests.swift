@@ -6,6 +6,16 @@ final class LanguageTests: XCTestCase {
         AppLanguage.shared.code = "es"
         super.tearDown()
     }
+    func testLegacyMigrationIsRepeatableWithoutLanguageChange() throws {
+        let scenario = Scenario()
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = [.sortedKeys]
+        XCTAssertEqual(try encoder.encode(scenario), try encoder.encode(scenario))
+        let migrated = scenario.migrated()
+        XCTAssertEqual(migrated.scene?.map(\.id), scenario.migrated().scene?.map(\.id))
+        let decoded = try JSONDecoder().decode(Scenario.self, from: encoder.encode(migrated))
+        XCTAssertEqual(decoded.scene?.map(\.id), migrated.scene?.map(\.id))
+    }
     func testSpanishDefaultAndBritishEnglish() {
         XCTAssertEqual(AppLanguage.shared.code, "es")
         XCTAssertEqual(L10n.text("Iniciar"), "Iniciar")

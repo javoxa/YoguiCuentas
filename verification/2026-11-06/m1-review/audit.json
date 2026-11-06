@@ -1,0 +1,34 @@
+{
+  "delivery_manifest": {
+    "verified": 109,
+    "issues": []
+  },
+  "results_manifest": {
+    "verified": 742,
+    "issues": []
+  },
+  "test_sources": {
+    "verified": 35,
+    "issues": []
+  },
+  "benchmark_sources": {
+    "verified": 20,
+    "issues": []
+  },
+  "timing_records": 120,
+  "timing_max_cpu_gpu_linf_K": 1.5497207641601562e-06,
+  "app_version": "0.12.0",
+  "app_build": "20261106222457",
+  "app_binary_sha256": "bf3c94e68c4bf71bfcbed20ad07201fe016d963cd49144f93e388002cb7d9040",
+  "tests_passed": 106,
+  "failures": 0,
+  "skipped_test_cases_in_log": 0,
+  "export_sets_verified": 144,
+  "source_changes": [
+    "Sources/YoguiCuentasMetal/Scene.swift",
+    "Tests/SceneTests/LanguageTests.swift"
+  ],
+  "signature_verification": "Reported macOS build script/status; not rerun on Linux",
+  "manual_acceptance": "Pending: supplied checklist unfilled and manual evidence directories empty",
+  "initial_build": "Failed because PCH referenced previous folder; clean retry exit 0"
+}

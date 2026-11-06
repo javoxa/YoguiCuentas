@@ -1,0 +1,27 @@
+Sources/YoguiCuentasMetal/CrankNicolson.swift:116:50: warning: 'fastMathEnabled' was deprecated in macOS 15.0: Use mathMode instead
+114 |         guard let queue=device.makeCommandQueue() else { throw SolverError.setup("No se pudo crear la cola CN.") }
+115 |         self.queue=queue
+116 |         let options=MTLCompileOptions(); options.fastMathEnabled=false
+    |                                                  `- warning: 'fastMathEnabled' was deprecated in macOS 15.0: Use mathMode instead
+117 |         let library=try device.makeLibrary(source:Self.source,options:options)
+118 |         func pipeline(_ name:String) throws -> MTLComputePipelineState {
+BENCH 17 Euler complete
+BENCH 17 CN complete
+BENCH 17 Jacobi complete
+BENCH 17 GS complete
+BENCH 33 Euler complete
+BENCH 33 CN complete
+BENCH 33 Jacobi complete
+BENCH 33 GS complete
+BENCH 65 Euler complete
+BENCH 65 CN complete
+BENCH 65 Jacobi complete
+BENCH 65 GS complete
+BENCH 129 Euler complete
+BENCH 129 CN complete
+BENCH 129 Jacobi complete
+BENCH 129 GS complete
+BENCH 257 Euler complete
+BENCH 257 CN complete
+BENCH 257 Jacobi complete
+BENCH 257 GS complete

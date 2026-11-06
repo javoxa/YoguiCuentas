@@ -35,7 +35,14 @@ python3 scripts/sincronizar_traducciones.py --check
 Los resultados están en `verification/2026-11-06/localisation/`. Esta revisión de
 presentación no vuelve a ejecutar ni sustituye las campañas numéricas de octubre.
 
-## Comprobación pendiente en macOS
+## Resultado automático recibido de macOS
+
+La revisión del 06/11 se integró con 106 XCTest aprobados, sin fallos ni omisiones
+registradas, y app release construida en M1. Incluye tres pruebas de idioma y
+migración: se corrigió la creación de IDs nuevos al serializar escenarios v1.
+[Informe de revisión](INFORME_REVISION_METAL_20261106.md).
+
+## Aceptación manual pendiente y repetición en macOS
 
 Desde `metal/yoguicuentas_metal`, ejecutar en la Mac:
 
@@ -58,5 +65,5 @@ Abrir la app recién construida y verificar:
    comprobar que el menú de idioma muestra la elección correcta.
 
 Traer el log de compilación, resultado de XCTest y observaciones/capturas de
-estos cinco puntos. Los 103 XCTest de octubre documentan el cálculo anterior;
-no acreditan la compilación ni la aceptación visual de esta interfaz modificada.
+estos cinco puntos. La nueva campaña acredita compilación y tests automáticos de esta revisión;
+el checklist manual recibido sigue sin completar.

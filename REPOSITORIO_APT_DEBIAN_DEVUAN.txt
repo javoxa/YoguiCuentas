@@ -1,0 +1,215 @@
+YOGUICUENTAS — FUTURO REPOSITORIO APT PARA DEBIAN / DEVUAN
+Preparado: 6 de noviembre de 2026
+Estado: instrucciones para una etapa posterior; no se ha desplegado un servidor,
+creado una clave ni configurado APT en ninguna computadora durante esta preparación.
+
+YoguiCuentas identifica al proyecto y a la beta actual. El nombre del software
+estable aún está por decidir. Los nombres de paquete, clave y canal usados aquí
+son ejemplos que deberán ajustarse cuando se habilite esa distribución.
+
+1. QUÉ CAMBIA RESPECTO DE LA INSTALACIÓN ACTUAL
+
+Ahora se distribuyen fuentes mediante git clone y se actualizan con git pull.
+Más adelante, APT podrá instalar el paquete yoguicuentas y sus versiones nuevas.
+Esto requiere publicar los .deb, índices y firmas en un servidor HTTPS. Un .deb
+suelto en GitHub Releases no constituye por sí solo un repositorio APT.
+
+apt update refresca los índices; no instala una versión nueva.
+apt upgrade o apt install --only-upgrade yoguicuentas instala actualizaciones.
+Cada publicación debe tener un número de versión mayor. Un cambio de código
+sin reconstruir y publicar un paquete nuevo no llega a las computadoras.
+
+El repositorio propio suministrará únicamente YoguiCuentas. Cada PC mantiene sus
+repositorios oficiales Debian o Devuan para dependencias del sistema; no agregar
+repositorios base de Debian a Devuan ni reemplazar sus fuentes oficiales.
+
+2. PREPARACIÓN DEL RESPONSABLE DE PUBLICAR
+
+Estos pasos son para tu estación de empaquetado, no para cada computadora.
+Instalar una vez, como administrador:
+
+  sudo apt update
+  sudo apt install reprepro gnupg dpkg-dev ca-certificates curl
+
+Como usuario normal, disponer de las fuentes finales y generar el paquete:
+
+  cd /RUTA/A/Yogui_Cuentas
+  bash construir_deb.sh
+  dpkg-deb --field dist/yoguicuentas_0.2.5_all.deb Package Version Architecture Depends
+
+El ejemplo inicial usa 0.2.5. Sustituirlo por la versión que se publique.
+El .deb actual contiene Python y usa Architecture: all. El repositorio del ejemplo
+ofrece índices amd64 para los equipos i3/i5 del laboratorio. No se afirma que
+estén validadas otras arquitecturas. Requiere Python >=3.10 y los paquetes del
+campo Depends disponibles en la distribución de destino.
+
+El postinst actual crea un entorno virtual e instala dependencias Python desde
+PyPI: APT instala el .deb y dependencias del sistema, pero todavía necesita acceso
+a PyPI. Para una instalación totalmente fuera de línea deberá revisarse ese
+empaquetado y proveer también sus dependencias Python. No copiar un venv entre PCs.
+
+3. CLAVE DE FIRMA DEL REPOSITORIO
+
+Crear una clave dedicada de firma, como el usuario que publicará. No es el token
+ni la clave SSH de GitHub:
+
+  gpg --quick-generate-key "YoguiCuentas APT <g.javier.ar@gmail.com>" rsa3072 sign 2y
+  gpg --list-keys --with-fingerprint "YoguiCuentas APT"
+
+Guardar la huella completa y reemplazar el texto de ejemplo en la variable:
+
+  YOGUI_SIGN_FPR='REEMPLAZAR_POR_HUELLA_COMPLETA'
+  YOGUI_APT_DIR="$HOME/repos/yoguicuentas-apt"
+  mkdir -p "$YOGUI_APT_DIR/conf"
+  gpg --export "$YOGUI_SIGN_FPR" > "$YOGUI_APT_DIR/yoguicuentas-archive-keyring.gpg"
+
+La clave privada y su respaldo quedan fuera de GitHub y del servidor público.
+Publicar únicamente la clave pública .gpg. Conservar el certificado de revocación,
+proteger el respaldo y planificar renovación antes de los dos años de vigencia.
+La huella debe publicarse también por un medio institucional verificable.
+
+4. CONFIGURAR REPREPRO
+
+En la misma terminal y como el mismo usuario de la clave:
+
+  cat > "$YOGUI_APT_DIR/conf/distributions" <<EOF_DISTRIBUTIONS
+Origin: YoguiCuentas
+Label: YoguiCuentas
+Codename: yoguicuentas-stable
+Suite: yoguicuentas-stable
+Architectures: amd64
+Components: main
+Description: Canal estable de YoguiCuentas
+SignWith: $YOGUI_SIGN_FPR
+EOF_DISTRIBUTIONS
+
+Incorporar el paquete (la ruta del .deb debe existir):
+
+  reprepro -b "$YOGUI_APT_DIR" includedeb yoguicuentas-stable /RUTA/A/Yogui_Cuentas/dist/yoguicuentas_0.2.5_all.deb
+  reprepro -b "$YOGUI_APT_DIR" export yoguicuentas-stable
+  reprepro -b "$YOGUI_APT_DIR" list yoguicuentas-stable
+
+Comprobar que hay índices de paquetes y metadatos firmados en dists/, y los .deb
+en pool/. Reprepro incorpora el paquete all al índice de la arquitectura definida.
+Preservar la carpeta de trabajo completa: conf/, db/ y la clave son necesarias
+para mantener el repositorio, aunque no se publican en la web.
+
+5. PUBLICAR POR HTTPS
+
+Elegir una dirección estable. En lo que sigue, https://TU_SERVIDOR/apt es un
+marcador que debés sustituir: no es un servicio creado ni una URL disponible.
+
+Publicar manteniendo esta estructura y los bytes generados:
+
+  https://TU_SERVIDOR/apt/dists/yoguicuentas-stable/...
+  https://TU_SERVIDOR/apt/pool/...
+  https://TU_SERVIDOR/apt/yoguicuentas-archive-keyring.gpg
+
+Publicar solo dists/, pool/ y la clave pública. No publicar db/, conf/ ni la clave
+privada. Usar un servidor estático institucional con HTTPS o un alojamiento
+estático que sirva estos archivos sin modificarlos. Si se usa GitHub Pages, debe
+configurarse como un sitio estático, incluir .nojekyll y conservar las rutas.
+No usar las páginas HTML de GitHub como si fueran archivos del repositorio APT.
+
+Para actualizar el sitio, subir primero los paquetes y luego publicar el conjunto
+coherente de índices y firmas. Preferir un despliegue atómico del sitio completo.
+No editar Release, InRelease ni índices después de firmarlos.
+
+6. CONFIGURAR CADA PC UNA SOLA VEZ
+
+Primero probarlo en una PC Debian y una Devuan representativas. Como administrador:
+
+  sudo apt update
+  sudo apt install ca-certificates curl gnupg
+
+Descargar la clave pública a un archivo temporal, examinar su huella y compararla
+con la publicada por el responsable mediante el canal institucional:
+
+  curl --fail --location https://TU_SERVIDOR/apt/yoguicuentas-archive-keyring.gpg -o /tmp/yoguicuentas-archive-keyring.gpg
+  gpg --show-keys --with-fingerprint /tmp/yoguicuentas-archive-keyring.gpg
+
+Continuar únicamente después de comprobar la huella:
+
+  sudo install -d -m 0755 /etc/apt/keyrings
+  sudo install -m 0644 /tmp/yoguicuentas-archive-keyring.gpg /etc/apt/keyrings/yoguicuentas-archive-keyring.gpg
+  sudo tee /etc/apt/sources.list.d/yoguicuentas.sources > /dev/null <<'EOF_SOURCES'
+Types: deb
+URIs: https://TU_SERVIDOR/apt
+Suites: yoguicuentas-stable
+Components: main
+Architectures: amd64
+Signed-By: /etc/apt/keyrings/yoguicuentas-archive-keyring.gpg
+EOF_SOURCES
+
+Reemplazar TU_SERVIDOR en el archivo por la dirección real. Luego:
+
+  sudo apt update
+  apt-cache policy yoguicuentas
+  sudo apt install yoguicuentas
+  yoguicuentas
+
+Para forzar CPU:
+
+  yoguicuentas --processor cpu
+
+Sin sudo, entrar con su - y ejecutar las órdenes administrativas sin sudo.
+No usar apt-key ni desactivar las firmas con trusted=yes. Signed-By limita la
+clave a este repositorio; el archivo debe ser legible por el usuario _apt.
+
+7. PUBLICAR CADA CAMBIO FUTURO
+
+a) Modificar código, ejecutar las pruebas y asignar una versión superior.
+   La versión Linux de construcción se lee de pyproject.toml; mantener coherentes
+   yoguicuentas/__init__.py, metadatos Debian y notas de entrega. La versión Metal
+   es independiente. No sobrescribir un .deb ya publicado con igual versión.
+b) Crear el commit/etiqueta correspondiente y reconstruir el .deb.
+c) Probar instalación, actualización y desinstalación en Debian y Devuan,
+   incluyendo una PC con CPU e integrada; preservar los archivos del usuario.
+d) Incorporar el nuevo .deb con includedeb, volver a exportar y publicar dists/,
+   pool/ y las firmas. Conservar copias de versiones anteriores para recuperación.
+e) En cada PC, ya configurada una vez:
+
+  sudo apt update
+  sudo apt install --only-upgrade yoguicuentas
+
+Como alternativa, sudo apt upgrade actualizará este paquete junto con los demás.
+APT no instala cambios automáticamente solo porque publiques. Para automatizarlo
+en el laboratorio hará falta configurar una política institucional de actualización
+con herramientas disponibles en cada sistema, incluidos equipos Devuan sin systemd.
+
+8. PASAR DE GIT CLONE A APT
+
+Cerrar la aplicación instalada desde fuentes. Guardar escenarios y resultados
+personales fuera del proyecto. Instalar yoguicuentas con APT y usar desde entonces
+el lanzador del paquete; la instalación APT va a /opt/yoguicuentas y mantiene su
+propio entorno en /var/lib/yoguicuentas, independiente del checkout de git.
+No borrar el checkout anterior hasta comprobar la nueva instalación.
+
+Si ya hay un .deb local de la misma versión, APT no lo reemplazará solo por
+agregar el repositorio. Usar una versión superior para la migración o una
+reinstalación deliberada después de verificar apt-cache policy.
+
+9. COMPROBACIONES ANTES DE HABILITAR ESTE CANAL
+
+- URL real HTTPS, firma verificable y huella distribuida por un canal confiable.
+- apt update sin errores; apt-cache policy identifica la versión ofrecida.
+- Instalar desde cero y actualizar desde la versión anterior en ambos sistemas.
+- Verificar dependencias, acceso a PyPI, lanzador, CPU/GPU, escenarios y exportación.
+- Ensayar recuperación y respaldo de clave/estado de reprepro.
+- Documentar versiones de Debian/Devuan y Python efectivamente probadas.
+
+REFERENCIAS OFICIALES CONSULTADAS (06/11/2026)
+
+reprepro, administración y firma del archivo:
+https://manpages.debian.org/bookworm/reprepro/reprepro.1.en.html
+APT, formato .sources y Signed-By:
+https://manpages.debian.org/bookworm/apt/sources.list.5.en.html
+APT, cadena de autenticación del repositorio:
+https://manpages.debian.org/bookworm/apt/apt-secure.8.en.html
+GnuPG, generación y administración de claves:
+https://www.gnupg.org/documentation/manuals/gnupg/OpenPGP-Key-Management.html
+
+GitHub Pages, alojamiento estático y desactivación de Jekyll:
+https://docs.github.com/en/pages/getting-started-with-github-pages/about-github-pages
+GitHub Pages, publicación estática sin Jekyll:
+https://docs.github.com/en/pages/getting-started-with-github-pages/creating-a-github-pages-site

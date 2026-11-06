@@ -1,0 +1,4 @@
+Etapas con salida distinta de cero: 1
+Consultar etapas.tsv y los logs completos; conservar fallos y tests omitidos.
+La aceptación manual sigue pendiente: completar PRUEBAS_MANUALES.md.
+No interpretar suite aprobada como aceptación de interfaz, instalación o distribución.

@@ -148,6 +148,10 @@ Pruebas: `swift test`. Compilación, firma y apertura: `bash crear_app.sh`. La c
 
 Español inicial; menú Idioma con Español y English. Los textos se traducen al
 presentarlos y los identificadores del escenario se conservan. Las fuentes
-incorporan el catálogo compartido y `LanguageTests`. Esta modificación necesita
-compilación y aceptación visual en macOS; consultar [protocolo](../../IDIOMAS.md).
+incorporan el catálogo compartido y `LanguageTests`. La compilación y los tests se acreditan con la devolución M1 del 06/11
+(106 XCTest aprobados). La aceptación visual sigue pendiente; consultar
+[protocolo](../../IDIOMAS.md) y [revisión](../../INFORME_REVISION_METAL_20261106.md).
 El resultado numérico M1 de octubre no sustituye esa aceptación.
+
+La migración v1 utiliza IDs estables por rol e índice; exportaciones repetidas
+conservan identidad. Las escenas v2 guardadas mantienen sus IDs originales.

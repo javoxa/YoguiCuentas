@@ -357,17 +357,20 @@ extension Scenario {
         result.bottom=bottom ?? Boundary(value:boundary); result.top=top ?? Boundary(value:boundary)
         let mask=(try? ThermalOperator(self).active) ?? VisualFields(self,Array(repeating:0,count:grid.count),includeDerived:false).active
         var legacy=ScenePrimitive(type:"legacyMask",domain:"replace",boundaries:["edge":domain.boundary],name:"Máscara v1 (edición limitada)")
+        legacy.id="v1-domain"
         legacy.geometry.raster=mask; legacy.geometry.rasterGrid=grid
         result.scene!.append(legacy)
-        for r in regions {
+        for (index,r) in regions.enumerated() {
             var p=ScenePrimitive(material:SceneMaterial(k:r.conductivity,rho:r.density,cp:r.specific_heat),name:r.name)
+            p.id="v1-material-\(index)"
             p.geometry=SceneGeometry(x:r.xmin,y:r.ymin,width:r.xmax-r.xmin,height:r.ymax-r.ymin)
             // Preserve the v1 half-open material intervals in the evaluator.
             p.geometry.legacyShape="materialV1"
             result.scene!.append(p)
         }
-        for src in sources {
+        for (index,src) in sources.enumerated() {
             var p=ScenePrimitive(type:src.geometry == "Circular" ? "circle" : "rectangle",source:SceneSource(Q:src.intensity),name:"Fuente v1")
+            p.id="v1-source-\(index)"
             let h=(src.geometry == "Rectangular" || src.geometry == "Triangular") ? src.height : src.width
             p.geometry=SceneGeometry(x:src.x-src.width/2,y:src.y-h/2,width:src.width,height:h,radius:src.width/2)
             if src.geometry == "Circular" { p.geometry.x=src.x;p.geometry.y=src.y }
@@ -379,6 +382,7 @@ extension Scenario {
         }
         if source != 0 {
             var p=ScenePrimitive(source:SceneSource(Q:source),name:"Fuente uniforme v1")
+            p.id="v1-uniform-source"
             p.geometry=SceneGeometry(x:0,y:0,width:grid.lx,height:grid.ly)
             result.scene!.append(p)
         }

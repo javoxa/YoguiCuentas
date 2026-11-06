@@ -9,7 +9,7 @@ import zipfile
 
 root=Path(__file__).resolve().parents[1]
 parser=argparse.ArgumentParser(description=__doc__)
-parser.add_argument('--name',default='YoguiCuentas_github_20261106')
+parser.add_argument('--name',default='Yogui_Cuentas_fuentes_20261106')
 args=parser.parse_args()
 if Path(args.name).name!=args.name or not args.name:raise SystemExit('Use a simple archive name')
 for command in [['python3','scripts/sincronizar_traducciones.py','--check'],
@@ -31,8 +31,8 @@ for relative in files:
 out=root/'dist';out.mkdir(exist_ok=True)
 archive=out/(args.name+'.zip')
 with zipfile.ZipFile(archive,'w',compression=zipfile.ZIP_DEFLATED) as bundle:
-    for name in manifest:bundle.write(root/name,'YoguiCuentas/'+name)
-    bundle.writestr('YoguiCuentas/MANIFIESTO_SINCRONIZACION.json',json.dumps(manifest,indent=2,ensure_ascii=False)+'\n')
+    for name in manifest:bundle.write(root/name,root.name+'/'+name)
+    bundle.writestr(root.name+'/MANIFIESTO_SINCRONIZACION.json',json.dumps(manifest,indent=2,ensure_ascii=False)+'\n')
 checksum=hashlib.sha256(archive.read_bytes()).hexdigest()
 archive.with_suffix('.zip.sha256').write_text(checksum+'  '+archive.name+'\n')
 print(f'{archive}: {len(manifest)} files; SHA-256 {checksum}')

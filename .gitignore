@@ -21,3 +21,6 @@ metal/technical_report/build/
 
 # Intermedios de compilación y revisión visual del manuscrito.
 /tmp/pdfs/
+
+# Devolución macOS original; selección pública auditada en verification/.
+/para_mac_revisado/

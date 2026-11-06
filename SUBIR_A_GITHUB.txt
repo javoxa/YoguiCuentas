@@ -1,0 +1,38 @@
+YOGUICUENTAS BETA — ACTUALIZACIÓN DEL REPOSITORIO EXISTENTE
+
+Carpeta de trabajo ordenada: /home/javo/Programas/opencl/Yogui_Cuentas
+Repositorio: https://github.com/javoxa/YoguiCuentas.git
+
+Se conserva el historial Git del proyecto y se prepara una actualización normal
+sobre main. El repositorio remoto se mantiene como está. La carpeta anterior,
+YoguiCuentas, queda como respaldo local con las devoluciones originales.
+
+Para subir la actualización preparada:
+
+  cd /home/javo/Programas/opencl/Yogui_Cuentas
+  git status --short
+  git log -3 --oneline
+  git push -u origin main
+
+Usar la autenticación Git ya configurada o introducir el token cuando Git pida
+contraseña HTTPS. No guardar tokens dentro del proyecto.
+Si el remoto avanzó con otros cambios, revisar e integrar esos cambios antes de
+subir; esta preparación no reescribe el historial ni usa force push.
+
+YoguiCuentas es el nombre del proyecto y de la edición beta. La versión estable
+tendrá otro nombre, todavía por decidir, después de completar su validación.
+Por ahora se instala mediante git clone siguiendo README.md.
+
+Para modificaciones posteriores:
+
+  git add .
+  git diff --cached --check
+  git commit -m "Describir el cambio"
+  git push origin main
+
+Verificar GitHub Actions después de subir. No se creó una etiqueta ni una Release
+durante esta preparación. La campaña CPU de CI no sustituye las pruebas GPU de
+los equipos reales ni la aceptación manual de instalaciones.
+
+El futuro canal APT se describe en REPOSITORIO_APT_DEBIAN_DEVUAN.txt. Su despliegue
+y el nombre del paquete estable se decidirán más adelante.

@@ -1,9 +1,11 @@
 # YoguiCuentas — estado del proyecto
 
 Actualizado: **06/11/2026**. Base publicada: **OpenCL 0.2.4 / Metal 0.11.0**,
-con numeración independiente. Candidata preparada: **OpenCL 0.2.5 / Metal 0.12.0**. Los agregados que se describen a continuación
-son **desarrollo local posterior a esas versiones**: no se publicaron ni se
-modificaron sus etiquetas. Raíz local: `/home/javo/Programas/opencl/YoguiCuentas`.
+con numeración independiente. Versiones beta: **OpenCL 0.2.5 / Metal 0.12.0**.
+Preparadas en la carpeta ordenada `Yogui_Cuentas`, conservando el historial Git
+y el repositorio actual. La distribución sigue mediante `git clone`. El nombre
+de la versión estable está por decidir; no se publicaron etiquetas ni se ejecutó
+una subida durante esta preparación. Los pendientes conservan su alcance.
 
 ## Estado actual y siguiente paso
 
@@ -25,9 +27,10 @@ como antecedentes; no sustituyen las fuentes finales devueltas por el M1.
 Se incorporó el selector Español/English en Linux y en las fuentes de Metal,
 con español inicial y traducción de presentación que conserva los valores del
 modelo. Linux: cuatro pruebas nuevas de idioma, siete de regresión de interfaz
-y prueba breve de la aplicación CPU/OpenGL aprobadas. Metal: dos XCTest nuevos
-preparados; compilación y aceptación visual pendientes en la Mac. El resultado
-M1 de octubre conserva su alcance numérico y no certifica estas modificaciones.
+y prueba breve de la aplicación CPU/OpenGL aprobadas. Metal: devolución nueva integrada, con **106 XCTest aprobados sin fallos ni
+omisiones** y app release reconstruida en M1. Incluye tres pruebas de idioma y
+migración v1. La aceptación visual completa sigue pendiente. El resultado de
+octubre mantiene su alcance histórico. [Revisión nueva](INFORME_REVISION_METAL_20261106.md).
 [Detalle y protocolo](IDIOMAS.md).
 
 El paper tiene una traducción completa a inglés británico, 16 páginas, cuatro
@@ -35,8 +38,8 @@ figuras y siete tablas, con ecuaciones y datos cotejados con la revisión españ
 [Archivos y reproducción](technical_report/README.md).
 
 La sincronización está preparada con fuentes, informes y verificación del catálogo;
-los cambios se reúnen en un commit local listo para subir a `main`, sin crear
-una etiqueta de versión ni una publicación remota.
+esta copia conserva el historial y se prepara con un commit de actualización
+sobre `main`, sin etiquetas ni publicación remota.
 [Guía de sincronización](SINCRONIZACION_GITHUB.md).
 
 ## Corrección de selección de bordes — 06/11/2026
@@ -53,6 +56,15 @@ y cuatro del editor aprobadas. La regresión de `prueba_01` comprueba selección
 repetida, Dirichlet/Neumann/Robin/adiabático por lado y persistencia JSON. El modelo
 de escena cambió después de las campañas de octubre; sus resultados históricos
 no se presentan como una ejecución nueva de esta revisión.
+
+## Devolución M1 del 6 de noviembre
+
+Se integraron IDs estables en migración v1 y una regresión de serialización.
+Se verificaron los manifiestos de entrega/resultados y 144 conjuntos exportados;
+120 mediciones de costo recibidas. La primera construcción falló por caché PCH
+con ruta antigua y el reintento limpio aprobó. Se conserva la evidencia de ambos
+intentos. El checklist manual no fue completado: la compilación aprobada no
+cierra esa aceptación. [Informe y alcance](INFORME_REVISION_METAL_20261106.md).
 
 ## Cambios incorporados
 
@@ -234,3 +246,13 @@ Validación 0.2.3: **140 pruebas aprobadas sin omisiones**, 66,469 s, incluidas 
 
 
 Paquete 0.2.4 generado: `dist/yoguicuentas_0.2.4_all.deb` (1,368,732 bytes). Se verificaron sintaxis de scripts, metadatos Debian, dependencias declaradas y contenido del archivo. No se instaló en una máquina destino: postinst requiere APT y PyPI accesibles.
+
+## Carpeta ordenada y continuidad de la beta
+
+Se reunieron las fuentes vigentes Linux y Metal, tests, papers y evidencia
+pública en `Yogui_Cuentas`. La copia anterior se conserva como respaldo local.
+La portada prioriza instalación y actualización desde fuentes. Se preparó una
+guía futura de APT firmado; ese canal todavía no está desplegado. El repositorio
+Git conserva el historial anterior. La copia publicable excluye entornos
+virtuales, cachés, apps antiguas y devoluciones originales. YoguiCuentas sigue
+en beta; el nombre de la futura edición estable aún no fue decidido.

@@ -1,4 +1,8 @@
-## Cambios de la candidata
+La distribución actual de esta beta se realiza mediante `git clone` según
+el README. Los nombres de archivos de Releases que siguen corresponden al
+workflow disponible para publicar instaladores más adelante.
+
+## Actualización de la beta desde fuentes
 
 Gauss–Seidel rojo–negro CPU/GPU, nueve criterios de parada con muestreo
 reproducible, auditoría física independiente e historial exportable. Correcciones
@@ -9,12 +13,14 @@ aprobados y dos omisiones de clic nativo; M1 103 XCTest aprobados sin omisiones;
 Se resuelve sobre grilla cartesiana estructurada. Robin sobre círculos escalonados
 conserva un sesgo de perímetro que no desaparece aumentando nodos. Las métricas
 ΔT, traza y media pueden indicar `criterion_met` sin certificar equilibrio físico.
-La aceptación visual y la instalación de la candidata en equipos de destino deben
+La aceptación visual y la instalación en equipos de destino deben
 cerrarse antes del anuncio estable, según `PREPARACION_PRODUCCION.md`.
 
-La candidata añade **Idioma → Español / English** en ambas ediciones, con
+La entrega añade **Idioma → Español / English** en ambas ediciones, con
 español inicial. Incluye el artículo completo en español e inglés británico.
-La nueva interfaz Metal requiere la compilación y aceptación descritas en `IDIOMAS.md`.
+Metal fue recompilado en M1 con 106 XCTest aprobados sin fallos ni omisiones.
+Se corrigió la persistencia de IDs en migraciones v1. Sigue pendiente la
+aceptación visual completa descrita en `IDIOMAS.md`.
 
 Se corrigió la selección de condiciones de borde cargadas y se recuperan los
 recortes rectangulares v1 como figuras editables cuando conservan exactamente la

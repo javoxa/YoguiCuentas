@@ -8,6 +8,9 @@ omitida**. Las verificaciones cuantitativas, el alcance de la grilla cartesiana
 estructurada están en [VERIFICACION_NUMERICA.md](VERIFICACION_NUMERICA.md).
 Actualización 29/10: 155 pruebas Linux aprobadas y dos omisiones de clic nativo;
 103 XCTest M1 aprobados sin omisiones. [Informe vigente](INFORME_VALIDACION_CPU_GPU_20261029.md).
+Actualización 06/11: 106 XCTest M1 aprobados, interfaz bilingüe compilada e IDs
+estables de migración v1 integrados. Aceptación manual aún pendiente.
+[Revisión nueva](INFORME_REVISION_METAL_20261106.md).
 Los apartados siguientes conservan la descripción de la etapa 0.2.3.
 
 Esta versión incorpora las funciones principales pendientes del port. La interfaz es una adaptación Tkinter/OpenGL para Linux; no se afirma una réplica nativa de SwiftUI ni equivalencia numérica bit a bit entre implementaciones.
