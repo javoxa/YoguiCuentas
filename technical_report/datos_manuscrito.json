@@ -1,0 +1,370 @@
+{
+  "description": "Derived manuscript numbers from recorded evidence; no solver execution",
+  "inputs_sha256": {
+    "verification/2026-10-29/numerical/report.json": "4ce62627f32d11166fe29813bac452d846e06d3addf84f03f73cc841e9a17c01",
+    "verification/2026-10-29/m1-review/audit.json": "7fcaf32c65d097b676d9875005c8abffb7090558c0ee341c0fe34884959c4206",
+    "verification/2026-10-29/m1/final-02/mediciones.csv": "2d8403d1c92dafbb109b17f88cd1c66dd566fabd8dabcd44908d85fc677219aa",
+    "verification/2026-10-29/m1/benchmark-final/timings.csv": "9689510ad9127fdade076b7416abbccb70bcb41da06342b819d33821e36b9617"
+  },
+  "orders": [
+    {
+      "backend": "NumPy",
+      "temporal-Euler": [
+        1.0275049285767306,
+        1.0134825966868675
+      ],
+      "temporal-CN": [
+        2.0007665286665923,
+        2.000191499692364
+      ],
+      "spatial-Euler": [
+        2.009476003630586,
+        1.9996005301511703
+      ],
+      "spatial-CN": [
+        1.996551026603943,
+        2.0041873687414333
+      ]
+    },
+    {
+      "backend": "OpenCL",
+      "temporal-Euler": [
+        1.0275057085954327,
+        1.0134835426380153
+      ],
+      "temporal-CN": [
+        2.001071187115671,
+        2.015906192070947
+      ],
+      "spatial-Euler": [
+        2.011206800744134,
+        2.072956011982654
+      ],
+      "spatial-CN": [
+        1.9970326489390673,
+        2.0026397676280014
+      ]
+    },
+    {
+      "backend": "Swift",
+      "temporal-Euler": [
+        1.0275363006003517,
+        1.0135208026065883
+      ],
+      "temporal-CN": [
+        2.001071187115671,
+        2.015906192070947
+      ],
+      "spatial-Euler": [
+        2.0047270972583418,
+        1.9455835585705552
+      ],
+      "spatial-CN": [
+        1.9953011571498709,
+        1.9794935157539515
+      ]
+    },
+    {
+      "backend": "Metal",
+      "temporal-Euler": [
+        1.02752733026529,
+        1.0135208026065883
+      ],
+      "temporal-CN": [
+        2.001071187115671,
+        2.015906192070947
+      ],
+      "spatial-Euler": [
+        2.0064892841681186,
+        1.941003167815529
+      ],
+      "spatial-CN": [
+        1.9953011571498709,
+        1.9819776165570226
+      ]
+    }
+  ],
+  "timing_medians": [
+    {
+      "nx": 17,
+      "method": "Euler",
+      "median_swift_s": 6.541667971760035e-05,
+      "median_metal_s": 0.0005261666665319353,
+      "swift_time_over_metal_time": 0.1243269174552127
+    },
+    {
+      "nx": 17,
+      "method": "CN",
+      "median_swift_s": 0.007442125002853572,
+      "median_metal_s": 0.18715166667243466,
+      "swift_time_over_metal_time": 0.03976520826757732
+    },
+    {
+      "nx": 17,
+      "method": "Jacobi",
+      "median_swift_s": 0.00027187500381842256,
+      "median_metal_s": 0.0007073333254083991,
+      "swift_time_over_metal_time": 0.3843661737009885
+    },
+    {
+      "nx": 17,
+      "method": "GS",
+      "median_swift_s": 0.00037674998748116195,
+      "median_metal_s": 0.0013709999911952764,
+      "swift_time_over_metal_time": 0.2747994091179393
+    },
+    {
+      "nx": 33,
+      "method": "Euler",
+      "median_swift_s": 0.0006045416812412441,
+      "median_metal_s": 0.000770916638430208,
+      "swift_time_over_metal_time": 0.7841855410881419
+    },
+    {
+      "nx": 33,
+      "method": "CN",
+      "median_swift_s": 0.03688162501202896,
+      "median_metal_s": 0.2314393749984447,
+      "swift_time_over_metal_time": 0.15935760720178582
+    },
+    {
+      "nx": 33,
+      "method": "Jacobi",
+      "median_swift_s": 0.0013004166539758444,
+      "median_metal_s": 0.0009686666599009186,
+      "swift_time_over_metal_time": 1.3424810699161043
+    },
+    {
+      "nx": 33,
+      "method": "GS",
+      "median_swift_s": 0.0016968333220575005,
+      "median_metal_s": 0.0015590416733175516,
+      "swift_time_over_metal_time": 1.0883822742510378
+    },
+    {
+      "nx": 65,
+      "method": "Euler",
+      "median_swift_s": 0.0023662916501052678,
+      "median_metal_s": 0.0008560000278521329,
+      "swift_time_over_metal_time": 2.764359314383136
+    },
+    {
+      "nx": 65,
+      "method": "CN",
+      "median_swift_s": 0.13473829164286144,
+      "median_metal_s": 0.23078758333576843,
+      "swift_time_over_metal_time": 0.5838195005787347
+    },
+    {
+      "nx": 65,
+      "method": "Jacobi",
+      "median_swift_s": 0.0031761666759848595,
+      "median_metal_s": 0.0007729166536591947,
+      "swift_time_over_metal_time": 4.109326226764599
+    },
+    {
+      "nx": 65,
+      "method": "GS",
+      "median_swift_s": 0.0030915833194740117,
+      "median_metal_s": 0.001282791665289551,
+      "swift_time_over_metal_time": 2.4100431918351926
+    },
+    {
+      "nx": 129,
+      "method": "Euler",
+      "median_swift_s": 0.004091958311619237,
+      "median_metal_s": 0.0011935000075027347,
+      "swift_time_over_metal_time": 3.4285364774996543
+    },
+    {
+      "nx": 129,
+      "method": "CN",
+      "median_swift_s": 0.5324523333110847,
+      "median_metal_s": 0.24073633333318867,
+      "swift_time_over_metal_time": 2.211765569155485
+    },
+    {
+      "nx": 129,
+      "method": "Jacobi",
+      "median_swift_s": 0.007274291681824252,
+      "median_metal_s": 0.0009904583566822112,
+      "swift_time_over_metal_time": 7.344369031517203
+    },
+    {
+      "nx": 129,
+      "method": "GS",
+      "median_swift_s": 0.009702166658826172,
+      "median_metal_s": 0.001886583340819925,
+      "swift_time_over_metal_time": 5.142718293382962
+    },
+    {
+      "nx": 257,
+      "method": "Euler",
+      "median_swift_s": 0.016354666673578322,
+      "median_metal_s": 0.0022307916660793126,
+      "swift_time_over_metal_time": 7.331328569252802
+    },
+    {
+      "nx": 257,
+      "method": "CN",
+      "median_swift_s": 1.793044166668551,
+      "median_metal_s": 0.35035816667368636,
+      "swift_time_over_metal_time": 5.117746172985719
+    },
+    {
+      "nx": 257,
+      "method": "Jacobi",
+      "median_swift_s": 0.035470500006340444,
+      "median_metal_s": 0.0025353333330713212,
+      "swift_time_over_metal_time": 13.990468055484927
+    },
+    {
+      "nx": 257,
+      "method": "GS",
+      "median_swift_s": 0.04102120833704248,
+      "median_metal_s": 0.005071249994216487,
+      "swift_time_over_metal_time": 8.088973800113417
+    }
+  ],
+  "robin_staircase": [
+    {
+      "nx": 41,
+      "conductance_W_K": 24.74421503700825,
+      "ideal_W_K": 18.84955592153876,
+      "relative_error_percent": 31.27213786895564
+    },
+    {
+      "nx": 81,
+      "conductance_W_K": 24.37215101102574,
+      "ideal_W_K": 18.84955592153876,
+      "relative_error_percent": 29.29827690622937
+    },
+    {
+      "nx": 161,
+      "conductance_W_K": 24.186086380549575,
+      "ideal_W_K": 18.84955592153876,
+      "relative_error_percent": 28.311173383734413
+    }
+  ],
+  "recorded_xctest": {
+    "passed": 103,
+    "failed": 0,
+    "skipped": 0,
+    "exit_status": 0
+  },
+  "linux_checks": 217,
+  "temporal_errors": {
+    "NumPy-Euler": [
+      [
+        0.04,
+        0.014379397149090034
+      ],
+      [
+        0.02,
+        0.007053925598137667
+      ],
+      [
+        0.01,
+        0.0034941553751183796
+      ]
+    ],
+    "NumPy-CN": [
+      [
+        0.04,
+        0.00017913505271105468
+      ],
+      [
+        0.02,
+        4.4759975114883055e-05
+      ],
+      [
+        0.01,
+        1.1188508545811882e-05
+      ]
+    ],
+    "OpenCL-Euler": [
+      [
+        0.04,
+        0.014379387496888496
+      ],
+      [
+        0.02,
+        0.007053917049348213
+      ],
+      [
+        0.01,
+        0.0034941488494275585
+      ]
+    ],
+    "OpenCL-CN": [
+      [
+        0.04,
+        0.00017908751863227046
+      ],
+      [
+        0.02,
+        4.473864930853999e-05
+      ],
+      [
+        0.01,
+        1.1062025010444287e-05
+      ]
+    ],
+    "Swift-Euler": [
+      [
+        0.04,
+        0.01437932789224372
+      ],
+      [
+        0.02,
+        0.007053738235413887
+      ],
+      [
+        0.01,
+        0.0034939700354932324
+      ]
+    ],
+    "Swift-CN": [
+      [
+        0.04,
+        0.00017908751863227046
+      ],
+      [
+        0.02,
+        4.473864930853999e-05
+      ],
+      [
+        0.01,
+        1.1062025010444287e-05
+      ]
+    ],
+    "Metal-Euler": [
+      [
+        0.04,
+        0.014379238485276558
+      ],
+      [
+        0.02,
+        0.007053738235413887
+      ],
+      [
+        0.01,
+        0.0034939700354932324
+      ]
+    ],
+    "Metal-CN": [
+      [
+        0.04,
+        0.00017908751863227046
+      ],
+      [
+        0.02,
+        4.473864930853999e-05
+      ],
+      [
+        0.01,
+        1.1062025010444287e-05
+      ]
+    ]
+  }
+}

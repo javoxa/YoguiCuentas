@@ -1,0 +1,9 @@
+test_spanish_default_and_numeric_status (test_i18n.CatalogueTests.test_spanish_default_and_numeric_status) ... ok
+test_configuration_keeps_draft_and_applies_canonical_values_in_english (test_i18n.LanguageUITests.test_configuration_keeps_draft_and_applies_canonical_values_in_english) ... ok
+test_menu_labels_status_and_canonical_choices (test_i18n.LanguageUITests.test_menu_labels_status_and_canonical_choices) ... ok
+test_open_and_future_dialogs_and_notebook (test_i18n.LanguageUITests.test_open_and_future_dialogs_and_notebook) ... ok
+
+----------------------------------------------------------------------
+Ran 4 tests in 0.575s
+
+OK

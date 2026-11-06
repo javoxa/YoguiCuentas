@@ -1,0 +1,194 @@
+test_configuration_builds_material_and_preserves_defaults (test_boundaries.BoundaryTests.test_configuration_builds_material_and_preserves_defaults) ... ok
+test_initial_and_dirichlet_corners (test_boundaries.BoundaryTests.test_initial_and_dirichlet_corners) ... ok
+test_insulated_energy_and_source (test_boundaries.BoundaryTests.test_insulated_energy_and_source) ... ok
+test_neumann_and_robin_linear_steady (test_boundaries.BoundaryTests.test_neumann_and_robin_linear_steady) ... ok
+test_outward_flux_removes_energy (test_boundaries.BoundaryTests.test_outward_flux_removes_energy) ... ok
+test_robin_stability_and_json (test_boundaries.BoundaryTests.test_robin_stability_and_json) ... ok
+test_circle_gesture_and_exact_hit_detection (test_canvas_updates.CanvasUpdateTests.test_circle_gesture_and_exact_hit_detection) ... ok
+test_circle_has_no_support_outside_geometric_disk (test_canvas_updates.CanvasUpdateTests.test_circle_has_no_support_outside_geometric_disk) ... ok
+test_robin_cut_linear_solution_and_consistent_visual_flux (test_canvas_updates.CanvasUpdateTests.test_robin_cut_linear_solution_and_consistent_visual_flux) ... ok
+test_robin_limits_and_stationary_compatibility (test_canvas_updates.CanvasUpdateTests.test_robin_limits_and_stationary_compatibility) ... ok
+test_legend_uses_same_colormap_and_increasing_values (test_colorbar.ColorbarTests.test_legend_uses_same_colormap_and_increasing_values) ... ok
+test_menu_toggle_modes_reconfigure_and_png (test_colorbar.ColorbarTests.test_menu_toggle_modes_reconfigure_and_png) ... ok
+test_scale_matches_displayed_quantity (test_colorbar.ColorbarTests.test_scale_matches_displayed_quantity) ... ok
+test_material_initial_and_each_boundary (test_configuration_ui.ConfigurationUITests.test_material_initial_and_each_boundary) ... ok
+test_regions_editor_and_load_saved_draft (test_configuration_ui.ConfigurationUITests.test_regions_editor_and_load_saved_draft) ... ok
+test_sources_editor_save_and_load (test_configuration_ui.ConfigurationUITests.test_sources_editor_save_and_load) ... ok
+test_cn_cancel_keeps_previous_batch (test_cpu_live.CpuLiveTests.test_cn_cancel_keeps_previous_batch) ... ok
+test_gui_cpu_cn_jacobi_and_processor_switch (test_cpu_live.CpuLiveTests.test_gui_cpu_cn_jacobi_and_processor_switch) ... ok
+test_nonblocking_ticket_confirmation_and_reset (test_cpu_live.CpuLiveTests.test_nonblocking_ticket_confirmation_and_reset) ... ok
+test_batch_failure_and_cancellation_preserve_committed_field (test_crank_nicolson.CrankNicolsonTests.test_batch_failure_and_cancellation_preserve_committed_field) ... ok
+test_configuration_live_final_time_and_restart (test_crank_nicolson.CrankNicolsonTests.test_configuration_live_final_time_and_restart) ... ok
+test_cpu_dense_with_mask_sources_materials_mixed_boundaries (test_crank_nicolson.CrankNicolsonTests.test_cpu_dense_with_mask_sources_materials_mixed_boundaries) ... ok
+test_gpu_dense_and_rannacher_once_across_batches (test_crank_nicolson.CrankNicolsonTests.test_gpu_dense_and_rannacher_once_across_batches) ... ok
+test_high_frequency_sign_and_rannacher (test_crank_nicolson.CrankNicolsonTests.test_high_frequency_sign_and_rannacher) ... ok
+test_isolated_source_energy_and_partial_final_step (test_crank_nicolson.CrankNicolsonTests.test_isolated_source_energy_and_partial_final_step) ... ok
+test_options_persistence_and_explicit_cfl (test_crank_nicolson.CrankNicolsonTests.test_options_persistence_and_explicit_cfl) ... ok
+test_second_order_in_time_for_discrete_eigenmode (test_crank_nicolson.CrankNicolsonTests.test_second_order_in_time_for_discrete_eigenmode) ... ok
+test_circle_and_ellipse_in_physical_coordinates (test_curved_domain.CurvedDomainTests.test_circle_and_ellipse_in_physical_coordinates) ... ok
+test_curved_configuration_and_all_views (test_curved_domain.CurvedDomainTests.test_curved_configuration_and_all_views) ... ok
+test_gpu_curve_matches_reference (test_curved_domain.CurvedDomainTests.test_gpu_curve_matches_reference) ... ok
+test_insulated_ellipse_conserves_energy_and_source (test_curved_domain.CurvedDomainTests.test_insulated_ellipse_conserves_energy_and_source) ... ok
+test_invalid_geometry_and_empty_mask (test_curved_domain.CurvedDomainTests.test_invalid_geometry_and_empty_mask) ... ok
+test_cut_dirichlet_and_neumann_linear_profiles (test_domain.DomainTests.test_cut_dirichlet_and_neumann_linear_profiles) ... ok
+test_cut_visual_flux_uses_boundary_value_and_local_k (test_domain.DomainTests.test_cut_visual_flux_uses_boundary_value_and_local_k) ... ok
+test_derivatives_mesh_and_scales_ignore_excluded_nodes (test_domain.DomainTests.test_derivatives_mesh_and_scales_ignore_excluded_nodes) ... ok
+test_disconnected_heated_component_rejects_stationary (test_domain.DomainTests.test_disconnected_heated_component_rejects_stationary) ... ok
+test_empty_invalid_and_refinement_uses_physical_coordinates (test_domain.DomainTests.test_empty_invalid_and_refinement_uses_physical_coordinates) ... ok
+test_energy_source_clipping_and_conservation (test_domain.DomainTests.test_energy_source_clipping_and_conservation) ... ok
+test_gpu_masked_reference_and_stationary_residual (test_domain.DomainTests.test_gpu_masked_reference_and_stationary_residual) ... ok
+test_no_transfer_through_cut_and_inactive_values_irrelevant (test_domain.DomainTests.test_no_transfer_through_cut_and_inactive_values_irrelevant) ... ok
+test_presets_and_json_roundtrip_legacy (test_domain.DomainTests.test_presets_and_json_roundtrip_legacy) ... ok
+test_draw_apply_save_and_render_mask (test_domain_graphics.DomainGraphicsTests.test_draw_apply_save_and_render_mask) ... ok
+test_actual_curve_count_labels_auto_scale_and_mouse (test_dynamic_visuals.DynamicVisualTests.test_actual_curve_count_labels_auto_scale_and_mouse) ... ok
+test_levels_and_mouse_zoom (test_dynamic_visuals.DynamicVisualTests.test_levels_and_mouse_zoom) ... ok
+test_detect_missing_pip_and_repair_without_installing_requirements (test_environment.EnvironmentTests.test_detect_missing_pip_and_repair_without_installing_requirements) ... ok
+test_discrete_eigenmode_and_batches (test_explicit.ExplicitTests.test_discrete_eigenmode_and_batches) ... ok
+test_invalid_inputs (test_explicit.ExplicitTests.test_invalid_inputs) ... ok
+test_maximum_principle (test_explicit.ExplicitTests.test_maximum_principle) ... ok
+test_pause_and_snapshot_ownership (test_explicit.ExplicitTests.test_pause_and_snapshot_ownership) ... ok
+test_scenario_roundtrip_and_cli (test_explicit.ExplicitTests.test_scenario_roundtrip_and_cli) ... ok
+test_second_order_joint_refinement (test_explicit.ExplicitTests.test_second_order_joint_refinement) ... ok
+test_source_units_and_rectangular_stencil (test_explicit.ExplicitTests.test_source_units_and_rectangular_stencil) ... ok
+test_uniform_equilibrium_and_boundary (test_explicit.ExplicitTests.test_uniform_equilibrium_and_boundary) ... ok
+test_coordinates_mask_and_time_units (test_field_export.FieldExportTests.test_coordinates_mask_and_time_units) ... ok
+test_csv_uses_published_field_and_reports_write_errors (test_field_export.FieldExportTests.test_csv_uses_published_field_and_reports_write_errors) ... ok
+test_failed_encoding_preserves_existing_file (test_field_export.FieldExportTests.test_failed_encoding_preserves_existing_file) ... ok
+test_configuration_exposes_gauss_seidel (test_gauss_seidel.GaussSeidelTests.test_configuration_exposes_gauss_seidel) ... ok
+test_gpu_sweeps_batches_mask_reset_and_dt_independence (test_gauss_seidel.GaussSeidelTests.test_gpu_sweeps_batches_mask_reset_and_dt_independence) ... ok
+test_mixed_mask_materials_match_independent_dense_solve (test_gauss_seidel.GaussSeidelTests.test_mixed_mask_materials_match_independent_dense_solve) ... ok
+test_persistence_v1_v2_and_csv_no_physical_time (test_gauss_seidel.GaussSeidelTests.test_persistence_v1_v2_and_csv_no_physical_time) ... ok
+test_rejects_unanchored_components_and_limit_is_not_success (test_gauss_seidel.GaussSeidelTests.test_rejects_unanchored_components_and_limit_is_not_success) ... ok
+test_source_plate_converges_and_beats_weighted_jacobi_iterations (test_gauss_seidel.GaussSeidelTests.test_source_plate_converges_and_beats_weighted_jacobi_iterations) ... ok
+test_sweep_matches_scalar_and_uses_new_red_nodes (test_gauss_seidel.GaussSeidelTests.test_sweep_matches_scalar_and_uses_new_red_nodes) ... ok
+test_gaussian_initial_temperature_and_gradient (test_initial_visuals.InitialVisualTests.test_gaussian_initial_temperature_and_gradient) ... ok
+test_initial_scales_do_not_clip_gaussian (test_initial_visuals.InitialVisualTests.test_initial_scales_do_not_clip_gaussian) ... ok
+test_material_changes_flux_not_initial_temperature (test_initial_visuals.InitialVisualTests.test_material_changes_flux_not_initial_temperature) ... ok
+test_auto_without_pyopencl_gl_support (test_interop.InteropTests.test_auto_without_pyopencl_gl_support) ... GLX version: 1.4
+Screen is  0
+Number of FBconfigs 90
+Got a matching visual: index 3 33 xid 0x21
+Is Direct?:  1
+Done making a first context
+ok
+test_host_transfer_and_render (test_interop.InteropTests.test_host_transfer_and_render) ... GLX version: 1.4
+Screen is  0
+Number of FBconfigs 90
+Got a matching visual: index 3 33 xid 0x21
+Is Direct?:  1
+Done making a first context
+ok
+test_runtime_acquire_failure_recovers_without_reset (test_interop.InteropTests.test_runtime_acquire_failure_recovers_without_reset) ... GLX version: 1.4
+Screen is  0
+Number of FBconfigs 90
+Got a matching visual: index 3 33 xid 0x21
+Is Direct?:  1
+Done making a first context
+ok
+test_shared_vbo_and_render (test_interop.InteropTests.test_shared_vbo_and_render) ... GLX version: 1.4
+Screen is  0
+Number of FBconfigs 90
+Got a matching visual: index 3 33 xid 0x21
+Is Direct?:  1
+Done making a first context
+ok
+test_analytic_source_plate (test_jacobi.JacobiTests.test_analytic_source_plate) ... ok
+test_dense_mixed_boundaries_source_and_material (test_jacobi.JacobiTests.test_dense_mixed_boundaries_source_and_material) ... ok
+test_gpu_dense_reference_reset_and_dt_independence (test_jacobi.JacobiTests.test_gpu_dense_reference_reset_and_dt_independence) ... ok
+test_iterations_ignore_dt_and_have_no_physical_time (test_jacobi.JacobiTests.test_iterations_ignore_dt_and_have_no_physical_time) ... ok
+test_limit_confirmation_nonfinite_and_serialization (test_jacobi.JacobiTests.test_limit_confirmation_nonfinite_and_serialization) ... ok
+test_mask_robin_dense_and_inactive_nodes (test_jacobi.JacobiTests.test_mask_robin_dense_and_inactive_nodes) ... ok
+test_unanchored_component_rejected_only_for_direct_solver (test_jacobi.JacobiTests.test_unanchored_component_rejected_only_for_direct_solver) ... ok
+test_cancel_does_not_start_app (test_launcher.LauncherTests.test_cancel_does_not_start_app) ... ok
+test_console_does_not_choose_gpu (test_launcher.LauncherTests.test_console_does_not_choose_gpu) ... ok
+test_explicit_and_selected_indices_are_forwarded (test_launcher.LauncherTests.test_explicit_and_selected_indices_are_forwarded) ... ok
+test_list_does_not_open_window (test_launcher.LauncherTests.test_list_does_not_open_window) ... ok
+test_no_gl_support_does_not_block_host_gui (test_launcher.LauncherTests.test_no_gl_support_does_not_block_host_gui) ... ok
+test_single_igpu_without_sharing_is_selectable (test_launcher.LauncherTests.test_single_igpu_without_sharing_is_selectable) ... ok
+test_hd_fhd_and_large_fonts (test_layout_ui.LayoutUITests.test_hd_fhd_and_large_fonts) ... ok
+test_deferred_host_publication_does_not_block_calculation (test_live.LiveTests.test_deferred_host_publication_does_not_block_calculation) ... ok
+test_gl_busy_prevents_publication (test_live.LiveTests.test_gl_busy_prevents_publication) ... ok
+test_manual_start (test_live.LiveTests.test_manual_start) ... ok
+test_pause_pending_and_publication (test_live.LiveTests.test_pause_pending_and_publication) ... ok
+test_reset_during_pending_batch (test_live.LiveTests.test_reset_during_pending_batch) ... ok
+test_reset_while_cl_owns_vbo (test_live.LiveTests.test_reset_while_cl_owns_vbo) ... ok
+test_controls_remain_clickable_with_3d_and_resizing (test_main_window_layout.MainWindowLayoutTests.test_controls_remain_clickable_with_3d_and_resizing) ... ok
+test_adiabatic_hatching_only_changes_excluded_band (test_object_editing.ObjectEditingTests.test_adiabatic_hatching_only_changes_excluded_band) ... ok
+test_select_drag_copy_paste_edit_undo_and_save (test_object_editing.ObjectEditingTests.test_select_drag_copy_paste_edit_undo_and_save) ... ok
+test_translation_preserves_source_and_geometry_and_clamps (test_object_editing.ObjectEditingTests.test_translation_preserves_source_and_geometry_and_clamps) ... ok
+test_final_time_partial_step (test_opencl.OpenCLTests.test_final_time_partial_step) ... ok
+test_local_sources_with_regions_cpu_gpu (test_opencl.OpenCLTests.test_local_sources_with_regions_cpu_gpu) ... ok
+test_mixed_boundaries_and_materials (test_opencl.OpenCLTests.test_mixed_boundaries_and_materials) ... ok
+test_reference_rectangular_source_and_equilibrium (test_opencl.OpenCLTests.test_reference_rectangular_source_and_equilibrium) ... ok
+test_regions_cpu_gpu_all_interface_means (test_opencl.OpenCLTests.test_regions_cpu_gpu_all_interface_means) ... ok
+test_reset_restores_initial_and_reuses_solver (test_opencl.OpenCLTests.test_reset_restores_initial_and_reuses_solver) ... ok
+test_ticket_ownership_and_completed_steps (test_opencl.OpenCLTests.test_ticket_ownership_and_completed_steps) ... ok
+test_independent_layers_all_backgrounds_and_reconfiguration (test_overlays.OverlayTests.test_independent_layers_all_backgrounds_and_reconfiguration) ... ok
+test_change_speed_accounts_for_inflight_work (test_playback.PlaybackTests.test_change_speed_accounts_for_inflight_work) ... ok
+test_factors_relative_to_wall_time (test_playback.PlaybackTests.test_factors_relative_to_wall_time) ... ok
+test_final_partial_step_and_no_early_step (test_playback.PlaybackTests.test_final_partial_step_and_no_early_step) ... ok
+test_maximum_and_invalid_values (test_playback.PlaybackTests.test_maximum_and_invalid_values) ... ok
+test_pause_time_does_not_accumulate (test_playback.PlaybackTests.test_pause_time_does_not_accumulate) ... ok
+test_slow_hardware_keeps_one_bounded_batch (test_playback.PlaybackTests.test_slow_hardware_keeps_one_bounded_batch) ... ok
+test_speed_survives_restart_without_starting (test_playback.PlaybackTests.test_speed_survives_restart_without_starting) ... ok
+test_energy_conservation_and_positive_coefficients (test_regions.RegionTests.test_energy_conservation_and_positive_coefficients) ... ok
+test_layered_stationary_resistance_and_flux (test_regions.RegionTests.test_layered_stationary_resistance_and_flux) ... ok
+test_means_and_fractional_materials (test_regions.RegionTests.test_means_and_fractional_materials) ... ok
+test_regions_invalid_overlap_outside_and_empty (test_regions.RegionTests.test_regions_invalid_overlap_outside_and_empty) ... ok
+test_save_load_and_legacy (test_regions.RegionTests.test_save_load_and_legacy) ... ok
+test_context_actions_and_regions_by_default_click (test_scene_editor.SceneEditorTests.test_context_actions_and_regions_by_default_click) ... ok
+test_draw_source_region_roles_history_and_rotated_resize (test_scene_editor.SceneEditorTests.test_draw_source_region_roles_history_and_rotated_resize) ... ok
+test_pick_polyline_and_continuous_canvas_edge (test_scene_editor.SceneEditorTests.test_pick_polyline_and_continuous_canvas_edge) ... ok
+test_cpu_gpu_scene_and_metal_final_temperature (test_scene_v2.SceneV2Tests.test_cpu_gpu_scene_and_metal_final_temperature) ... ok
+test_graphics_uses_per_face_boundaries_and_v2_configuration (test_scene_v2.SceneV2Tests.test_graphics_uses_per_face_boundaries_and_v2_configuration) ... ok
+test_line_power_half_open_dual_cells (test_scene_v2.SceneV2Tests.test_line_power_half_open_dual_cells) ... ok
+test_metal_trapezoid_source_and_boundary_contract (test_scene_v2.SceneV2Tests.test_metal_trapezoid_source_and_boundary_contract) ... ok
+test_migration_mask_material_operator_and_roundtrip (test_scene_v2.SceneV2Tests.test_migration_mask_material_operator_and_roundtrip) ... ok
+test_partition_does_not_remove_cut_or_source (test_scene_v2.SceneV2Tests.test_partition_does_not_remove_cut_or_source) ... ok
+test_subsegment_conditions_and_hidden_physics (test_scene_v2.SceneV2Tests.test_subsegment_conditions_and_hidden_physics) ... ok
+test_validation_and_zero_active_source (test_scene_v2.SceneV2Tests.test_validation_and_zero_active_source) ... ok
+test_default_is_zero_and_template_is_only_a_template (test_sources.SourceTests.test_default_is_zero_and_template_is_only_a_template) ... ok
+test_energy_injection_through_variable_capacity (test_sources.SourceTests.test_energy_injection_through_variable_capacity) ... ok
+test_integrated_area_independent_of_nodes_and_position (test_sources.SourceTests.test_integrated_area_independent_of_nodes_and_position) ... ok
+test_invalid_and_roundtrip (test_sources.SourceTests.test_invalid_and_roundtrip) ... ok
+test_subnode_circle_and_tangent_boundary (test_sources.SourceTests.test_subnode_circle_and_tangent_boundary) ... ok
+test_superposition_and_initial_condition_unchanged (test_sources.SourceTests.test_superposition_and_initial_condition_unchanged) ... ok
+test_config_validation (test_steady.SteadyTests.test_config_validation) ... ok
+test_gpu_residual_and_reset (test_steady.SteadyTests.test_gpu_residual_and_reset) ... ok
+test_gui_stationary_mode_manual_start_final_frame_and_restart (test_steady.SteadyTests.test_gui_stationary_mode_manual_start_final_frame_and_restart) ... ok
+test_insulated_net_input_rejected_and_balanced_flux_allowed (test_steady.SteadyTests.test_insulated_net_input_rejected_and_balanced_flux_allowed) ... ok
+test_linear_temperature_and_no_cancellation_of_global_balance (test_steady.SteadyTests.test_linear_temperature_and_no_cancellation_of_global_balance) ... ok
+test_robin_uniform_equilibrium (test_steady.SteadyTests.test_robin_uniform_equilibrium) ... ok
+test_sine_relaxes_and_roundtrip (test_steady.SteadyTests.test_sine_relaxes_and_roundtrip) ... ok
+test_temperature_offset_and_confirmations (test_steady.SteadyTests.test_temperature_offset_and_confirmations) ... ok
+test_tiny_dt_does_not_fake_convergence (test_steady.SteadyTests.test_tiny_dt_does_not_fake_convergence) ... ok
+test_final_fractional_step_exact_source (test_time.TimeTests.test_final_fractional_step_exact_source) ... ok
+test_live_final_publication_and_restart (test_time.TimeTests.test_live_final_publication_and_restart) ... ok
+test_resume_and_infinite (test_time.TimeTests.test_resume_and_infinite) ... ok
+test_validation_and_roundtrip (test_time.TimeTests.test_validation_and_roundtrip) ... ok
+test_auto_falls_back_when_acquire_fails_after_buffer_creation (test_transport_selection.TransportSelectionTests.test_auto_falls_back_when_acquire_fails_after_buffer_creation) ... ok
+test_explicit_shared_reports_acquire_failure (test_transport_selection.TransportSelectionTests.test_explicit_shared_reports_acquire_failure) ... ok
+test_forms_and_geometry_are_really_interactive (test_visible_configuration.VisibleConfigurationTests.test_forms_and_geometry_are_really_interactive) ... ok
+
+----------------------------------------------------------------------
+Ran 147 tests in 68.308s
+
+OK
+{
+  "backend": "numpy-float64",
+  "steps": 5,
+  "time_s": 43.01246882793018,
+  "dt_s": 8.602493765586036,
+  "dt_limit_s": 10.753117206982544,
+  "wall_s": 0.00010185000428464264,
+  "min_C": 25.0,
+  "max_C": 58.39369631585484,
+  "active_nodes": 63,
+  "domain": "Rect\u00e1ngulo",
+  "scene_version": 1,
+  "temporal_method": "explicit",
+  "cn_iterations": 0,
+  "cn_residual_K": null,
+  "error_linf_K": 0.29757624571684005,
+  "error_rms_K": 0.12987292104935297
+}

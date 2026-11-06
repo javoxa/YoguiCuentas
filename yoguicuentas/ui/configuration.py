@@ -1,8 +1,8 @@
 """Editor de escenario: borrador local, validación completa antes de aplicar."""
 from dataclasses import replace
 import math
-import tkinter as tk
-from tkinter import ttk, messagebox, filedialog
+from .i18n import tk
+from .i18n import ttk, messagebox, filedialog
 from ..model.grid import Grid
 from ..config.scenarios import Scenario
 from .regions import RegionEditor
@@ -172,26 +172,54 @@ def open_configuration(parent, scenario, apply):
     stationary=notebook.page(ttk.Frame,padding=12)
     notebook.add(stationary,text='Estacionario')
     steady_vars={}
-    method_names={'Evolución con integrador temporal':'explicit','Estacionario directo · Jacobi':'jacobi'}
+    method_names={'Evolución con integrador temporal':'explicit','Estacionario directo · Jacobi':'jacobi',
+                  'Gauss–Seidel rojo–negro':'gaussSeidel'}
     steady_method=tk.StringVar(value=next(k for k,v in method_names.items() if v==scenario.steady_method))
     ttk.Label(stationary,text='Método estacionario').grid(row=0,column=0,sticky='w',padx=4)
     ttk.Combobox(stationary,values=list(method_names),textvariable=steady_method,
                  state='readonly',width=34).grid(row=0,column=1,padx=4,pady=5)
     labels=(('steady_rtol','Tolerancia relativa',float),
-            ('steady_atol','Tolerancia absoluta (K/s)',float),
+            ('steady_atol','Residuo: tolerancia absoluta (K/s)',float),
             ('steady_check_every','Comprobar cada N pasos / iteraciones',int),
             ('steady_confirmations','Comprobaciones consecutivas',int),
             ('steady_max_steps','Límite de pasos / iteraciones',int))
     for row,(name,label,conversion) in enumerate(labels,1):
         var,_=entry(stationary,label,getattr(scenario,name),row)
         steady_vars[name]=(var,conversion)
-    ttk.Label(stationary,text='Elegir Jacobi activa Duración → Hasta estacionario.\n'
-              'Euler avanza con dt estable. Jacobi resuelve sin tiempo físico.\n'
-              'Jacobi exige Dirichlet o Robin disipativo en cada componente.\n'
-              'Comprueba el balance térmico local y su suma absoluta, no ΔT por paso.\n'
+    from ..numerics.convergence import CRITERIA,SAMPLING
+    criterion=tk.StringVar(value=CRITERIA[scenario.steady_criterion])
+    sampling=tk.StringVar(value=SAMPLING[scenario.steady_sampling])
+    ttk.Label(stationary,text='Criterio de parada').grid(row=6,column=0,sticky='w')
+    ttk.Combobox(stationary,values=list(CRITERIA.values()),textvariable=criterion,state='readonly',width=47).grid(row=6,column=1,pady=5)
+    ttk.Label(stationary,text='Nodos para las normas ΔT').grid(row=7,column=0,sticky='w')
+    sampling_choice=ttk.Combobox(stationary,values=list(SAMPLING.values()),textvariable=sampling,state='readonly',width=30)
+    sampling_choice.grid(row=7,column=1,pady=5)
+    for row,(name,label,convert) in enumerate((('steady_delta_atol','ΔT: tolerancia absoluta (K)',float),
+                         ('steady_delta_rtol','ΔT: tolerancia relativa',float),
+                         ('steady_sample_count','Cantidad de nodos aleatorios',int),
+                         ('steady_sample_seed','Semilla reproducible (0…4294967295)',int)),8):
+        variable,_=entry(stationary,label,getattr(scenario,name),row)
+        steady_vars[name]=(variable,convert)
+    criterion_help=tk.StringVar()
+    def criterion_changed(*_):
+        if _:
+            endmode.set('Hasta estacionario');modes_changed()
+        key=next(k for k,v in CRITERIA.items() if v==criterion.get())
+        sampling_choice.configure(state='disabled' if key in ('residual','delta_trace') else 'readonly')
+        if key=='residual':text='Residuo en todos los nodos: máximo local y balance L1. No depende de dt.'
+        elif key=='delta_trace':text='Suma diagonal: puede cancelarse o ignorar cambios fuera de la diagonal. En grillas rectangulares no es una traza matricial.'
+        elif key=='delta_mean':text='La media puede permanecer constante mientras se redistribuye el calor.'
+        else:text='ΔT se mide entre controles, no entre cuadros. Un dt pequeño o una muestra que omita una zona puede dar una parada prematura.'
+        criterion_help.set(text+'\nEl residuo físico completo se informa siempre por separado.')
+    criterion.trace_add('write',criterion_changed);criterion_changed()
+    ttk.Label(stationary,textvariable=criterion_help,wraplength=600,justify='left').grid(row=12,column=0,columnspan=2,sticky='w',pady=8)
+    ttk.Label(stationary,text='Elegir Jacobi o Gauss–Seidel activa Duración → Hasta estacionario.\n'
+              'Euler avanza con dt estable. Los directos no avanzan tiempo físico.\n'
+              'Los directos exigen Dirichlet o Robin disipativo en cada componente.\n'
+              'ΔT compara el campo con el control anterior; la muestra no cambia durante la corrida.\n'
               'El límite de pasos detiene la corrida sin declararla convergida.\n'
               'Las tolerancias controlan el residuo; no garantizan un error en K.',
-              justify='left').grid(row=7,column=0,columnspan=2,sticky='w',pady=12)
+              justify='left',wraplength=600).grid(row=13,column=0,columnspan=2,sticky='w',pady=12)
 
     integration=notebook.page(ttk.Frame,padding=12)
     notebook.add(integration,text='Integración')
@@ -201,7 +229,7 @@ def open_configuration(parent, scenario, apply):
     ttk.Combobox(integration,values=list(temporal_names),textvariable=temporal,
                  state='readonly',width=26).grid(row=0,column=1,pady=5)
     def choose_stationary(*_):
-        if method_names[steady_method.get()]=='jacobi':
+        if method_names[steady_method.get()] in ('jacobi','gaussSeidel'):
             endmode.set('Hasta estacionario');modes_changed()
     def choose_temporal(*_):
         # An explicit user choice of a time integrator must leave direct Jacobi.
@@ -221,7 +249,7 @@ def open_configuration(parent, scenario, apply):
               'Las tolerancias son del sistema lineal, no del error temporal.\n'
               'Un paso grande puede producir oscilaciones: comparar dt/2 y dt/4.\n'
               'Si un sistema no converge, se rechaza todo el lote sin avanzar el campo.\n'
-              'Jacobi estacionario directo ignora el integrador temporal.',justify='left',wraplength=560).grid(
+              'Jacobi y Gauss–Seidel estacionarios ignoran el integrador temporal.',justify='left',wraplength=560).grid(
                   row=7,column=0,columnspan=2,sticky='w',pady=12)
 
     domain_editor=notebook.page(DomainEditor,scenario.domain,
@@ -270,6 +298,8 @@ def open_configuration(parent, scenario, apply):
                               domain=scenario.domain if scenario.scene is not None else domain_editor.domain,
                               sources=source_editor.sources,steady=endmode.get()=='Hasta estacionario',
                               steady_options={'steady_method':method_names[steady_method.get()],
+                                              'steady_criterion':next(k for k,v in CRITERIA.items() if v==criterion.get()),
+                                              'steady_sampling':next(k for k,v in SAMPLING.items() if v==sampling.get()),
                                               'temporal_method':temporal_names[temporal.get()],'cn':cn,
                                               **{name:convert(var.get())
                                               for name,(var,convert) in steady_vars.items()}})

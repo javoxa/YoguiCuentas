@@ -28,6 +28,8 @@ class Scene:
 
 
 def boundary(data):
+    """Accept stored JSON conditions and already validated canvas conditions."""
+    if isinstance(data,Boundary):return data
     return Boundary(data.get('kind','Adiabático'),data.get('value',0),data.get('h',0))
 
 
@@ -305,6 +307,10 @@ def from_v2(cls,data):
                 scene=Scene.create(data['scene']))
     from ..numerics.crank_nicolson import CnOptions
     kwargs['cn']=CnOptions(**time.get('cn',{}))
+    convergence=time.get('convergence',{})
+    for key,default in (('criterion','residual'),('delta_atol',1e-5),('delta_rtol',1e-5),
+                        ('sampling','all'),('sample_count',32),('sample_seed',1)):
+        kwargs['steady_'+key]=convergence.get(key,default)
     for side,value in c.get('boundaries',{}).items():kwargs[side]=boundary(value)
     return cls(**kwargs)
 
@@ -318,6 +324,8 @@ def to_v2(s):
                'checkEvery':s.steady_check_every,'confirmations':s.steady_confirmations,'maxSteps':s.steady_max_steps},
        'defaultBoundary':asdict(s.default_boundary),'boundaries':{side:asdict(getattr(s,side)) for side in SIDES if getattr(s,side) is not None},
        'uniformSource':s.source,'interfaceMean':s.interface_mean}
+    c['time']['convergence']={key:getattr(s,'steady_'+key) for key in
+                             ('criterion','delta_atol','delta_rtol','sampling','sample_count','sample_seed')}
     return {'version':2,'canvas':c,'scene':s.scene.primitives}
 
 
@@ -328,6 +336,20 @@ def migration_primitives(s):
     primitives=[{'id':str(uuid.uuid4()),'type':'legacyMask','name':'Máscara v1',
                  'geometry':{'raster':active_mask(s).ravel().tolist(),'rasterGrid':asdict(s.grid)},
                  'domain':{'operation':'replace'},'boundaries':{'edge':asdict(s.domain.boundary)}}]
+    # Recover editable rectangular cuts when their geometric representation
+    # reproduces the original mask exactly. Other v1 masks retain their bytes.
+    if s.domain.shape=='Rectángulo' and s.domain.edits and all(e.shape=='Rectangular' for e in s.domain.edits):
+        cuts=[];active=np.ones(s.grid.shape,dtype=bool);x,y=s.grid.coordinates()
+        for index,e in enumerate(s.domain.edits,1):
+            p={'id':str(uuid.uuid4()),'type':'rectangle','name':f'Recorte v1 {index}',
+               'geometry':{'x':e.xmin,'y':e.ymin,'width':e.xmax-e.xmin,'height':e.ymax-e.ymin},
+               'domain':{'operation':'union' if e.active else 'subtract'},
+               'boundaries':{'edge':asdict(s.domain.boundary)}}
+            mask=contains(p,x,y)
+            active[mask]=e.active;cuts.append(p)
+        if np.array_equal(active,active_mask(s)):
+            primitives[0]['geometry']['raster']=np.ones(s.grid.shape,dtype=bool).ravel().tolist()
+            primitives.extend(cuts)
     for r in s.regions:
         primitives.append({'id':str(uuid.uuid4()),'type':'rectangle','name':r.name,
                            'geometry':{'x':r.xmin,'y':r.ymin,'width':r.xmax-r.xmin,'height':r.ymax-r.ymin,'legacyShape':'materialV1'},

@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "YoguiCuentas"
-version = "0.2.4"
+version = "0.2.5"
 description = "Conducción 2D CPU/OpenCL, escenas editables y visualización científica"
 requires-python = ">=3.10"
 dependencies = ["numpy>=1.23"]

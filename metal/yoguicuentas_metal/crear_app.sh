@@ -28,8 +28,11 @@ mkdir -p "$CONTENTS/MacOS" "$CONTENTS/Resources"
 bash "$PROJECT_DIR/crear_icono.sh"
 cp "$PROJECT_DIR/Assets/AppIcon.icns" "$CONTENTS/Resources/AppIcon.icns"
 cp "$PROJECT_DIR/Assets/AppIcon.png" "$CONTENTS/Resources/AppIcon.png"
-cp "$PROJECT_DIR/../../LICENSE" "$CONTENTS/Resources/LICENSE"
-cp "$PROJECT_DIR/../../NOTICE" "$CONTENTS/Resources/NOTICE"
+for LEGAL_FILE in LICENSE NOTICE; do
+  LEGAL_SOURCE="$PROJECT_DIR/$LEGAL_FILE"
+  if [[ ! -f "$LEGAL_SOURCE" ]]; then LEGAL_SOURCE="$PROJECT_DIR/../../$LEGAL_FILE"; fi
+  cp "$LEGAL_SOURCE" "$CONTENTS/Resources/$LEGAL_FILE"
+done
 cp "$EXECUTABLE" "$CONTENTS/MacOS/yoguicuentas_metal"
 rm -rf "$CONTENTS/Resources/YoguiCuentasMetal_YoguiCuentasMetal.bundle"
 ditto "$RESOURCE_BUNDLE" "$CONTENTS/Resources/YoguiCuentasMetal_YoguiCuentasMetal.bundle"
@@ -54,7 +57,7 @@ cat > "$CONTENTS/Info.plist" <<PLIST
   <key>CFBundlePackageType</key>
   <string>APPL</string>
   <key>CFBundleShortVersionString</key>
-  <string>${YOGUI_APP_VERSION:-0.11.0}</string>
+  <string>${YOGUI_APP_VERSION:-0.12.0}</string>
   <key>CFBundleVersion</key>
   <string>$BUILD_ID</string>
   <key>LSMinimumSystemVersion</key>

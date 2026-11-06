@@ -1,8 +1,8 @@
 """Borrador de geometría en coordenadas físicas; no accede a OpenCL ni al solver."""
 from types import SimpleNamespace
 from dataclasses import replace
-import tkinter as tk
-from tkinter import ttk,messagebox
+from .i18n import tk
+from .i18n import ttk,messagebox
 import numpy as np
 from ..model.domain import Domain,DomainEdit,SHAPES,CURVED_SHAPES,active_mask,validate_domain
 from ..model.boundaries import Boundary

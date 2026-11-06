@@ -1,6 +1,6 @@
 """Editor de fuentes constantes. La plantilla existe sin activarse por defecto."""
-import tkinter as tk
-from tkinter import ttk,messagebox
+from .i18n import tk
+from .i18n import ttk,messagebox
 from ..model.sources import HeatSource,GEOMETRIES,template_source
 
 

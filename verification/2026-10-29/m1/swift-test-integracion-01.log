@@ -1,0 +1,40 @@
+[0/1] Planning build
+Building for debugging...
+[0/9] Write sources
+[2/9] Copying Scenarios
+[3/9] Write swift-version--58304C5D6DBC2206.txt
+[5/17] Compiling YoguiCuentasMetal resource_bundle_accessor.swift
+[6/17] Compiling YoguiCuentasMetal Scene.swift
+[7/17] Compiling YoguiCuentasMetal ThermalSolver.swift
+[8/20] Compiling YoguiCuentasMetal SceneBoundarySegments.swift
+[9/21] Compiling YoguiCuentasMetal ContentView.swift
+[10/21] Compiling YoguiCuentasMetal Scenario.swift
+[11/21] Compiling YoguiCuentasMetal Convergence.swift
+[12/21] Emitting module YoguiCuentasMetal
+[13/24] Compiling YoguiCuentasMetal SimulationModel.swift
+/Users/javo/Documents/yogui/yoguicuentas_metal/Sources/YoguiCuentasMetal/SimulationModel.swift:77:27: error: 'self' used in property access 'temperature' before all stored properties are initialized
+ 75 |             let op=(try? ThermalOperator(fallback))!
+ 76 |             scenario=fallback; thermalOperator=op; temperature=op.initialTemperature()
+ 77 |             steadyPrevious=temperature;steadyInitial=op.residualStats(temperature);steadyResidual=steadyInitial
+    |                           |- error: 'self' used in property access 'temperature' before all stored properties are initialized
+    |                           |- note: 'self.minimumTemperature' not initialized
+    |                           `- note: 'self.maximumTemperature' not initialized
+ 78 |             minimumTemperature=0; maximumTemperature=50
+ 79 |         }
+
+/Users/javo/Documents/yogui/yoguicuentas_metal/Sources/YoguiCuentasMetal/SimulationModel.swift:77:71: error: 'self' used in property access 'temperature' before all stored properties are initialized
+ 75 |             let op=(try? ThermalOperator(fallback))!
+ 76 |             scenario=fallback; thermalOperator=op; temperature=op.initialTemperature()
+ 77 |             steadyPrevious=temperature;steadyInitial=op.residualStats(temperature);steadyResidual=steadyInitial
+    |                                                                       |- error: 'self' used in property access 'temperature' before all stored properties are initialized
+    |                                                                       |- note: 'self.minimumTemperature' not initialized
+    |                                                                       `- note: 'self.maximumTemperature' not initialized
+ 78 |             minimumTemperature=0; maximumTemperature=50
+ 79 |         }
+[14/24] Compiling YoguiCuentasMetal VisualFields.swift
+[15/24] Compiling YoguiCuentasMetal ThermalCanvas.swift
+[16/24] Compiling YoguiCuentasMetal Surface3DView.swift
+[17/24] Compiling YoguiCuentasMetal CrankNicolson.swift
+[18/24] Compiling YoguiCuentasMetal FieldOverlays.swift
+[19/24] Compiling YoguiCuentasMetal SceneEditor.swift
+error: fatalError

@@ -187,3 +187,57 @@ root.destroy()
         result=subprocess.run([sys.executable,'-c',code],cwd=Path(__file__).resolve().parents[1],
                               capture_output=True,text=True,timeout=30)
         self.assertEqual(result.returncode,0,result.stdout+result.stderr)
+
+    def test_prueba_01_cut_and_repeated_canvas_boundary_edit(self):
+        code=r'''
+import tkinter as tk
+from types import SimpleNamespace as E
+from pathlib import Path
+from tempfile import TemporaryDirectory
+import numpy as np
+from yoguicuentas.config.scenarios import Scenario
+from yoguicuentas.ui.scene_editor import SceneEditor
+from yoguicuentas.model.scene import fields
+from yoguicuentas.model.domain import active_mask
+root=tk.Tk();errors=[];root.report_callback_exception=lambda *e:errors.append(str(e))
+original=Scenario.load(Path('scenarios/prueba_01.json'))
+editor=SceneEditor(root,original,lambda s:None);root.update()
+editor.tool.set('Elegir borde')
+def click(x,y):
+    px,py=editor.pixel(x,y);editor.press(E(x=px,y=py,state=8))
+# v1 outer conditions are Boundary instances, including before the first edit.
+for expected in (original.left.value,80):
+    click(0,.15)
+    assert editor._boundary_target==(None,'left')
+    assert float(editor.border_value.get())==expected
+    editor.border_kind.set('Dirichlet');editor.border_value.set('80')
+    assert editor.update_properties()
+cut=next(p for p in editor.primitives if p['name']=='Recorte v1 1');identifier=cut['id'];g=cut['geometry']
+x,y,w,h=g['x'],g['y'],g['width'],g['height']
+conditions=[('bottom',x+w/2,y,'Dirichlet',50,0),('right',x+w,y+h/2,'Neumann',123,0),
+            ('top',x+w/2,y+h,'Robin',20,9),('left',x,y+h/2,'Adiabático',0,0)]
+for key,px,py,kind,value,hcoef in conditions:
+    click(px,py)
+    assert editor._boundary_target==(identifier,key),(key,editor._boundary_target)
+    editor.border_kind.set('Robin / Cauchy' if kind=='Robin' else kind)
+    editor.border_value.set(str(value));editor.border_h.set(str(hcoef))
+    assert editor.update_properties()
+    click(px,py)
+    assert float(editor.border_value.get())==value
+    assert editor.border_kind.get()==('Robin / Cauchy' if kind=='Robin' else kind)
+scenario=editor.scenario()
+np.testing.assert_array_equal(active_mask(scenario),active_mask(original))
+with TemporaryDirectory() as folder:
+    path=Path(folder)/'edited.json';scenario.save(path);loaded=Scenario.load(path)
+    for key,px,py,kind,value,hcoef in conditions:
+        faces=[b for j,i,side,owner,k,b,internal in fields(loaded).faces if owner==identifier and k==key]
+        assert faces,key
+        assert all(b.kind==kind and b.value==value and b.h==hcoef for b in faces),(key,faces)
+    other=next(p['id'] for p in editor.primitives if p['name']=='Recorte v1 2')
+    assert all(b.kind=='Adiabático' for j,i,side,owner,k,b,internal in fields(loaded).faces if owner==other)
+assert not errors,errors
+root.destroy()
+'''
+        result=subprocess.run([sys.executable,'-c',code],cwd=Path(__file__).resolve().parents[1],
+                              capture_output=True,text=True,timeout=40)
+        self.assertEqual(result.returncode,0,result.stdout+result.stderr)

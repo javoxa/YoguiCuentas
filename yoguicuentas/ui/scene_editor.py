@@ -4,8 +4,8 @@ from dataclasses import replace,asdict
 import json
 import math
 from pathlib import Path
-import tkinter as tk
-from tkinter import ttk,messagebox,filedialog
+from .i18n import tk
+from .i18n import ttk,messagebox,filedialog
 import uuid
 import numpy as np
 from ..model.scene import Scene,Partition,contains,delimiter,fields,migration_primitives,preview_fields,segment_key,segments,boundary,distance

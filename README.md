@@ -1,36 +1,75 @@
 # YoguiCuentas
 
-## Versión 0.2.4 — escala, isotermas, CN y escenas editables
+## Candidata 0.2.5 — Gauss–Seidel y criterios de convergencia
 
-La ventana se identifica como **YoguiCuentas OpenCL · 0.2.4**. Resumen vigente: [PARIDAD_METAL.md](PARIDAD_METAL.md). Los apartados históricos siguientes describen también etapas v1; este resumen y ESTADO_PROYECTO.md prevalecen para las funciones nuevas.
+La candidata se identifica como **YoguiCuentas OpenCL · 0.2.5**, con Metal **0.12.0**. Resumen vigente: [PARIDAD_METAL.md](PARIDAD_METAL.md). Los apartados históricos siguientes describen también etapas v1; este resumen y ESTADO_PROYECTO.md prevalecen para las funciones nuevas.
 
 YoguiCuentas es un proyecto educativo de simulación de transferencia de calor, con una edición OpenCL para Linux y una edición Metal para macOS.
+
+El cálculo se realiza sobre una **grilla cartesiana estructurada**, con un operador
+conservativo de cinco puntos. Las regiones y curvas del editor se rasterizan en
+esa grilla: dibujar un círculo no cambia el sistema de coordenadas ni genera una
+malla ajustada a su frontera. El propósito educativo incluye comparar precisión,
+estabilidad y costo al aumentar la cantidad de nodos.
+
+**Desarrollo posterior a 0.2.4:** se agregó **Gauss–Seidel rojo–negro** en
+Configurar corrida → Estacionario, tanto en CPU como en OpenCL, con ejemplo
+`estacionario_gauss_seidel`. La adaptación Swift/Metal se verificó en el M1: 103 XCTest aprobados, sin fallos
+ni omisiones. La [guía de verificación numérica](VERIFICACION_NUMERICA.md)
+documenta conservación, soluciones analíticas, convergencia espacial/temporal,
+límites de float32 y próximos estudios de grillas polares y mallas no estructuradas.
+Los [resultados del 28/10/2026](verification/2026-10-28/RESUMEN.md) corresponden al
+árbol de desarrollo local, no a una nueva Release. Las cifras de pruebas en los
+apartados históricos siguientes corresponden a sus respectivas etapas.
 
 El código y la documentación se distribuyen bajo [Apache License 2.0](LICENSE); [NOTICE](NOTICE) aclara el alcance y los permisos independientes del nombre y del icono.
 
 El [informe técnico de YoguiCuentas Metal 0.11.0](metal/technical_report/informe_tecnico_yoguicuentas_metal.pdf) está disponible para lectura. En [metal/technical_report](metal/technical_report/README.md) se incluyen su fuente LaTeX, datos, instantánea de las fuentes analizadas y pasos para reproducirlo. La versión OpenCL y la versión Metal llevan numeración propia.
 
+**Desarrollo 29/10:** ahora se pueden elegir criterios de parada por residuo,
+L1, euclídea/Frobenius, RMS, máximo nodal, normas matriciales, traza o media;
+con todos los nodos o una muestra fija con semilla. La auditoría física se
+mantiene separada y permite detectar falsas convergencias. [Guía y resultados](CRITERIOS_ESTACIONARIO.md).
+
+El [artículo técnico para revisión por pares](technical_report/README.md), actualizado
+el 02/11/2026, presenta el uso de grillas reducidas y renderizado OpenGL para
+equipos de recursos limitados, con métodos, resultados y material reproducible
+con autoría de Javier Armando Gutierrez (Universidad Nacional de Salta).
+
+El [informe integrado CPU/GPU del 29/10](INFORME_VALIDACION_CPU_GPU_20261029.md)
+y la [preparación de publicación](PREPARACION_PRODUCCION.md) describen la candidata
+actual y las comprobaciones de instalación y aceptación visual pendientes.
+
+## Idiomas y artículo en inglés
+
+Las dos ediciones incorporan **Idioma → Español / English**, con español al
+iniciar. El cambio conserva la corrida y los valores del escenario.
+[Uso, pruebas y comprobación pendiente en macOS](IDIOMAS.md).
+
+El artículo también está disponible en [inglés técnico británico](output/pdf/yoguicuentas_paper_en.pdf),
+con [fuente y control de datos](technical_report/README.md).
+
 ## Descargar e instalar
 
 Los instaladores están en [Releases](https://github.com/javoxa/YoguiCuentas/releases/latest). Elegí el archivo según tu sistema. No hace falta descargar el código fuente para usar la aplicación.
 
-Si la página todavía no muestra una Release, abrí la pestaña [Actions](https://github.com/javoxa/YoguiCuentas/actions): el primer paquete aparece cuando termina correctamente **Build release packages** para la etiqueta `v0.2.4`.
+La candidata aún no está publicada. Si la página todavía no muestra su Release, abrí la pestaña [Actions](https://github.com/javoxa/YoguiCuentas/actions): el primer paquete aparece cuando termina correctamente **Build release packages** para la etiqueta nueva `v0.2.5`.
 
 ### Debian / Devuan
 
-1. En **Assets**, descargá `yoguicuentas_0.2.4_all.deb`.
+1. En **Assets**, descargá `yoguicuentas_0.2.5_all.deb`.
 2. Abrí una terminal en la carpeta donde quedó el archivo, normalmente `Descargas`:
 
    ```bash
    cd ~/Descargas
    sudo apt update
-   sudo apt install ./yoguicuentas_0.2.4_all.deb
+   sudo apt install ./yoguicuentas_0.2.5_all.deb
    ```
 
    El `.deb` no se extrae manualmente. APT lo instala y resuelve las dependencias del sistema; durante la primera instalación también hace falta Internet para instalar las dependencias Python.
 3. Abrí **YoguiCuentas** desde el menú de aplicaciones o ejecutá `yoguicuentas` en una terminal. El lanzador elige una GPU OpenCL si hay una disponible; si no, inicia con CPU.
 
-Si tu Debian/Devuan no tiene `sudo`, entrá como administrador con `su -` y ejecutá `apt install /home/USUARIO/Descargas/yoguicuentas_0.2.4_all.deb`, reemplazando `USUARIO` por tu nombre de usuario.
+Si tu Debian/Devuan no tiene `sudo`, entrá como administrador con `su -` y ejecutá `apt install /home/USUARIO/Descargas/yoguicuentas_0.2.5_all.deb`, reemplazando `USUARIO` por tu nombre de usuario.
 
 ### macOS (Apple Silicon)
 
@@ -81,7 +120,7 @@ La ventana OpenCL tiene barra lateral desplazable, selector de escenarios, icono
 Para instalar en una estación nueva: `bash instalar.sh` y luego
 `bash ejecutar.sh`. El archivo de dependencias es `requisitos.txt`.
 Ver [PORTABILIDAD.md](PORTABILIDAD.md) para drivers, selección de GPU y diagnóstico.
-Para instalar en varias PCs Debian/Devuan como paquete `.deb`, ver [PORTABILIDAD.md](PORTABILIDAD.md#paquete-instalable-debiandevuan-para-laboratorios): `bash construir_deb.sh` genera `dist/yoguicuentas_0.2.4_all.deb`. El lanzador automático usa GPU OpenCL si aparece; si solo está PoCL CPU, elige CPU NumPy.
+Para instalar en varias PCs Debian/Devuan como paquete `.deb`, ver [PORTABILIDAD.md](PORTABILIDAD.md#paquete-instalable-debiandevuan-para-laboratorios): `bash construir_deb.sh` genera `dist/yoguicuentas_0.2.5_all.deb`. El lanzador automático usa GPU OpenCL si aparece; si solo está PoCL CPU, elige CPU NumPy.
 Para compilar Metal desde el código fuente, consultar [la guía de instalación](metal/yoguicuentas_metal/INSTALACION_APPLE_M1.md). GitHub Actions genera los instaladores en cada Release. Las versiones OpenCL (`0.2.4`) y Metal (`0.11.0`) se identifican por separado.
 
 Simulación de calor 2D sobre una grilla estructurada. Primera etapa:

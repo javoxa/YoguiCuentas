@@ -147,6 +147,7 @@ struct SceneTime: Codable, Hashable {
     var checkEvery: Int
     var confirmations: Int
     var maxSteps: Int
+    var convergence=ConvergenceOptions()
     var method: SteadyMethod = .explicit
     var temporalMethod: TemporalMethod = .explicit
     var cn = CNSettings()
@@ -168,7 +169,7 @@ struct SceneCanvas: Codable, Hashable {
         let rho=s.density ?? 8960
         material=SceneMaterial(k:s.conductivity,rho:rho,cp:s.capacity/rho)
         initial=SceneInitial(type:s.initial,temperature:s.initialBase,amplitude:s.amplitude,sigma:s.initial_sigma)
-        time=SceneTime(dt:s.dt,tEnd:s.final_time,safety:s.safety,steady:s.steady,rtol:s.steady_rtol,atol:s.steady_atol,checkEvery:s.steady_check_every,confirmations:s.steady_confirmations,maxSteps:s.steady_max_steps,method:s.steady_method,temporalMethod:s.temporal_method,cn:s.cn)
+        time=SceneTime(dt:s.dt,tEnd:s.final_time,safety:s.safety,steady:s.steady,rtol:s.steady_rtol,atol:s.steady_atol,checkEvery:s.steady_check_every,confirmations:s.steady_confirmations,maxSteps:s.steady_max_steps,convergence:s.convergence,method:s.steady_method,temporalMethod:s.temporal_method,cn:s.cn)
         defaultBoundary=s.defaultBoundary
         boundaries=[:]
         for (side,b) in [("left",s.left),("right",s.right),("bottom",s.bottom),("top",s.top)] { boundaries[side]=b }
@@ -180,7 +181,7 @@ struct SceneCanvas: Codable, Hashable {
         s.conductivity=material.k; s.density=material.rho; s.specific_heat=material.cp; s.capacity=material.rho*material.cp
         s.initial=initial.type; s.initial_temperature=initial.temperature; s.amplitude=initial.amplitude; s.initial_sigma=initial.sigma
         s.temporal_method=time.temporalMethod; s.cn=time.cn
-        s.steady_method=time.method
+        s.steady_method=time.method;s.convergence=time.convergence
         s.dt=time.dt; s.final_time=time.tEnd; s.safety=time.safety; s.steady=time.steady
         s.steady_rtol=time.rtol; s.steady_atol=time.atol; s.steady_check_every=time.checkEvery; s.steady_confirmations=time.confirmations; s.steady_max_steps=time.maxSteps
         s.defaultBoundary=defaultBoundary; s.left=boundaries["left"]; s.right=boundaries["right"]
@@ -505,7 +506,7 @@ extension SceneInitial {
     }
 }
 extension SceneTime {
-    enum CodingKeys:String,CodingKey {case dt,tEnd,safety,steady,rtol,atol,checkEvery,confirmations,maxSteps,method,temporalMethod,cn}
+    enum CodingKeys:String,CodingKey {case dt,tEnd,safety,steady,rtol,atol,checkEvery,confirmations,maxSteps,method,temporalMethod,cn,convergence}
     init(from decoder:Decoder) throws {
         let c=try decoder.container(keyedBy:CodingKeys.self)
         dt=try c.decodeIfPresent(Double.self,forKey:.dt);tEnd=try c.decodeIfPresent(Double.self,forKey:.tEnd)
@@ -517,6 +518,7 @@ extension SceneTime {
         temporalMethod=try c.decodeIfPresent(TemporalMethod.self,forKey:.temporalMethod) ?? .explicit
         cn=try c.decodeIfPresent(CNSettings.self,forKey:.cn) ?? CNSettings()
         method=try c.decodeIfPresent(SteadyMethod.self,forKey:.method) ?? .explicit
+        convergence=try c.decodeIfPresent(ConvergenceOptions.self,forKey:.convergence) ?? ConvergenceOptions()
         maxSteps=try c.decodeIfPresent(Int.self,forKey:.maxSteps) ?? 1_000_000
     }
 }

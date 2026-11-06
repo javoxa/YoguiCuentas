@@ -219,6 +219,7 @@ import AppKit
 }
 
 struct GeometricSceneEditor:View {
+    @ObservedObject private var uiLanguage = AppLanguage.shared
     @Environment(\.dismiss) private var dismiss
     @Binding var scenario:Scenario
     let onApply: (Scenario)->Bool
@@ -236,16 +237,16 @@ struct GeometricSceneEditor:View {
     var body:some View {
         VStack(spacing:10) {
             HStack {
-                Text("Escena geométrica").font(.title2.bold())
-                Button("Deshacer") { state.undo() }.keyboardShortcut("z")
-                Button("Rehacer") { state.redo() }.keyboardShortcut("z",modifiers:[.command,.shift])
+                Text(L10n.text("Escena geométrica")).font(.title2.bold())
+                Button(L10n.text("Deshacer")) { state.undo() }.keyboardShortcut("z")
+                Button(L10n.text("Rehacer")) { state.redo() }.keyboardShortcut("z",modifiers:[.command,.shift])
                 Spacer()
-                Button("Lienzo nuevo") {
+                Button(L10n.text("Lienzo nuevo")) {
                     state.edit { s in s.scene=[];s.left=nil;s.right=nil;s.bottom=nil;s.top=nil };state.selection=[];state.face=nil
                 }
-                Button("Cancelar") { if state.draft != scenario { showDiscard=true } else { dismiss() } }
-                Button("Volver a parámetros") { scenario=state.draft;dismiss() }
-                Button("Aplicar al problema") {
+                Button(L10n.text("Cancelar")) { if state.draft != scenario { showDiscard=true } else { dismiss() } }
+                Button(L10n.text("Volver a parámetros")) { scenario=state.draft;dismiss() }
+                Button(L10n.text("Aplicar al problema")) {
                     do {
                         NSApp.keyWindow?.makeFirstResponder(nil)
                         let candidate=try state.scenarioForApplying()
@@ -256,26 +257,26 @@ struct GeometricSceneEditor:View {
                     .disabled(state.issues.contains { $0.error })
             }
             HStack {
-                Picker("Herramienta",selection:$tool) {
-                    Text("Elegir región").tag("region");Text("Seleccionar figura").tag("select");Text("Rectángulo").tag("rectangle")
-                    Text("Círculo / elipse").tag("ellipse");Text("Línea").tag("segment")
-                    Text("Polígono").tag("polygon");Text("Mano alzada").tag("freehand")
-                    Text("Elegir borde").tag("boundary")
+                Picker(L10n.text("Herramienta"),selection:$tool) {
+                    Text(L10n.text("Elegir región")).tag("region");Text(L10n.text("Seleccionar figura")).tag("select");Text(L10n.text("Rectángulo")).tag("rectangle")
+                    Text(L10n.text("Círculo / elipse")).tag("ellipse");Text(L10n.text("Línea")).tag("segment")
+                    Text(L10n.text("Polígono")).tag("polygon");Text(L10n.text("Mano alzada")).tag("freehand")
+                    Text(L10n.text("Elegir borde")).tag("boundary")
                 }.frame(width:245)
-                Picker("Overlay",selection:$overlay) {
-                    Text("Máscara").tag("mask");Text("Material k").tag("material");Text("Fuentes").tag("source");Text("Ninguno").tag("none")
+                Picker(L10n.text("Overlay"),selection:$overlay) {
+                    Text(L10n.text("Máscara")).tag("mask");Text(L10n.text("Material k")).tag("material");Text(L10n.text("Fuentes")).tag("source");Text(L10n.text("Ninguno")).tag("none")
                 }.frame(width:180)
             }
             HStack {
-                Button("Elegir región") { tool="region" }.buttonStyle(.borderedProminent)
-                Button("Elegir borde") { tool="boundary" }.buttonStyle(.bordered)
-                Text("1. Dibujá una figura → 2. Asigná su propiedad a la derecha → 3. Aplicar al problema").font(.caption)
+                Button(L10n.text("Elegir región")) { tool="region" }.buttonStyle(.borderedProminent)
+                Button(L10n.text("Elegir borde")) { tool="boundary" }.buttonStyle(.bordered)
+                Text(L10n.text("1. Dibujá una figura → 2. Asigná su propiedad a la derecha → 3. Aplicar al problema")).font(.caption)
             }
-            if !state.regionDescription.isEmpty { Text(state.regionDescription).font(.caption) }
-            if let message=state.applyError { Text(message).font(.caption).foregroundStyle(.red) }
+            if !state.regionDescription.isEmpty { Text(L10n.text(state.regionDescription)).font(.caption) }
+            if let message=state.applyError { Text(L10n.text(message)).font(.caption).foregroundStyle(.red) }
             if tool == "freehand" {
-                Text("Cerrá el trazo volviendo al inicio para usar su interior. También podés cerrarlo después desde sus propiedades.").font(.caption)
-                HStack { Toggle("Mantener trazo",isOn:$keepStroke);TextField("Tolerancia (px)",value:$tolerance,format:.number).frame(width:170) }
+                Text(L10n.text("Cerrá el trazo volviendo al inicio para usar su interior. También podés cerrarlo después desde sus propiedades.")).font(.caption)
+                HStack { Toggle(L10n.text("Mantener trazo"),isOn:$keepStroke);TextField(L10n.text("Tolerancia (px)"),value:$tolerance,format:.number).frame(width:170) }
             }
             HSplitView {
                 SceneDrawingView(state:state,tool:$tool,role:role,overlay:$overlay,keepStroke:keepStroke,tolerance:max(0,tolerance))
@@ -284,9 +285,9 @@ struct GeometricSceneEditor:View {
                     VStack(alignment:.leading,spacing:12) {
                         if let face=state.face { boundaryInspector(face) }
                         else if state.selection.count == 1, let id=state.selection.first { primitiveInspector(state.primitiveBinding(id)) }
-                        else { Text(state.selection.isEmpty ? "Dibujá una figura y asignale una propiedad. Para un corte de borde a borde, usá Elegir región para seleccionar uno de sus lados." : "\(state.selection.count) objetos seleccionados. Arrastrá para mover el conjunto.") }
+                        else { Text(L10n.text(state.selection.isEmpty ? "Dibujá una figura y asignale una propiedad. Para un corte de borde a borde, usá Elegir región para seleccionar uno de sus lados." : "\(state.selection.count) objetos seleccionados. Arrastrá para mover el conjunto.")) }
                         Divider()
-                        Text("Capas · última operación gana").font(.headline)
+                        Text(L10n.text("Capas · última operación gana")).font(.headline)
                         ForEach(Array((state.draft.scene ?? []).reversed())) { p in
                             HStack {
                                 Button(p.name) { state.selection=[p.id];state.face=nil }.buttonStyle(.plain)
@@ -294,77 +295,77 @@ struct GeometricSceneEditor:View {
                             }.foregroundStyle(state.selection.contains(p.id) ? Color.accentColor : .primary)
                         }
                         Divider()
-                        Text("Contorno por defecto").font(.headline)
+                        Text(L10n.text("Contorno por defecto")).font(.headline)
                         boundaryFields(Binding(get:{state.draft.defaultBoundary},set:{ v in state.edit { $0.defaultBoundary=v } }))
                         ForEach(["top","right","bottom","left"],id:\.self) { side in
-                            Button("Lienzo · \(boundarySideName(side))") {
+                            Button(L10n.text("Lienzo · \(boundarySideName(side))")) {
                                 state.face=SceneFace(node:0,side:side,owner:nil,segment:side,boundary:state.draft.defaultBoundary)
                             }
                         }
-                        ForEach(state.issues) { issue in Text(issue.message).font(.caption).foregroundStyle(issue.error ? .red : .orange) }
+                        ForEach(state.issues) { issue in Text(L10n.text(issue.message)).font(.caption).foregroundStyle(issue.error ? .red : .orange) }
                     }.padding(12)
                 }.frame(minWidth:270,idealWidth:300,maxWidth:350)
             }
-            Text(state.hover.isEmpty ? "Alt desactiva snap · Shift: círculo / rotación 15° · Enter cierra polígono · Esc cancela · ⌘Z / ⇧⌘Z · ⌘C/V/D · Supr · Tab · ⌘[ / ⌘]" : state.hover).font(.caption)
-            Text("Curvas: borde escalonado; refinar no garantiza el perímetro ni el balance Robin ideales sin ponderación geométrica. Las máscaras v1 tienen edición limitada.").font(.caption).foregroundStyle(.secondary)
+            Text(L10n.text(state.hover.isEmpty ? "Alt desactiva snap · Shift: círculo / rotación 15° · Enter cierra polígono · Esc cancela · ⌘Z / ⇧⌘Z · ⌘C/V/D · Supr · Tab · ⌘[ / ⌘]" : state.hover)).font(.caption)
+            Text(L10n.text("Curvas: borde escalonado; refinar no garantiza el perímetro ni el balance Robin ideales sin ponderación geométrica. Las máscaras v1 tienen edición limitada.")).font(.caption).foregroundStyle(.secondary)
         }.padding(16).frame(minWidth:980,minHeight:650)
-        .confirmationDialog("Descartar cambios de la escena",isPresented:$showDiscard) { Button("Descartar",role:.destructive) { dismiss() } }
+        .confirmationDialog(L10n.text("Descartar cambios de la escena"),isPresented:$showDiscard) { Button(L10n.text("Descartar"),role:.destructive) { dismiss() } }
     }
     @ViewBuilder private func primitiveInspector(_ p:Binding<ScenePrimitive>)->some View {
-        TextField("Nombre",text:p.name).font(.headline)
-        HStack { Toggle("Visible",isOn:p.visible);Toggle("Bloqueada",isOn:p.locked) }
-        Text("Propiedad de la figura seleccionada").font(.headline)
+        TextField(L10n.text("Nombre"),text:p.name).font(.headline)
+        HStack { Toggle(L10n.text("Visible"),isOn:p.visible);Toggle(L10n.text("Bloqueada"),isOn:p.locked) }
+        Text(L10n.text("Propiedad de la figura seleccionada")).font(.headline)
         if p.wrappedValue.type == "polyline" && !p.wrappedValue.geometry.closed {
-            Button("Cerrar trazo y añadir fuente en su interior") { state.closeStroke(p.wrappedValue.id,asSource:true);overlay="source" }.buttonStyle(.borderedProminent)
-            Button("Cerrar trazo para usar su interior") { state.closeStroke(p.wrappedValue.id) }
-            Button("Añadir fuente sobre la línea") { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }
+            Button(L10n.text("Cerrar trazo y añadir fuente en su interior")) { state.closeStroke(p.wrappedValue.id,asSource:true);overlay="source" }.buttonStyle(.borderedProminent)
+            Button(L10n.text("Cerrar trazo para usar su interior")) { state.closeStroke(p.wrappedValue.id) }
+            Button(L10n.text("Añadir fuente sobre la línea")) { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }
         } else if p.wrappedValue.type == "segment" {
-            Button("Añadir fuente sobre la línea") { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }
-            Text("Para asignar un dominio a un lado del corte, usá Elegir región.").font(.caption)
+            Button(L10n.text("Añadir fuente sobre la línea")) { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }
+            Text(L10n.text("Para asignar un dominio a un lado del corte, usá Elegir región.")).font(.caption)
         } else if p.wrappedValue.type != "legacyMask" {
-            Button("Añadir fuente en esta región") { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }.buttonStyle(.borderedProminent)
+            Button(L10n.text("Añadir fuente en esta región")) { state.setSourceRole(p.wrappedValue.id,enabled:true);overlay="source" }.buttonStyle(.borderedProminent)
         }
         if p.wrappedValue.type != "segment" && !(p.wrappedValue.type == "polyline" && !p.wrappedValue.geometry.closed) {
-            Button("Resolver solo esta región") { state.regionRole("only") }
-            Button("Excluir del dominio") { state.regionRole("inactive") }
-            Button("Incluir en el dominio") { state.regionRole("active") }
-            Button("Asignar material") { state.regionRole("material");overlay="material" }
+            Button(L10n.text("Resolver solo esta región")) { state.regionRole("only") }
+            Button(L10n.text("Excluir del dominio")) { state.regionRole("inactive") }
+            Button(L10n.text("Incluir en el dominio")) { state.regionRole("active") }
+            Button(L10n.text("Asignar material")) { state.regionRole("material");overlay="material" }
         }
         if let src=p.wrappedValue.source {
-            LabeledContent("Q (\(src.unit))") {
-                TextField("Intensidad",text:Binding(get:{state.sourceTexts[p.wrappedValue.id] ?? String(p.wrappedValue.source?.Q ?? 0)},set:{state.setSourceIntensity($0,for:p.wrappedValue.id)}))
+            LabeledContent(L10n.text("Q (\(src.unit))")) {
+                TextField(L10n.text("Intensidad"),text:Binding(get:{state.sourceTexts[p.wrappedValue.id] ?? String(p.wrappedValue.source?.Q ?? 0)},set:{state.setSourceIntensity($0,for:p.wrappedValue.id)}))
                     .multilineTextAlignment(.trailing).frame(width:120)
             }
             if let text=state.sourceTexts[p.wrappedValue.id],SceneEditorState.sourceValue(text) == nil {
-                Text("Ingresá un número; también podés usar 1e7 o coma decimal.").font(.caption).foregroundStyle(.red)
+                Text(L10n.text("Ingresá un número; también podés usar 1e7 o coma decimal.")).font(.caption).foregroundStyle(.red)
             }
             if let contribution=state.fields?.sourceContributions[p.wrappedValue.id] {
-                Text("Fuente en la malla: \(contribution.nodes) nodos · \(contribution.power,format:.number.precision(.significantDigits(5))) W").font(.caption.bold())
+                Text(L10n.text("Fuente en la malla: \(contribution.nodes) nodos · \((contribution.power).formatted(.number.precision(.significantDigits(5)))) W")).font(.caption.bold())
                     .foregroundStyle(contribution.nodes > 0 ? Color.primary : Color.orange)
             }
             let mask=state.fields?.primitiveMasks[p.wrappedValue.id] ?? []
             let active=state.fields?.active ?? []
             if mask.indices.contains(where:{ mask[$0] && !active[$0] }) {
-                Text("Parte de esta región está excluida. La fuente solo actúa sobre los nodos activos.").font(.caption).foregroundStyle(.orange)
-                Button("Incluir esta región en la malla y conservar su fuente") { state.includeSourceRegion(p.wrappedValue.id);overlay="source" }
+                Text(L10n.text("Parte de esta región está excluida. La fuente solo actúa sobre los nodos activos.")).font(.caption).foregroundStyle(.orange)
+                Button(L10n.text("Incluir esta región en la malla y conservar su fuente")) { state.includeSourceRegion(p.wrappedValue.id);overlay="source" }
             }
             if let fields=state.fields {
                 let rate=fields.source.indices.filter { fields.active[$0] && (fields.primitiveMasks[p.wrappedValue.id]?[$0] ?? false) }.map { abs(src.Q)/fields.capacity[$0] }.max() ?? 0
                 if src.type == "area" {
-                    Text("Aporte local Q/(ρ·cp): hasta \(rate,format:.number.precision(.significantDigits(4))) °C/s, antes de conducción y pérdidas.").font(.caption)
+                    Text(L10n.text("Aporte local Q/(ρ·cp): hasta \((rate).formatted(.number.precision(.significantDigits(4)))) °C/s, antes de conducción y pérdidas.")).font(.caption)
                 }
             }
-            Text("Aplicar actualiza el problema y lo deja en t = 0. Pulsá Iniciar para calcular el calentamiento.").font(.caption)
-            Text(src.type == "area" ? "Fuente aplicada a toda la superficie interior que pertenece al dominio activo." : "Fuente aplicada a lo largo del trazo dentro del dominio activo.").font(.caption)
+            Text(L10n.text("Aplicar actualiza el problema y lo deja en t = 0. Pulsá Iniciar para calcular el calentamiento.")).font(.caption)
+            Text(L10n.text(src.type == "area" ? "Fuente aplicada a toda la superficie interior que pertenece al dominio activo." : "Fuente aplicada a lo largo del trazo dentro del dominio activo.")).font(.caption)
         }
-        Text(p.wrappedValue.type == "region" ? "Región" : "Geometría (m)").font(.headline)
-        if p.wrappedValue.type == "legacyMask" { Text("Máscara rasterizada v1; se puede eliminar o combinar con nuevas primitivas.").font(.caption) }
+        Text(L10n.text(p.wrappedValue.type == "region" ? "Región" : "Geometría (m)")).font(.headline)
+        if p.wrappedValue.type == "legacyMask" { Text(L10n.text("Máscara rasterizada v1; se puede eliminar o combinar con nuevas primitivas.")).font(.caption) }
         else if p.wrappedValue.type == "region" {
-            Text("Región delimitada por trazos y figuras. Se recalcula al mover sus límites.").font(.caption)
+            Text(L10n.text("Región delimitada por trazos y figuras. Se recalcula al mover sus límites.")).font(.caption)
             regionBorderButtons(p.wrappedValue)
         }
         else if ["segment","polyline"].contains(p.wrappedValue.type) {
-            DisclosureGroup("Editar vértices (\(p.wrappedValue.geometry.points.count))") {
+            DisclosureGroup(L10n.text("Editar vértices (\(p.wrappedValue.geometry.points.count))")) {
                 ForEach(p.wrappedValue.geometry.points.indices,id:\.self) { i in
                     number("V\(i) X",p.geometry.points[i].x);number("V\(i) Y",p.geometry.points[i].y)
                 }
@@ -379,69 +380,69 @@ struct GeometricSceneEditor:View {
             number("Rotación (°)",p.geometry.rotation)
         }
         if p.wrappedValue.type == "segment" || (p.wrappedValue.type == "polyline" && !p.wrappedValue.geometry.closed) {
-            Text(p.wrappedValue.isRegionDelimiter ? "Este trazo delimita regiones. Sus contornos se aplican cuando un lado es inactivo." : (p.wrappedValue.source != nil ? "Este trazo aporta su fuente sobre el dominio activo; no lo divide en regiones." : "Este trazo no delimita regiones. Activá Delimita regiones para usarlo como corte.")).font(.caption)
+            Text(L10n.text(p.wrappedValue.isRegionDelimiter ? "Este trazo delimita regiones. Sus contornos se aplican cuando un lado es inactivo." : (p.wrappedValue.source != nil ? "Este trazo aporta su fuente sobre el dominio activo; no lo divide en regiones." : "Este trazo no delimita regiones. Activá Delimita regiones para usarlo como corte."))).font(.caption)
         }
         if p.wrappedValue.canDelimitRegions {
-            Toggle("Delimita regiones",isOn:Binding(get:{p.wrappedValue.isRegionDelimiter},set:{p.wrappedValue.dividesRegions=$0}))
+            Toggle(L10n.text("Delimita regiones"),isOn:Binding(get:{p.wrappedValue.isRegionDelimiter},set:{p.wrappedValue.dividesRegions=$0}))
         }
-        Toggle("Dominio",isOn:Binding(get:{p.wrappedValue.domain != nil},set:{p.wrappedValue.domain=$0 ? "union" : nil}))
+        Toggle(L10n.text("Dominio"),isOn:Binding(get:{p.wrappedValue.domain != nil},set:{p.wrappedValue.domain=$0 ? "union" : nil}))
         if p.wrappedValue.domain != nil {
-            Picker("Operación",selection:Binding(get:{p.wrappedValue.domain ?? "union"},set:{p.wrappedValue.domain=$0})) {
-                Text("Unir").tag("union");Text("Restar").tag("subtract");Text("Reemplazar").tag("replace")
+            Picker(L10n.text("Operación"),selection:Binding(get:{p.wrappedValue.domain ?? "union"},set:{p.wrappedValue.domain=$0})) {
+                Text(L10n.text("Unir")).tag("union");Text(L10n.text("Restar")).tag("subtract");Text(L10n.text("Reemplazar")).tag("replace")
             }
         }
-        Toggle("Material",isOn:Binding(get:{p.wrappedValue.material != nil},set:{state.setMaterialRole(p.wrappedValue.id,enabled:$0)}))
+        Toggle(L10n.text("Material"),isOn:Binding(get:{p.wrappedValue.material != nil},set:{state.setMaterialRole(p.wrappedValue.id,enabled:$0)}))
         if let m=p.wrappedValue.material {
             let b=Binding(get:{p.wrappedValue.material ?? m},set:{p.wrappedValue.material=$0})
             HStack {
-                Button("Cobre") { b.wrappedValue=SceneMaterial() }
-                Button("Aluminio") { b.wrappedValue=SceneMaterial(k:237,rho:2700,cp:900) }
-                Button("Agua") { b.wrappedValue=SceneMaterial(k:0.6,rho:1000,cp:4184) }
+                Button(L10n.text("Cobre")) { b.wrappedValue=SceneMaterial() }
+                Button(L10n.text("Aluminio")) { b.wrappedValue=SceneMaterial(k:237,rho:2700,cp:900) }
+                Button(L10n.text("Agua")) { b.wrappedValue=SceneMaterial(k:0.6,rho:1000,cp:4184) }
             }
             number("k (W/m K)",b.k);number("ρ (kg/m³)",b.rho);number("cp (J/kg K)",b.cp)
         }
-        Toggle("Fuente",isOn:Binding(get:{p.wrappedValue.source != nil},set:{ enabled in
+        Toggle(L10n.text("Fuente"),isOn:Binding(get:{p.wrappedValue.source != nil},set:{ enabled in
             state.setSourceRole(p.wrappedValue.id,enabled:enabled)
             if enabled { overlay="source" }
         }))
         if p.wrappedValue.type != "region" && (p.wrappedValue.isRegionDelimiter || p.wrappedValue.domain != nil || p.wrappedValue.type == "legacyMask") {
-            Text("Condiciones por borde").font(.headline)
+            Text(L10n.text("Condiciones por borde")).font(.headline)
             ForEach(p.wrappedValue.segmentKeys,id:\.self) { key in
                 let face=SceneFace(node:0,side:key,owner:p.wrappedValue.id,segment:key,boundary:state.draft.defaultBoundary)
-                Button("\(p.wrappedValue.boundaryName(key)): \(boundaryKindName(state.resolvedBoundary(face).kind))") { state.face=face }
+                Button(L10n.text("\(p.wrappedValue.boundaryName(key)): \(boundaryKindName(state.resolvedBoundary(face).kind))")) { state.face=face }
             }
         }
-        HStack { Button("Duplicar") { state.command("duplicate") };Button("Eliminar") { state.command("delete") } }
+        HStack { Button(L10n.text("Duplicar")) { state.command("duplicate") };Button(L10n.text("Eliminar")) { state.command("delete") } }
     }
     @ViewBuilder private func regionBorderButtons(_ primitive: ScenePrimitive)->some View {
-        Text("Condiciones por borde").font(.headline)
-        Text("Elegí un lado de esta lista o hacé clic sobre su trazo. Cada borde conserva su propia condición.").font(.caption)
+        Text(L10n.text("Condiciones por borde")).font(.headline)
+        Text(L10n.text("Elegí un lado de esta lista o hacé clic sobre su trazo. Cada borde conserva su propia condición.")).font(.caption)
         ForEach(state.boundarySegments(of:primitive)) { border in
-            Button("\(border.name) · \(boundaryKindName(border.face.boundary.kind))") { state.face=border.face }
+            Button(L10n.text("\(border.name) · \(boundaryKindName(border.face.boundary.kind))")) { state.face=border.face }
         }
     }
     @ViewBuilder private func boundaryInspector(_ f:SceneFace)->some View {
-        Text(f.title(in:state.draft)).font(.headline)
-        Text("Esta condición se aplica al lado o tramo resaltado.").font(.caption)
-        Toggle("Heredar condición",isOn:Binding(get:{state.explicitBoundary(f) == nil},set:{ inherit in state.setBoundary(f,inherit ? nil : state.resolvedBoundary(f)) }))
+        Text(L10n.text(f.title(in:state.draft))).font(.headline)
+        Text(L10n.text("Esta condición se aplica al lado o tramo resaltado.")).font(.caption)
+        Toggle(L10n.text("Heredar condición"),isOn:Binding(get:{state.explicitBoundary(f) == nil},set:{ inherit in state.setBoundary(f,inherit ? nil : state.resolvedBoundary(f)) }))
         boundaryFields(Binding(get:{state.resolvedBoundary(f)},set:{state.setBoundary(f,$0)}))
         if f.owner != nil && state.fields?.faces.contains(where:{SceneBoundaryKey($0)==SceneBoundaryKey(f)}) != true {
-            Text("No hay caras expuestas de este trazo. La condición se aplicará al excluir una de las regiones adyacentes; dos materiales activos conservan una interfaz conductora.").font(.caption).foregroundStyle(.secondary)
+            Text(L10n.text("No hay caras expuestas de este trazo. La condición se aplicará al excluir una de las regiones adyacentes; dos materiales activos conservan una interfaz conductora.")).font(.caption).foregroundStyle(.secondary)
         }
-        Button("Volver a la región o figura") { state.face=nil }
+        Button(L10n.text("Volver a la región o figura")) { state.face=nil }
     }
     private func number(_ label:String,_ value:Binding<Double>)->some View {
-        LabeledContent(label) { TextField("",value:value,format:.number.precision(.significantDigits(7))).multilineTextAlignment(.trailing).frame(width:110) }
+        LabeledContent(L10n.text(label)) { TextField("",value:value,format:.number.precision(.significantDigits(7))).multilineTextAlignment(.trailing).frame(width:110) }
     }
     private func boundaryNumber(_ title:String,_ value:Binding<Double>)->some View {
-        LabeledContent(title) { NumericEntry(value:value).frame(width:110,height:22).accessibilityLabel(title) }
+        LabeledContent(L10n.text(title)) { NumericEntry(value:value).frame(width:110,height:22).accessibilityLabel(L10n.text(title)) }
     }
     @ViewBuilder private func boundaryFields(_ b:Binding<Boundary>)->some View {
-        Picker("Tipo",selection:b.kind) { ForEach(["Adiabático","Dirichlet","Neumann","Robin"],id:\.self) { Text(boundaryKindName($0)).tag($0) } }
+        Picker(L10n.text("Tipo"),selection:b.kind) { ForEach(["Adiabático","Dirichlet","Neumann","Robin"],id:\.self) { Text(L10n.text(boundaryKindName($0))).tag($0) } }
         if b.wrappedValue.kind != "Adiabático" { boundaryNumber(b.wrappedValue.kind == "Neumann" ? "Flujo saliente (W/m²)" : (b.wrappedValue.kind == "Robin" ? "T ambiente (°C)" : "Temperatura (°C)"),b.value) }
         if b.wrappedValue.kind == "Robin" {
             boundaryNumber("h (W/m² K)",b.h)
-            Text("Robin / Cauchy: q saliente = h (T − T ambiente)").font(.caption)
+            Text(L10n.text("Robin / Cauchy: q saliente = h (T − T ambiente)")).font(.caption)
         }
     }
 }

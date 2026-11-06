@@ -222,6 +222,7 @@ struct ThermalOperator {
         let g=scenario.grid, nx=g.nx, ny=g.ny
         var current=start, next=start
         for _ in 0..<steps {
+            if Task<Never,Never>.isCancelled {return current}
             for j in 0..<ny { for i in 0..<nx {
                 let p=j*nx+i, t=current[p]
                 var value=t+dt*(forcing[p]-diagonal[p]*t)
@@ -257,17 +258,23 @@ struct ThermalOperator {
                 }
             }
             guard hasReference else {
-                throw SolverError.setup("Una componente del dominio solo tiene contornos adiabáticos o Neumann. Jacobi directo requiere Dirichlet o Robin con h > 0 en cada componente; sin referencia el estacionario puede no existir o no ser único.")
+                throw SolverError.setup("Una componente del dominio solo tiene contornos adiabáticos o Neumann. El estacionario directo requiere Dirichlet o Robin con h > 0 en cada componente; sin referencia el estacionario puede no existir o no ser único.")
             }
         }
     }
 
-    /// Weighted Jacobi for A T = f, with omega=2/3. No physical time step.
+    /// Weighted Jacobi or red–black Gauss–Seidel for A T = f. No physical time step.
     func stationaryCPU(_ start:[Float], iterations:Int) -> [Float] {
         let g=scenario.grid, nx=g.nx
         var current=start, next=start
+        let gaussSeidel=scenario.steady_method == .gaussSeidel
+        let colors=gaussSeidel ? [0,1] : [-1]
+        let omega:Float=gaussSeidel ? 1 : Float(2)/3
         for _ in 0..<iterations {
+          if Task<Never,Never>.isCancelled {return current}
+          for color in colors {
             for p in current.indices {
+                if color >= 0 && ((p%nx+p/nx)&1) != color { next[p]=current[p]; continue }
                 guard active[p] && !fixed[p] && diagonal[p] > 0 else {
                     next[p]=fixed[p] ? fixedValue[p] : current[p]; continue
                 }
@@ -278,9 +285,10 @@ struct ThermalOperator {
                 if i>0 { residual += west[p]*(current[p-1]-t) }
                 if j+1<g.ny { residual += north[p]*(current[p+nx]-t) }
                 if j>0 { residual += south[p]*(current[p-nx]-t) }
-                next[p]=t+(Float(2)/3)*residual/diagonal[p]
+                next[p]=t+omega*residual/diagonal[p]
             }
             swap(&current,&next)
+          }
         }
         return current
     }
@@ -343,10 +351,12 @@ kernel void steadyJacobi(device const float* input [[buffer(0)]], device float* 
                      constant float& omega [[buffer(8)]], constant uint& nx [[buffer(9)]],
                      constant uint& ny [[buffer(10)]], constant uint& count [[buffer(11)]],
                      device const float* remainder [[buffer(12)]],
+                     constant int& color [[buffer(13)]],
                      uint id [[thread_position_in_grid]]) {
     if (id >= count) return;
     if (diagonal[id] <= 0) { output[id]=input[id]; return; }
     uint x=id%nx, y=id/nx;
+    if (color >= 0 && int((x+y)&1) != color) { output[id]=input[id]; return; }
     float t=input[id];
     float residual=forcing[id]-remainder[id]*t;
     if (x+1<nx) residual += east[id]*(input[id+1]-t);
@@ -414,7 +424,7 @@ kernel void steadyJacobi(device const float* input [[buffer(0)]], device float* 
     }
 
     func stationary(_ start:[Float], iterations:Int) throws -> [Float] {
-        try dispatch(start,steps:iterations,parameter:Float(2)/3,stationary:true)
+        try dispatch(start,steps:iterations,parameter:op.scenario.steady_method == .gaussSeidel ? 1 : Float(2)/3,stationary:true)
     }
 
     func crankNicolson(_ start:[Float], steps:Int, dt:Float, settings:CNSettings, startup:Bool = false) throws -> TemporalResult {
@@ -434,12 +444,18 @@ kernel void steadyJacobi(device const float* input [[buffer(0)]], device float* 
         }
         start.withUnsafeBytes { raw in a.contents().copyMemory(from:raw.baseAddress!,byteCount:bytes) }
         var input=a, output=b
+        let colors=stationary && op.scenario.steady_method == .gaussSeidel ? [Int32(0),1] : [Int32(-1)]
         for _ in 0..<steps {
+          for color in colors {
             guard let encoder=command.makeComputeCommandEncoder() else { throw SolverError.setup("No se pudo crear el encoder Metal.") }
             encoder.setComputePipelineState(pipeline)
             encoder.setBuffer(input,offset:0,index:0); encoder.setBuffer(output,offset:0,index:1)
             for (index,buffer) in coefficientBuffers.enumerated() { encoder.setBuffer(buffer,offset:0,index:index+2) }
-            if stationary { encoder.setBuffer(remainderBuffer,offset:0,index:12) }
+            if stationary {
+                encoder.setBuffer(remainderBuffer,offset:0,index:12)
+                var colorValue=color
+                encoder.setBytes(&colorValue,length:MemoryLayout<Int32>.stride,index:13)
+            }
             var stepSize=parameter, nxValue=nx, nyValue=ny, countValue=count
             encoder.setBytes(&stepSize,length:MemoryLayout<Float>.stride,index:8)
             encoder.setBytes(&nxValue,length:MemoryLayout<UInt32>.stride,index:9)
@@ -450,6 +466,7 @@ kernel void steadyJacobi(device const float* input [[buffer(0)]], device float* 
             encoder.dispatchThreads(threads,threadsPerThreadgroup:group)
             encoder.endEncoding()
             swap(&input,&output)
+          }
         }
         command.commit(); command.waitUntilCompleted()
         guard command.status == .completed else {

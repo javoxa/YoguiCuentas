@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-06",
+  "language": "British English",
+  "source_spanish": "technical_report/yoguicuentas_paper_20261030.tex",
+  "translation": "technical_report/yoguicuentas_paper_en.tex",
+  "pdf": "output/pdf/yoguicuentas_paper_en.pdf",
+  "pages": 16,
+  "figures": 4,
+  "tables": 7,
+  "equations_unchanged": true,
+  "plot_coordinates_and_numeric_columns_unchanged": true,
+  "visual_review": "16 pages rendered and inspected",
+  "compiler": "system pdfLaTeX; built-in compiler unavailable (missing sandbox executable)",
+  "sha256": {
+    "technical_report/yoguicuentas_paper_20261030.tex": "fbbaa8f0a9ce604ab48c6591be3e4cbb889422d480c027fbe6e7de266df8e809",
+    "technical_report/yoguicuentas_paper_en.tex": "8221678c684822e2c0dc8718523113561f376fffc7cc40cac8973d454742793c",
+    "output/pdf/yoguicuentas_paper_en.pdf": "28d114fa6910583dc0de833cc872dac82d2070917819330e9332d8a95d8c7759"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "device" : "Apple M1",
+  "gs_sweep" : "red + black",
+  "measured_steps" : 64,
+  "power_and_load" : "See equipo.txt; load is not isolated.",
+  "precision" : "float32",
+  "repetitions" : 3,
+  "timing" : "Host monotonic wall time; includes dispatch\/upload\/readback and all CN inner iterations; excludes construction, shader compilation, warmup, CSV, residual checks outside CN and UI.",
+  "warmup_steps" : 4
+}

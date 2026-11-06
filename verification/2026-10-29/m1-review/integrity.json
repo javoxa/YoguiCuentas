@@ -1,0 +1,42 @@
+{
+  "manifests": {
+    "fuentes_finales.sha256": {
+      "entries": 71,
+      "matched": 71,
+      "missing": [],
+      "mismatched": [],
+      "remapped": 0
+    },
+    "final-02/fuentes.sha256": {
+      "entries": 32,
+      "matched": 32,
+      "missing": [],
+      "mismatched": [],
+      "remapped": 0
+    },
+    "benchmark-final/fuentes.sha256": {
+      "entries": 18,
+      "matched": 18,
+      "missing": [],
+      "mismatched": [],
+      "remapped": 0
+    },
+    "entrega.sha256": {
+      "entries": 1374,
+      "matched": 1374,
+      "missing": [],
+      "mismatched": [],
+      "remapped": 0
+    }
+  },
+  "app_binary_matches_recorded_sha256": true,
+  "received_binary_sha256": "22ae2a2609a65878a755ebc0b64570f4e3b8c9c6581096444e6af9b2e2d9237d",
+  "changed_or_new_swift_sources": [
+    "Sources/YoguiCuentasMetal/ContentView.swift",
+    "Sources/YoguiCuentasMetal/Convergence.swift",
+    "Sources/YoguiCuentasMetal/ResultExport.swift",
+    "Sources/YoguiCuentasMetal/Scenario.swift",
+    "Sources/YoguiCuentasMetal/SimulationModel.swift",
+    "Sources/YoguiCuentasMetal/ThermalSolver.swift"
+  ]
+}

@@ -1,0 +1,4 @@
+step,interval,criterion,delta_value_K,delta_scale_K,delta_limit_K,delta_available,residual_K_s,residual_limit_K_s,weighted_absolute_residual_W_m,weighted_absolute_limit_W_m,criterion_confirmations,physical_confirmations,sampling,requested_sample_count,seed,stop_reason
+8,8,delta_l1,1.3659301442676224,9.524397319182754e-05,0.001,1,0.00013457564280561218,0.001,0.0005204298760208022,0.00694444477558136,0,1,random,3,123,running
+16,8,delta_l1,9.42996713320099e-05,9.443018598176423e-07,0.001,1,1.354236392721764e-06,0.001,5.16189208636278e-06,0.00694444477558136,1,2,random,3,123,running
+24,8,delta_l1,0.0,9.443018598176423e-07,0.001,1,1.354236392721764e-06,0.001,5.16189208636278e-06,0.00694444477558136,2,3,random,3,123,converged

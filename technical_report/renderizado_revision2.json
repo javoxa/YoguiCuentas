@@ -1,0 +1,21 @@
+{
+  "revision": 2,
+  "date": "2026-11-02",
+  "scope": "Read-only inspection of rendering implementation; no new FPS measurements",
+  "source_sha256": {
+    "yoguicuentas/render/mesh.py": "1a4b798139c3b652a3e87b100e0aa73173a8503fa45cb8a406f403a3f5640c32",
+    "yoguicuentas/render/renderer.py": "dec14f3e39a0ddf2c70cd9ab94eb8422f1d5115bcebef8a2fb367ea752cfc690",
+    "yoguicuentas/render/cpu_transport.py": "d21182350ea1886a59cf1abe9a084872ec4ffcc8bbf5ff17916e9f1c9f29643e",
+    "yoguicuentas/render/interop.py": "50a8eeb45bab6af43c91805577df79e7a4c9ff1777059083faeee599f8ff600a"
+  },
+  "illustrative_counts": {
+    "nx": 33,
+    "ny": 33,
+    "temperatures": 1089,
+    "triangles_full_rectangle": 2048,
+    "example_pixels": 921600,
+    "one_float32_field_bytes": 4356,
+    "comparison_257_field_bytes": 264196
+  },
+  "hardware_antecedent": "User-reported CPU installation/use on i3-3240/i5-4440 with 4/8 GB RAM; not an instrumented interaction benchmark"
+}

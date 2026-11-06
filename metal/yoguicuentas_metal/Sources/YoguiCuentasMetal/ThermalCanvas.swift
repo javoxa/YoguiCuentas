@@ -3,6 +3,7 @@ import CoreGraphics
 import AppKit
 
 struct ThermalCanvas: View {
+    @ObservedObject private var uiLanguage = AppLanguage.shared
     let scenario:Scenario
     let temperature:[Float]
     let mode:VisualizationMode
@@ -69,7 +70,7 @@ struct ThermalCanvas: View {
         }
         .overlay(alignment:.bottomLeading) {
             if mode == .surface3D {
-                Text("Arrastrar para girar · pellizcar para acercar")
+                Text(L10n.text("Arrastrar para girar · pellizcar para acercar"))
                     .font(.caption).padding(8).background(.ultraThinMaterial,in:Capsule()).padding(12)
             }
         }
@@ -142,7 +143,7 @@ struct ThermalCanvas: View {
                 let rect=CGRect(x:center.x-28,y:center.y-9,width:56,height:18)
                 if !labels.contains(where:{$0.insetBy(dx:-5,dy:-4).intersects(rect)}) {
                     context.fill(Path(roundedRect:rect,cornerRadius:4),with:.color(.black.opacity(0.8)))
-                    context.draw(Text(String(format:"%.3g °C",isotherm.temperature))
+                    context.draw(Text(L10n.text(String(format:"%.3g °C",isotherm.temperature)))
                         .font(.system(size:10,weight:.medium)).foregroundColor(.white),at:center)
                     labels.append(rect)
                 }
@@ -228,6 +229,7 @@ struct ThermalCanvas: View {
 }
 
 struct ColorScaleLegend: View {
+    @ObservedObject private var uiLanguage = AppLanguage.shared
     let mode:VisualizationMode
     let minimum:Double
     let maximum:Double
@@ -241,7 +243,7 @@ struct ColorScaleLegend: View {
     var upper:Double { mode == .gradient || mode == .heatFlux ? derived : maximum }
     var body:some View {
         VStack(alignment:.leading,spacing:8) {
-            Text(title).font(.caption.bold())
+            Text(L10n.text(title)).font(.caption.bold())
             HStack(spacing:8) {
                 LinearGradient(colors:[Color(red:0.08,green:0.16,blue:0.55),Color(red:0.05,green:0.85,blue:0.65),Color(red:1,green:0.25,blue:0.04)],startPoint:.bottom,endPoint:.top)
                     .frame(width:24,height:112).clipShape(RoundedRectangle(cornerRadius:3))
@@ -270,12 +272,12 @@ struct ColorScaleLegend: View {
                             }
                         }
                         .onEnded { _ in dragStart=nil })
-                    .help("Arrastrá el extremo superior o inferior para cambiar el rango; arrastrá el centro para desplazarlo")
+                    .help(L10n.text("Arrastrá el extremo superior o inferior para cambiar el rango; arrastrá el centro para desplazarlo"))
                 VStack(alignment:.leading) { Text(upper,format:.number.precision(.significantDigits(4)));Spacer();Text((lower+upper)/2,format:.number.precision(.significantDigits(4)));Spacer();Text(lower,format:.number.precision(.significantDigits(4))) }
                     .font(.caption2.monospacedDigit())
             }
             .frame(height:112)
-            Text("Arrastra la escala para ajustarla")
+            Text(L10n.text("Arrastra la escala para ajustarla"))
                 .font(.caption2).foregroundStyle(.secondary)
         }
         .padding(10).background(.regularMaterial,in:RoundedRectangle(cornerRadius:10))

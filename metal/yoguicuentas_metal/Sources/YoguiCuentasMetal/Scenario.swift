@@ -90,6 +90,7 @@ struct Scenario: Codable, Hashable, Identifiable {
     var dt: Double?
     var temporal_method: TemporalMethod = .explicit
     var cn = CNSettings()
+    var convergence=ConvergenceOptions()
     var steady_method: SteadyMethod = .explicit
     var steady = false
     var steady_rtol = 1e-5
@@ -152,6 +153,7 @@ struct Scenario: Codable, Hashable, Identifiable {
         case version, grid, conductivity, capacity, boundary, initial, amplitude, source, safety
         case temporal_method, cn
         case steady_method
+        case steady_criterion,steady_delta_atol,steady_delta_rtol,steady_sampling,steady_sample_count,steady_sample_seed
         case final_time, dt, steady, steady_rtol, steady_atol, steady_check_every
         case steady_confirmations, steady_max_steps, domain, sources, regions, interface_mean
         case density, specific_heat, initial_temperature, initial_sigma, left, right, bottom, top
@@ -181,6 +183,12 @@ struct Scenario: Codable, Hashable, Identifiable {
         temporal_method = try c.decodeIfPresent(TemporalMethod.self, forKey: .temporal_method) ?? .explicit
         cn = try c.decodeIfPresent(CNSettings.self, forKey: .cn) ?? CNSettings()
         steady_method = try c.decodeIfPresent(SteadyMethod.self, forKey: .steady_method) ?? .explicit
+        convergence.criterion=try c.decodeIfPresent(SteadyCriterion.self,forKey:.steady_criterion) ?? .residual
+        convergence.delta_atol=try c.decodeIfPresent(Double.self,forKey:.steady_delta_atol) ?? 1e-5
+        convergence.delta_rtol=try c.decodeIfPresent(Double.self,forKey:.steady_delta_rtol) ?? 1e-5
+        convergence.sampling=try c.decodeIfPresent(String.self,forKey:.steady_sampling) ?? "all"
+        convergence.sample_count=try c.decodeIfPresent(Int.self,forKey:.steady_sample_count) ?? 32
+        convergence.sample_seed=try c.decodeIfPresent(Int.self,forKey:.steady_sample_seed) ?? 1
         steady = try c.decodeIfPresent(Bool.self, forKey: .steady) ?? false
         steady_rtol = try c.decodeIfPresent(Double.self, forKey: .steady_rtol) ?? 1e-5
         steady_atol = try c.decodeIfPresent(Double.self, forKey: .steady_atol) ?? 1e-5
@@ -217,6 +225,7 @@ struct Scenario: Codable, Hashable, Identifiable {
 
     func validate() throws {
         try cn.validate()
+        try convergence.validate()
         guard timestep.isFinite, timestep > 0, Float(timestep).isFinite, Float(timestep) > 0,
               final_time.map({ ($0/timestep).isFinite && $0/timestep < Double(Int.max-1024) }) ?? true else {
             throw ScenarioError.invalid("Paso temporal o cantidad de pasos fuera del rango representable.")
@@ -309,7 +318,7 @@ struct Scenario: Codable, Hashable, Identifiable {
             }
         }
         if steady {
-            guard steady_rtol.isFinite, steady_atol.isFinite, steady_rtol > 0, steady_atol > 0, steady_check_every > 0,
+            guard steady_rtol.isFinite, steady_atol.isFinite, steady_rtol >= 0, steady_atol >= 0, (steady_rtol > 0 || steady_atol > 0), steady_check_every > 0,
                   steady_confirmations > 0, steady_max_steps > 0 else {
                 throw ScenarioError.invalid("Los parámetros de convergencia estacionaria deben ser positivos.")
             }
@@ -366,11 +375,13 @@ enum ComputeBackend: String, CaseIterable, Identifiable {
 enum SteadyMethod: String, Codable, CaseIterable, Identifiable {
     case explicit
     case jacobi
+    case gaussSeidel
     var id: String { rawValue }
     var label: String {
         switch self {
         case .explicit: return "Evolución temporal"
         case .jacobi: return "Estacionario directo · Jacobi"
+        case .gaussSeidel: return "Gauss–Seidel rojo–negro"
         }
     }
 }

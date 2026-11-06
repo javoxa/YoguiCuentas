@@ -81,3 +81,32 @@ Los contornos cerrados se guardan como `polyline` con `geometry.closed=true`, si
 ```
 
 `atol` está en K para el residuo del sistema de incrementos. `stepFactor` afecta únicamente dt automático CN; dt manual sigue teniendo prioridad. Cada sistema tiene su propio máximo de iteraciones (dos sistemas en el primer paso físico si se activa `rannacher`). La lectura v1 admite `temporal_method` y `cn`. La ausencia de los nuevos campos mantiene Euler explícito y las opciones CN predeterminadas; el guardado sigue siendo v2.
+
+## Desarrollo de paridad del 29/10/2026
+
+`canvas.time.method` también admite `gaussSeidel`: un barrido completo rojo +
+negro con ω=1; Jacobi conserva ω=2/3. Ambos cuentan iteraciones sin tiempo físico.
+`canvas.time.convergence` guarda `criterion`, `delta_atol`, `delta_rtol`,
+`sampling` (`all`/`random`), `sample_count` y `sample_seed`. Los nueve identificadores
+son `residual`, `delta_l1`, `delta_l2`, `delta_rms`, `delta_linf`,
+`delta_matrix_1`, `delta_matrix_inf`, `delta_trace`, `delta_mean`.
+V1 admite sus equivalentes `steady_criterion`, `steady_delta_atol`,
+`steady_delta_rtol`, `steady_sampling`, `steady_sample_count`, `steady_sample_seed`.
+El guardado sigue siendo v2. Las tolerancias físicas son no negativas y al menos
+una debe ser positiva; la misma regla se aplica a las dos tolerancias ΔT.
+
+ΔT compara controles confirmados, con tolerancias en K. Traza y media pueden
+cancelarse. El residuo físico siempre utiliza todos los nodos libres, en K/s,
+y su suma absoluta ponderada en W/m. Tiene confirmaciones independientes.
+El muestreo no altera la diagonal de la traza ni el conjunto físico completo.
+Una diagonal sin nodos libres no confirma convergencia.
+
+La exportación `campo.csv` crea también `campo.metadata.json`,
+`campo.scenario.json` y `campo.convergence.csv`, del mismo campo confirmado.
+Los metadatos distinguen método, procesador efectivo, pasos o iteraciones,
+tiempo físico (ausente en modos directos), tolerancias, confirmaciones,
+iteraciones internas CN acumuladas y motivo real de parada. El historial conserva
+512 controles; `historyDiscarded` indica cuántos anteriores se descartaron.
+`physicalRate`/`physicalBalance` corresponden al campo exportado; las confirmaciones
+corresponden al último control de parada. Cambiar procesador o reiniciar limpia
+campo, historial y contadores y deja la simulación detenida.

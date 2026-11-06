@@ -1,0 +1,294 @@
+Building for debugging...
+[0/6] Write sources
+[1/6] Write swift-version--58304C5D6DBC2206.txt
+[3/6] Emitting module SceneTests
+[4/6] Compiling SceneTests NumericalVerificationTests.swift
+[4/6] Write Objects.LinkFileList
+[5/6] Linking YoguiCuentasMetalPackageTests
+Build complete! (2.04s)
+Test Suite 'All tests' started at 2026-10-29 19:25:39.580.
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' started at 2026-10-29 19:25:39.588.
+Test Suite 'BoundarySegmentTests' started at 2026-10-29 19:25:39.588.
+Test Case '-[SceneTests.BoundarySegmentTests testCanvasOwnsCoincidentRectangleSide]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testCanvasOwnsCoincidentRectangleSide]' passed (0.018 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testChooseOnlyRegionBuildsTrapezoidWithoutExcludingComplementManually]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testChooseOnlyRegionBuildsTrapezoidWithoutExcludingComplementManually]' passed (0.163 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testClickPicksEachTrapezoidEdgeWithoutSelectingWholeRegion]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testClickPicksEachTrapezoidEdgeWithoutSelectingWholeRegion]' passed (0.042 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testClosedPolylineExposesEachTraceAndInheritsPerTraceDefault]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testClosedPolylineExposesEachTraceAndInheritsPerTraceDefault]' passed (0.156 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testIndependentTrapezoidConditionsReachSolverAndPersist]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testIndependentTrapezoidConditionsReachSolverAndPersist]' passed (0.740 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testRegionClickWithLegacyMaskAndExistingRegionsDoesNotQueryEmptyPathBounds]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testRegionClickWithLegacyMaskAndExistingRegionsDoesNotQueryEmptyPathBounds]' passed (0.017 seconds).
+Test Case '-[SceneTests.BoundarySegmentTests testStraightCutDividesCanvasIntoRightTrapezoidAndComplement]' started.
+Test Case '-[SceneTests.BoundarySegmentTests testStraightCutDividesCanvasIntoRightTrapezoidAndComplement]' passed (0.048 seconds).
+Test Suite 'BoundarySegmentTests' passed at 2026-10-29 19:25:40.774.
+	 Executed 7 tests, with 0 failures (0 unexpected) in 1.185 (1.186) seconds
+Test Suite 'ConvergenceCriteriaTests' started at 2026-10-29 19:25:40.774.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testOptionsRoundTripAndLegacyDefaults]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testOptionsRoundTripAndLegacyDefaults]' passed (0.023 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testSeedMatchesPythonFixtureAndSamplingCanMissChanges]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testSeedMatchesPythonFixtureAndSamplingCanMissChanges]' passed (0.001 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testTinyDtStopsByCriterionWithoutClaimingStationary]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testTinyDtStopsByCriterionWithoutClaimingStationary]' passed (0.588 seconds).
+Test Case '-[SceneTests.ConvergenceCriteriaTests testVectorAndMatrixNormsAndTraceCancellation]' started.
+Test Case '-[SceneTests.ConvergenceCriteriaTests testVectorAndMatrixNormsAndTraceCancellation]' passed (0.001 seconds).
+Test Suite 'ConvergenceCriteriaTests' passed at 2026-10-29 19:25:41.387.
+	 Executed 4 tests, with 0 failures (0 unexpected) in 0.613 (0.613) seconds
+Test Suite 'CrankNicolsonTests' started at 2026-10-29 19:25:41.387.
+Test Case '-[SceneTests.CrankNicolsonTests testAnimationShortenedLastStepAndRejectsFailedSolveOnBothBackends]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testAnimationShortenedLastStepAndRejectsFailedSolveOnBothBackends]' passed (0.312 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testBundledExamplesRunWithDefaultTolerancesOnBothBackends]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testBundledExamplesRunWithDefaultTolerancesOnBothBackends]' passed (0.567 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testCancelledSolveDoesNotContinueIterating]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testCancelledSolveDoesNotContinueIterating]' passed (0.001 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testCPUAndMetalMatchIndependentDenseSystemWithMaskMaterialsAndMixedBoundaries]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testCPUAndMetalMatchIndependentDenseSystemWithMaskMaterialsAndMixedBoundaries]' passed (0.013 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testInsulatedSourceAndConservationWithoutTemperatureReference]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testInsulatedSourceAndConservationWithoutTemperatureReference]' passed (0.069 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testLargeStepIsStableButHighFrequencyOscillatesAndStartupDampsIt]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testLargeStepIsStableButHighFrequencyOscillatesAndStartupDampsIt]' passed (0.003 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testMetalStartupOnlyOnceAndInsulatedUniformHeating]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testMetalStartupOnlyOnceAndInsulatedUniformHeating]' passed (0.075 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testSecondOrderTemporalConvergenceToDiscreteEigenmode]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testSecondOrderTemporalConvergenceToDiscreteEigenmode]' passed (0.100 seconds).
+Test Case '-[SceneTests.CrankNicolsonTests testSettingsRoundTripAndExplicitCFLStillEnforced]' started.
+Test Case '-[SceneTests.CrankNicolsonTests testSettingsRoundTripAndExplicitCFLStillEnforced]' passed (0.001 seconds).
+Test Suite 'CrankNicolsonTests' passed at 2026-10-29 19:25:42.528.
+	 Executed 9 tests, with 0 failures (0 unexpected) in 1.141 (1.141) seconds
+Test Suite 'FreehandWorkflowTests' started at 2026-10-29 19:25:42.528.
+Test Case '-[SceneTests.FreehandWorkflowTests testClosedGestureThenAssignAreaSourceAndApplyToSolver]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testClosedGestureThenAssignAreaSourceAndApplyToSolver]' passed (1.958 seconds).
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanExplicitlyBecomeInteriorSource]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanExplicitlyBecomeInteriorSource]' passed (0.530 seconds).
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanRemainLineSource]' started.
+Test Case '-[SceneTests.FreehandWorkflowTests testOpenGestureCanRemainLineSource]' passed (0.063 seconds).
+Test Suite 'FreehandWorkflowTests' passed at 2026-10-29 19:25:45.079.
+	 Executed 3 tests, with 0 failures (0 unexpected) in 2.550 (2.551) seconds
+Test Suite 'NumericalVerificationTests' started at 2026-10-29 19:25:45.079.
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyCPU]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyCPU]' passed (0.275 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyMetal]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testEnergyMetal]' passed (0.082 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialCPU]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialCPU]' passed (0.881 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialMetal]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testSpatialMetal]' passed (0.098 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryCPU]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryCPU]' passed (2.025 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryMetal]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testStationaryMetal]' passed (0.396 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalCPU]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalCPU]' passed (0.076 seconds).
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalMetal]' started.
+Test Case '-[SceneTests.NumericalVerificationTests testTemporalMetal]' passed (0.087 seconds).
+Test Suite 'NumericalVerificationTests' passed at 2026-10-29 19:25:48.998.
+	 Executed 8 tests, with 0 failures (0 unexpected) in 3.919 (3.919) seconds
+Test Suite 'RegionApplyTests' started at 2026-10-29 19:25:48.998.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' started.
+Test Case '-[SceneTests.RegionApplyTests testCannotApplySourceWithNoActiveNodesAndCanIncludeRegion]' passed (0.489 seconds).
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' started.
+/Users/javo/Documents/yogui/yoguicuentas_metal/Tests/SceneTests/RegionApplyTests.swift:38: error: -[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal] : XCTAssertTrue failed
+Test Case '-[SceneTests.RegionApplyTests testChooseRegionAssign5000AndApplyToActualSimulationCPUAndMetal]' failed (0.848 seconds).
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' started.
+Test Case '-[SceneTests.RegionApplyTests testInvalidIntensityCannotSilentlyApplyPreviousValue]' passed (0.527 seconds).
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' started.
+Test Case '-[SceneTests.RegionApplyTests testSourceOverlayRemainsSelectableAsRegionAfterAssignment]' passed (0.092 seconds).
+Test Suite 'RegionApplyTests' failed at 2026-10-29 19:25:50.954.
+	 Executed 4 tests, with 1 failure (0 unexpected) in 1.956 (1.956) seconds
+Test Suite 'RegionTests' started at 2026-10-29 19:25:50.954.
+Test Case '-[SceneTests.RegionTests testCanvasMouseDragAndRegionClickReachPhysics]' started.
+Test Case '-[SceneTests.RegionTests testCanvasMouseDragAndRegionClickReachPhysics]' passed (0.153 seconds).
+Test Case '-[SceneTests.RegionTests testClosedShapesPartitionInteriorAndExterior]' started.
+Test Case '-[SceneTests.RegionTests testClosedShapesPartitionInteriorAndExterior]' passed (0.038 seconds).
+Test Case '-[SceneTests.RegionTests testDrawnExampleExcludesWholeUpperRegionAndAppliesCutRobin]' started.
+Test Case '-[SceneTests.RegionTests testDrawnExampleExcludesWholeUpperRegionAndAppliesCutRobin]' passed (0.321 seconds).
+Test Case '-[SceneTests.RegionTests testEditorSelectsRegionSetsRoleUndoesAndUpdatesSimulation]' started.
+Test Case '-[SceneTests.RegionTests testEditorSelectsRegionSetsRoleUndoesAndUpdatesSimulation]' passed (0.550 seconds).
+Test Case '-[SceneTests.RegionTests testIncludedExampleLoadsAsEditableRegions]' started.
+Test Case '-[SceneTests.RegionTests testIncludedExampleLoadsAsEditableRegions]' passed (0.587 seconds).
+Test Case '-[SceneTests.RegionTests testIntersectingCutsAndOpenPolylineDefineRegionsWithoutStripes]' started.
+Test Case '-[SceneTests.RegionTests testIntersectingCutsAndOpenPolylineDefineRegionsWithoutStripes]' passed (0.049 seconds).
+Test Case '-[SceneTests.RegionTests testMaterialRegionKeepsBothSidesActiveAndChangesOperator]' started.
+Test Case '-[SceneTests.RegionTests testMaterialRegionKeepsBothSidesActiveAndChangesOperator]' passed (0.077 seconds).
+Test Case '-[SceneTests.RegionTests testRegionRecomputesAfterMovingCutAndRefiningGridAndRoundTrips]' started.
+Test Case '-[SceneTests.RegionTests testRegionRecomputesAfterMovingCutAndRefiningGridAndRoundTrips]' passed (0.743 seconds).
+Test Case '-[SceneTests.RegionTests testRegionSourcesSumOnlyInActiveRegionAndMatchMetal]' started.
+Test Case '-[SceneTests.RegionTests testRegionSourcesSumOnlyInActiveRegionAndMatchMetal]' passed (0.212 seconds).
+Test Case '-[SceneTests.RegionTests testResizeKeepsOppositeHandleAndTracksPointerOnRotatedShapes]' started.
+Test Case '-[SceneTests.RegionTests testResizeKeepsOppositeHandleAndTracksPointerOnRotatedShapes]' passed (0.006 seconds).
+Test Case '-[SceneTests.RegionTests testScenarioLibraryListsAndLoadsBundledCutExample]' started.
+Test Case '-[SceneTests.RegionTests testScenarioLibraryListsAndLoadsBundledCutExample]' passed (0.538 seconds).
+Test Case '-[SceneTests.RegionTests testUniformSourceEditsReachSceneSolverAndPersist]' started.
+Test Case '-[SceneTests.RegionTests testUniformSourceEditsReachSceneSolverAndPersist]' passed (0.026 seconds).
+Test Suite 'RegionTests' passed at 2026-10-29 19:25:54.255.
+	 Executed 12 tests, with 0 failures (0 unexpected) in 3.301 (3.302) seconds
+Test Suite 'SceneTests' started at 2026-10-29 19:25:54.255.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' started.
+Test Case '-[SceneTests.SceneTests testBoundaryInheritanceSurvivesSaving]' passed (0.003 seconds).
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' started.
+Test Case '-[SceneTests.SceneTests testChronologicalDomainAndOwner]' passed (0.006 seconds).
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' started.
+Test Case '-[SceneTests.SceneTests testCircleRobinAndMaterial]' passed (0.042 seconds).
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' started.
+Test Case '-[SceneTests.SceneTests testClippedLineOnMask]' passed (0.011 seconds).
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' started.
+Test Case '-[SceneTests.SceneTests testEditorUndoRedoAndMultiObjectCommands]' passed (0.041 seconds).
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' started.
+Test Case '-[SceneTests.SceneTests testLinePowerIndependentOfResolutionAndHalfOpenCells]' passed (0.226 seconds).
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' started.
+Test Case '-[SceneTests.SceneTests testMaterialInsertLeavesMaskAndLastWins]' passed (0.010 seconds).
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' started.
+Test Case '-[SceneTests.SceneTests testMetalMatchesCPUForComposedScene]' passed (0.057 seconds).
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' started.
+Test Case '-[SceneTests.SceneTests testMigrationPreservesOperator]' passed (12.079 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' started.
+Test Case '-[SceneTests.SceneTests testMinimalCanvasUsesOptionalNumericsDefaults]' passed (0.001 seconds).
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' started.
+Test Case '-[SceneTests.SceneTests testMinimalExampleLoadsAndClosedPolygonSegmentKeys]' passed (0.486 seconds).
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' started.
+Test Case '-[SceneTests.SceneTests testRectangleSegmentConditionsAndHoleAttribution]' passed (0.047 seconds).
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' started.
+Test Case '-[SceneTests.SceneTests testRectangularCanvasKeepsBetaTwoWithDirichletDefault]' passed (0.004 seconds).
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' started.
+Test Case '-[SceneTests.SceneTests testRotatedRectangleAndPolygon]' passed (0.000 seconds).
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' started.
+Test Case '-[SceneTests.SceneTests testRoundTripIgnoresDerived]' passed (0.006 seconds).
+Test Case '-[SceneTests.SceneTests testSourcesSum]' started.
+Test Case '-[SceneTests.SceneTests testSourcesSum]' passed (0.133 seconds).
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' started.
+Test Case '-[SceneTests.SceneTests testStaircaseRobinPerimeterDoesNotConvergeToIdealCircle]' passed (0.055 seconds).
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' started.
+Test Case '-[SceneTests.SceneTests testValidationEmptyDegenerateAndWarnings]' passed (0.012 seconds).
+Test Suite 'SceneTests' passed at 2026-10-29 19:26:07.474.
+	 Executed 18 tests, with 0 failures (0 unexpected) in 13.218 (13.219) seconds
+Test Suite 'SourceDomainTests' started at 2026-10-29 19:26:07.474.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToLegacyMaterialBoundaryKeepsDomainAndMaterial]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToLegacyMaterialBoundaryKeepsDomainAndMaterial]' passed (0.111 seconds).
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToReferencedCutPreservesThatCutAndItsDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToReferencedCutPreservesThatCutAndItsDomain]' passed (0.565 seconds).
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToSelectedDomainPreservesReplaceAndMask]' started.
+Test Case '-[SceneTests.SourceDomainTests testAddingSourceToSelectedDomainPreservesReplaceAndMask]' passed (0.793 seconds).
+Test Case '-[SceneTests.SourceDomainTests testBundledTrapezoidSourceExampleHeatsInsideRetainedDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testBundledTrapezoidSourceExampleHeatsInsideRetainedDomain]' passed (1.512 seconds).
+Test Case '-[SceneTests.SourceDomainTests testDrawingAndConvertingSourceShapesDoNotSplitRegions]' started.
+Test Case '-[SceneTests.SourceDomainTests testDrawingAndConvertingSourceShapesDoNotSplitRegions]' passed (0.532 seconds).
+Test Case '-[SceneTests.SourceDomainTests testExistingSourceIsIncludedWhenSelectingNewTrapezoidDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testExistingSourceIsIncludedWhenSelectingNewTrapezoidDomain]' passed (1.333 seconds).
+Test Case '-[SceneTests.SourceDomainTests testInactiveRegionsAreNotReactivatedBySourceOrMaterialRoles]' started.
+Test Case '-[SceneTests.SourceDomainTests testInactiveRegionsAreNotReactivatedBySourceOrMaterialRoles]' passed (0.794 seconds).
+Test Case '-[SceneTests.SourceDomainTests testLineSourceCrossingCutAddsPowerWithoutSplittingDomain]' started.
+Test Case '-[SceneTests.SourceDomainTests testLineSourceCrossingCutAddsPowerWithoutSplittingDomain]' passed (0.176 seconds).
+Test Case '-[SceneTests.SourceDomainTests testLoadingOldRegionReferencesDoesNotExcludeSourceOrDeleteDomainWithSource]' started.
+Test Case '-[SceneTests.SourceDomainTests testLoadingOldRegionReferencesDoesNotExcludeSourceOrDeleteDomainWithSource]' passed (0.878 seconds).
+Test Case '-[SceneTests.SourceDomainTests testMovingAndClippingSourceNeverChangesRetainedMask]' started.
+Test Case '-[SceneTests.SourceDomainTests testMovingAndClippingSourceNeverChangesRetainedMask]' passed (1.862 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourceOutlineSelectsSourcePropertiesInsteadOfBoundaryCondition]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourceOutlineSelectsSourcePropertiesInsteadOfBoundaryCondition]' passed (0.443 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourcesBeforeOrAfterDomainKeepPowerAndMixedBoundaryConditions]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourcesBeforeOrAfterDomainKeepPowerAndMixedBoundaryConditions]' passed (2.529 seconds).
+Test Case '-[SceneTests.SourceDomainTests testSourceWarmsRetainedDomainAndMatchesCPUAndMetal]' started.
+Test Case '-[SceneTests.SourceDomainTests testSourceWarmsRetainedDomainAndMatchesCPUAndMetal]' passed (1.365 seconds).
+Test Suite 'SourceDomainTests' passed at 2026-10-29 19:26:20.368.
+	 Executed 13 tests, with 0 failures (0 unexpected) in 12.893 (12.893) seconds
+Test Suite 'StationaryTests' started at 2026-10-29 19:26:20.368.
+Test Case '-[SceneTests.StationaryTests testAnalyticalSlabWithSourceAndInsulatedSides]' started.
+Test Case '-[SceneTests.StationaryTests testAnalyticalSlabWithSourceAndInsulatedSides]' passed (0.213 seconds).
+Test Case '-[SceneTests.StationaryTests testBundledJacobiExampleMeetsDefaultResidualTolerancesOnMetal]' started.
+Test Case '-[SceneTests.StationaryTests testBundledJacobiExampleMeetsDefaultResidualTolerancesOnMetal]' passed (0.475 seconds).
+Test Case '-[SceneTests.StationaryTests testHeterogeneousSlabUsesInterfaceConductivity]' started.
+Test Case '-[SceneTests.StationaryTests testHeterogeneousSlabUsesInterfaceConductivity]' passed (0.184 seconds).
+Test Case '-[SceneTests.StationaryTests testLastIterationCanConvergeAndLimitIsNotSuccess]' started.
+Test Case '-[SceneTests.StationaryTests testLastIterationCanConvergeAndLimitIsNotSuccess]' passed (0.159 seconds).
+Test Case '-[SceneTests.StationaryTests testMetalMatchesCPUAndAnalyticalSolutionAcrossBatches]' started.
+Test Case '-[SceneTests.StationaryTests testMetalMatchesCPUAndAnalyticalSolutionAcrossBatches]' passed (0.156 seconds).
+Test Case '-[SceneTests.StationaryTests testMethodRoundTripAndLegacyDefaults]' started.
+Test Case '-[SceneTests.StationaryTests testMethodRoundTripAndLegacyDefaults]' passed (0.002 seconds).
+Test Case '-[SceneTests.StationaryTests testNeumannAndRobinSlab]' started.
+Test Case '-[SceneTests.StationaryTests testNeumannAndRobinSlab]' passed (0.227 seconds).
+Test Case '-[SceneTests.StationaryTests testNonfiniteResidualNeverReportsConvergence]' started.
+Test Case '-[SceneTests.StationaryTests testNonfiniteResidualNeverReportsConvergence]' passed (0.001 seconds).
+Test Case '-[SceneTests.StationaryTests testRobinEquilibriumAndInactiveNodes]' started.
+Test Case '-[SceneTests.StationaryTests testRobinEquilibriumAndInactiveNodes]' passed (0.064 seconds).
+Test Case '-[SceneTests.StationaryTests testRunConvergesAndReportsIterationsOnBothBackends]' started.
+Test Case '-[SceneTests.StationaryTests testRunConvergesAndReportsIterationsOnBothBackends]' passed (0.400 seconds).
+Test Case '-[SceneTests.StationaryTests testUnreferencedComponentRejectedEvenWhenAnotherIsAnchored]' started.
+Test Case '-[SceneTests.StationaryTests testUnreferencedComponentRejectedEvenWhenAnotherIsAnchored]' passed (0.006 seconds).
+Test Suite 'StationaryTests' passed at 2026-10-29 19:26:22.255.
+	 Executed 11 tests, with 0 failures (0 unexpected) in 1.887 (1.888) seconds
+Test Suite 'YoguiCuentasMetalPackageTests.xctest' failed at 2026-10-29 19:26:22.255.
+	 Executed 89 tests, with 1 failure (0 unexpected) in 42.663 (42.667) seconds
+Test Suite 'All tests' failed at 2026-10-29 19:26:22.256.
+	 Executed 89 tests, with 1 failure (0 unexpected) in 42.663 (42.675) seconds
+cn_animacion: dt=1.050109102244389 s; referencia explícita=0.13126363778054861 s; iteraciones internas CPU/GPU=160/160; residuo GPU=4.85770351588144e-06 K
+cn_oscilaciones: dt=21.00218204488778 s; referencia explícita=0.5250545511221945 s; iteraciones internas CPU/GPU=192/192; residuo GPU=0.010649358853697777 K
+NUMERIC,energy-Euler-box-Q0.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,4.3576398707070527e-07
+NUMERIC,energy-Euler-box-Q3.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,3.275636469560689e-07
+NUMERIC,energy-Euler-ellipse-Q0.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,4.317927278845041e-07
+NUMERIC,energy-Euler-ellipse-Q3.0,Swift-float32,425,0.041666666666666664,0.0009090909090909091,2.2009446595069994e-07
+NUMERIC,energy-CN-box-Q0.0,Swift-float32,425,0.041666666666666664,0.00375,3.6277826726755673e-07
+NUMERIC,energy-CN-box-Q3.0,Swift-float32,425,0.041666666666666664,0.00375,3.6808327397016916e-07
+NUMERIC,energy-CN-ellipse-Q0.0,Swift-float32,425,0.041666666666666664,0.00375,3.418146072489961e-07
+NUMERIC,energy-CN-ellipse-Q3.0,Swift-float32,425,0.041666666666666664,0.00375,3.3733868270498707e-07
+NUMERIC,energy-Euler-box-Q0.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.086759543939677e-07
+NUMERIC,energy-Euler-box-Q3.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.143068896190954e-07
+NUMERIC,energy-Euler-ellipse-Q0.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,3.8905312137108524e-07
+NUMERIC,energy-Euler-ellipse-Q3.0,Metal-float32,425,0.041666666666666664,0.0009090909090909091,4.183189913549533e-07
+NUMERIC,energy-CN-box-Q0.0,Metal-float32,425,0.041666666666666664,0.00375,3.5908063440804455e-07
+NUMERIC,energy-CN-box-Q3.0,Metal-float32,425,0.041666666666666664,0.00375,3.662568927010561e-07
+NUMERIC,energy-CN-ellipse-Q0.0,Metal-float32,425,0.041666666666666664,0.00375,3.4126928536451056e-07
+NUMERIC,energy-CN-ellipse-Q3.0,Metal-float32,425,0.041666666666666664,0.00375,3.457911733632501e-07
+NUMERIC,spatial-Euler,Swift-float32,153,0.0625,0.00125,0.00044067333222963523
+NUMERIC,spatial-Euler,Swift-float32,561,0.03125,0.0003225806451612903,0.00010980794908144187
+NUMERIC,spatial-Euler,Swift-float32,2145,0.015625,8.064516129032258e-05,2.8507213607809057e-05
+NUMERIC,spatial-CN,Swift-float32,153,0.0625,0.002,0.0005447430420074673
+NUMERIC,spatial-CN,Swift-float32,561,0.03125,0.002,0.00013663003923036765
+NUMERIC,spatial-CN,Swift-float32,2145,0.015625,0.002,3.464649201967429e-05
+NUMERIC,spatial-Euler,Metal-float32,153,0.0625,0.00125,0.0004407329368744106
+NUMERIC,spatial-Euler,Metal-float32,561,0.03125,0.0003225806451612903,0.00010968873979189109
+NUMERIC,spatial-Euler,Metal-float32,2145,0.015625,8.064516129032258e-05,2.8566818252584447e-05
+NUMERIC,spatial-CN,Metal-float32,153,0.0625,0.002,0.0005447430420074673
+NUMERIC,spatial-CN,Metal-float32,561,0.03125,0.002,0.00013663003923036765
+NUMERIC,spatial-CN,Metal-float32,2145,0.015625,0.002,3.45868873748989e-05
+NUMERIC,stationary-jacobi-source,Swift-float32,126,0.058823529411764705,0.0,1.4340124740719329e-05
+NUMERIC,stationary-jacobi-interface,Swift-float32,126,0.058823529411764705,0.0,1.0419593137855898e-05
+NUMERIC,flux-jacobi,Swift-float32,126,0.058823529411764705,0.0,0.00015392303466787993
+NUMERIC,stationary-jacobi-mixed,Swift-float32,126,0.058823529411764705,0.0,0.00018049478530879348
+NUMERIC,stationary-jacobi-circle,Swift-float32,1089,0.03125,0.0,0.006033997318148618
+NUMERIC,stationary-gaussSeidel-source,Swift-float32,126,0.058823529411764705,0.0,8.439264907955657e-06
+NUMERIC,stationary-gaussSeidel-interface,Swift-float32,126,0.058823529411764705,0.0,7.260546964760195e-06
+NUMERIC,flux-gaussSeidel,Swift-float32,126,0.058823529411764705,0.0,0.00010933876037588774
+NUMERIC,stationary-gaussSeidel-mixed,Swift-float32,126,0.058823529411764705,0.0,0.00011558532714839309
+NUMERIC,stationary-gaussSeidel-circle,Swift-float32,1089,0.03125,0.0,0.0060335717037320186
+NUMERIC,stationary-jacobi-source,Metal-float32,126,0.058823529411764705,0.0,1.4340124740719329e-05
+NUMERIC,stationary-jacobi-interface,Metal-float32,126,0.058823529411764705,0.0,1.0419593137855898e-05
+NUMERIC,flux-jacobi,Metal-float32,126,0.058823529411764705,0.0,0.00015392303466787993
+NUMERIC,stationary-jacobi-mixed,Metal-float32,126,0.058823529411764705,0.0,0.00018061399459834426
+NUMERIC,stationary-jacobi-circle,Metal-float32,1089,0.03125,0.0,0.006033996386826043
+NUMERIC,stationary-gaussSeidel-source,Metal-float32,126,0.058823529411764705,0.0,8.439264907955657e-06
+NUMERIC,stationary-gaussSeidel-interface,Metal-float32,126,0.058823529411764705,0.0,7.260546964760195e-06
+NUMERIC,flux-gaussSeidel,Metal-float32,126,0.058823529411764705,0.0,0.00010933876037588774
+NUMERIC,stationary-gaussSeidel-mixed,Metal-float32,126,0.058823529411764705,0.0,0.00011558532714839309
+NUMERIC,stationary-gaussSeidel-circle,Metal-float32,1089,0.03125,0.0,0.0060335717037320186
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.04,0.01437932789224372
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.02,0.007053738235413887
+NUMERIC,temporal-Euler,Swift-float32,63,0.125,0.01,0.0034939700354932324
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.04,0.00017908751863227046
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.02,4.473864930853999e-05
+NUMERIC,temporal-CN,Swift-float32,63,0.125,0.01,1.1062025010444287e-05
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.04,0.014379238485276558
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.02,0.007053738235413887
+NUMERIC,temporal-Euler,Metal-float32,63,0.125,0.01,0.0034939700354932324
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.04,0.00017908751863227046
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.02,4.473864930853999e-05
+NUMERIC,temporal-CN,Metal-float32,63,0.125,0.01,1.1062025010444287e-05
+Robin staircase n=41: G=24.74421503700825 W/K, ideal=18.84955592153876, relative error=31.27213786895564%
+Robin staircase n=81: G=24.37215101102574 W/K, ideal=18.84955592153876, relative error=29.29827690622937%
+Robin staircase n=161: G=24.186086380549575 W/K, ideal=18.84955592153876, relative error=28.311173383734413%
+Trapecio con fuente: 50287.24670410156 W integrados; 102 nodos; ΔT centro = 2.5746536 K en 10 pasos.
+Ejemplo Jacobi 65×65: 14080 iteraciones; residuo 1.0898002756221103e-05 K/s
+◇ Test run started.
+↳ Testing Library Version: 124.4
+↳ Target Platform: arm64e-apple-macos14.0
+✔ Test run with 0 tests passed after 0.001 seconds.

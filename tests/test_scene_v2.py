@@ -69,6 +69,30 @@ class SceneV2Tests(unittest.TestCase):
             self.assertEqual(json.loads(path.read_text())['version'],2)
             self.assertEqual(loaded.scene.primitives,v2.scene.primitives)
 
+    def test_boundary_accepts_loaded_canvas_condition(self):
+        from yoguicuentas.model.scene import boundary
+        for kind,value,h in [('Dirichlet',80,0),('Neumann',-20,0),('Robin',25,12),('Adiabático',0,0)]:
+            b=Boundary(kind,value,h)
+            self.assertIs(boundary(b),b)
+            self.assertEqual(boundary({'kind':kind,'value':value,'h':h}),b)
+
+    def test_prueba_01_migrates_editable_cuts_without_changing_physics(self):
+        s=Scenario.load(ROOT/'scenarios/prueba_01.json');v2=migrated(s)
+        cuts=[p for p in v2.scene.primitives if p['type']=='rectangle' and p.get('domain')]
+        self.assertEqual(len(cuts),2)
+        np.testing.assert_array_equal(active_mask(s),active_mask(v2))
+        for a,b in zip(material_fields(s),material_fields(v2)):np.testing.assert_array_equal(a,b)
+        # Compare with the previous raster-only migration, including its
+        # existing v1/v2 interface conventions, rather than changing those here.
+        old_primitives=[p for p in v2.scene.primitives if p not in cuts]
+        old_primitives[0]['geometry']['raster']=active_mask(s).ravel().tolist()
+        old_v2=replace(v2,scene=Scene.create(old_primitives))
+        for a,b in zip(coefficients(old_v2)[0],coefficients(v2)[0]):np.testing.assert_allclose(a,b,atol=1e-12)
+        f=fields(v2)
+        for cut in cuts:
+            keys={face[4] for face in f.faces if face[3]==cut['id'] and face[-1]}
+            self.assertEqual(keys,{'left','right','bottom','top'})
+
     def test_subsegment_conditions_and_hidden_physics(self):
         p={'id':'polygon','type':'polyline','geometry':{'closed':True,'points':[
             {'x':.1,'y':.1},{'x':.4,'y':.1},{'x':.4,'y':.4},{'x':.1,'y':.4}]},

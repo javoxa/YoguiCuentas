@@ -1,0 +1,27 @@
+{
+  "date": "2026-11-02",
+  "revision": 2,
+  "pages": 17,
+  "figures": 4,
+  "tables": 7,
+  "pdf_sha256": "e2b461d692db658ab473a6e342ec59b9a485bfceea8570406a05c6e56c6823e5",
+  "latex_sha256": "fbbaa8f0a9ce604ab48c6591be3e4cbb889422d480c027fbe6e7de266df8e809",
+  "focus": "Reduced numerical grids and OpenGL visualization for resource-constrained teaching laboratories",
+  "compiler": "Preinstalled pdfTeX 1.40.24; two final passes",
+  "native_editor": "Source opened; integrated compilation unavailable due to missing sandbox executable; preinstalled compiler used",
+  "checks": [
+    "All 17 final rendered pages visually inspected",
+    "PDF reopened and text extracted on every page",
+    "No overfull boxes or unresolved citations/references",
+    "Campaign-derived tables and figures regenerate idempotently",
+    "Rendering implementation inspected and hashed separately"
+  ],
+  "limitations": [
+    "No new rendering FPS measurements",
+    "Old laboratory hardware use is user-reported, not an instrumented performance campaign"
+  ],
+  "editorial_pending": [
+    "Author statement of funding and conflicts of interest",
+    "Final author review and venue-specific requirements"
+  ]
+}

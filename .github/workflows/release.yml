@@ -9,6 +9,9 @@ permissions:
   contents: write
 
 jobs:
+  numerics:
+    uses: ./.github/workflows/numerics.yml
+
   linux:
     name: Debian/Devuan package
     runs-on: ubuntu-24.04
@@ -35,6 +38,15 @@ jobs:
     steps:
       - name: Check out source
         uses: actions/checkout@v7
+      - name: Verify Swift and Metal numerical contracts
+        run: bash metal/yoguicuentas_metal/verificar_numerica.sh verification/ci full
+      - name: Preserve macOS verification
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: numerical-macos
+          path: metal/yoguicuentas_metal/verification/ci/
+          if-no-files-found: warn
       - name: Build app bundle
         env:
           YOGUI_SKIP_OPEN: '1'
@@ -54,7 +66,7 @@ jobs:
 
   publish:
     name: Attach assets to GitHub Release
-    needs: [linux, macos]
+    needs: [numerics, linux, macos]
     runs-on: ubuntu-24.04
     steps:
       - name: Check out release notes
@@ -68,9 +80,12 @@ jobs:
       - name: Include technical report
         run: |
           cp metal/technical_report/informe_tecnico_yoguicuentas_metal.pdf dist/YoguiCuentas_Informe_tecnico_Metal_0.11.0.pdf
+          cp output/pdf/yoguicuentas_paper_20261030.pdf dist/YoguiCuentas_Paper_ES.pdf
+          cp output/pdf/yoguicuentas_paper_en.pdf dist/YoguiCuentas_Paper_EN.pdf
           cp LICENSE NOTICE dist/
+          cp INFORME_VALIDACION_CPU_GPU_20261029.md PREPARACION_PRODUCCION.md dist/
       - name: Create checksums
-        run: sha256sum dist/* > dist/SHA256SUMS
+        run: (cd dist && sha256sum * > SHA256SUMS)
       - name: Prepare release notes
         env:
           RELEASE_TAG: ${{ github.ref_name }}

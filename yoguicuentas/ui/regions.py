@@ -1,6 +1,6 @@
 """Editor de rectángulos, con presets de material o propiedades propias."""
-import tkinter as tk
-from tkinter import ttk, messagebox
+from .i18n import tk
+from .i18n import ttk, messagebox
 from ..model.regions import Region, MEANS
 from ..model.materials import MATERIALS, CUSTOM
 

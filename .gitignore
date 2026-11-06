@@ -5,8 +5,19 @@ __pycache__/
 resultados/
 .venv/
 .venv-portable/
+.venv-ci/
+verification/local/
+verification-ci/
 dist/
 metal/yoguicuentas_metal/.build/
 metal/yoguicuentas_metal/dist/
 metal/yoguicuentas_metal/.swiftpm/
 metal/technical_report/build/
+
+# Devolución original preservada localmente; evidencia pública curada en verification/.
+/metal_test_00/
+/__MACOSX/
+._*
+
+# Intermedios de compilación y revisión visual del manuscrito.
+/tmp/pdfs/

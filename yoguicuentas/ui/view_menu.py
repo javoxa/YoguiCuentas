@@ -1,5 +1,5 @@
 """Opciones de visualización independientes de los parámetros físicos."""
-import tkinter as tk
+from .i18n import tk
 
 
 def add_view_menu(menubar,canvas,edit_scale):

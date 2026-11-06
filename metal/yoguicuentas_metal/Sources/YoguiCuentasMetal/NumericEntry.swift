@@ -44,16 +44,17 @@ struct NumericEntry:NSViewRepresentable {
 }
 
 struct OverlayCountControl:View {
+    @ObservedObject private var uiLanguage = AppLanguage.shared
     let title:String
     @Binding var value:Int
     let limit:Int
     var body:some View {
         HStack {
-            Text(title)
+            Text(L10n.text(title))
             Spacer()
             NumericEntry(value:Binding(get:{Double(value)},set:{value=max(1,min(limit,Int(max(1,min(Double(limit),$0)).rounded())))}),fractionalDigits:0,minimumFractionalDigits:0)
-                .frame(width:60,height:22).accessibilityLabel(title)
-            Stepper(title,value:$value,in:1...limit).labelsHidden()
+                .frame(width:60,height:22).accessibilityLabel(L10n.text(title))
+            Stepper(L10n.text(title),value:$value,in:1...limit).labelsHidden()
         }
     }
 }

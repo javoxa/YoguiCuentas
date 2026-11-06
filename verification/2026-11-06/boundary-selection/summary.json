@@ -1,0 +1,19 @@
+{
+  "date": "2026-11-06",
+  "scene_v2_tests": 10,
+  "scene_editor_tests": 4,
+  "failures": 0,
+  "skips": 0,
+  "opencl_device": "NVIDIA RTX A2000; index 1; CUDA_VISIBLE_DEVICES unset",
+  "scenario": "scenarios/prueba_01.json",
+  "checks": [
+    "Boundary instance and JSON input",
+    "repeated selection of outer loaded condition",
+    "editable rectangular v1 cuts with identical active mask",
+    "material fields preserved",
+    "operator coefficients equal to previous raster-only migration",
+    "four different side conditions on first cut",
+    "save/load preserves face conditions",
+    "second cut remains adiabatic"
+  ]
+}

@@ -1,0 +1,13 @@
+{
+  "date": "2026-11-06",
+  "ui_language_tests": 4,
+  "configuration_regression_tests": 3,
+  "scene_editor_regression_tests": 3,
+  "layout_regression_tests": 1,
+  "failures": 0,
+  "skips": 0,
+  "macos_new_tests": 2,
+  "macos_new_tests_status": "Prepared; execution pending on macOS",
+  "scope": "Presentation change; numerical campaigns of October not rerun",
+  "smoke": "CPU NumPy, OpenGL RTX A2000; solver/controller/scenario unchanged by language switching"
+}

@@ -1,0 +1,14 @@
+{
+  "tests": 103,
+  "failures": 0,
+  "skips": 0,
+  "criterion_cases": 144,
+  "benchmark_repetitions": 120,
+  "stop_reasons": {
+    "max_steps": 72,
+    "converged": 72
+  },
+  "max_cpu_gpu_fixed_64_K": 1.5497207641601562e-06,
+  "max_boundary_energy_error_J_m": 7.881476826905598e-08,
+  "input_package_sha256": "7ac4b224958411ca45bfb40388ba43508a3f90852c398ff871497e0c6830de8e"
+}

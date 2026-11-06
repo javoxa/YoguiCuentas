@@ -41,8 +41,14 @@ final class SimulationModel: ObservableObject {
     private(set) var gpuName = "No disponible"
     @Published private var steadyResidual = (rate: 0.0, balance: 0.0)
     private var steadyInitial = (rate: 0.0, balance: 0.0)
+    private var steadyPrevious:[Float]=[]
+    private var steadyPhysicalSuccesses=0
+    private var steadyMetrics:[SteadyCriterion:SteadyMetric]=[:]
     private var steadySuccesses = 0
-    private var steadyReason: String?
+    private(set) var steadyReason: String?
+    @Published private(set) var convergenceHistory=ConvergenceHistory()
+    private(set) var totalLinearIterations=0
+    private var confirmedBackend:ComputeBackend?
     private var speedSamples: [(wall:TimeInterval, simulation:Double)] = []
     private var previousSpeed:(speed:Double,selection:String,preset:String) = (0,"Máxima","Máxima")
     private var lastAutomaticScaleUpdate:TimeInterval = 0
@@ -54,7 +60,7 @@ final class SimulationModel: ObservableObject {
             let op=try ThermalOperator(initial)
             thermalOperator=op
             let initialField=op.initialTemperature()
-            temperature=initialField
+            temperature=initialField;steadyPrevious=initialField
             let values=initialField.map(Double.init)
             minimumTemperature=values.min() ?? 0
             maximumTemperature=values.max() ?? 1
@@ -72,39 +78,42 @@ final class SimulationModel: ObservableObject {
             let op=(try? ThermalOperator(fallback))!
             scenario=fallback; thermalOperator=op; temperature=op.initialTemperature()
             minimumTemperature=0; maximumTemperature=50
+            steadyPrevious=temperature;steadyInitial=op.residualStats(temperature);steadyResidual=steadyInitial
         }
         refreshSourceMesh()
     }
 
     var overlayCountLimit:Int {max(scenario.grid.nx,scenario.grid.ny)}
 
-    var directStationary: Bool { scenario.steady && scenario.steady_method == .jacobi }
+    var directStationary: Bool { scenario.steady && scenario.steady_method != .explicit }
     var usesCN: Bool { !directStationary && scenario.temporal_method == .crankNicolson }
     var temporalDescription: String {
-        guard usesCN else { return directStationary ? "Jacobi estacionario" : "Euler explícito" }
+        guard usesCN else { return directStationary ? scenario.steady_method.label : "Euler explícito" }
         let factor=scenario.timestep/scenario.dtLimit
         let warning=scenario.timestep*Double(thermalOperator.diagonal.max() ?? 0) > 1
         return "CN · dt/Δt explícito = \(factor.formatted(.number.precision(.significantDigits(3)))) · \(linearIterations) iter. internas/lote · residuo \(linearResidual.formatted(.number.precision(.significantDigits(3)))) K" +
             (warning ? " · Paso grande: pueden aparecer oscilaciones; compará con dt/2." : " · Verificá precisión comparando con dt/2.")
     }
     var progressDescription: String {
-        directStationary ? "Jacobi · \(steps) iteraciones · sin tiempo físico" :
+        directStationary ? "\(scenario.steady_method.label) · \(steps) iteraciones · sin tiempo físico" :
             "t = \(time.formatted(.number.precision(.significantDigits(5)))) s · paso \(steps) · dt = \(scenario.timestep.formatted(.number.precision(.significantDigits(4)))) s"
     }
     var time: Double { directStationary ? 0 : scenario.final_time.map { steps >= (scenario.finalSteps ?? .max) ? $0 : Double(steps)*scenario.timestep } ?? Double(steps)*scenario.timestep }
     var backendChoices: [ComputeBackend] { metalStepper == nil ? [.cpu] : [.cpu,.metal] }
     var speedStatus: String {
-        if directStationary { return "Jacobi · \(effectiveSpeed.formatted(.number.precision(.significantDigits(3)))) iter/s" }
+        if directStationary { return "\(scenario.steady_method.label) · \(effectiveSpeed.formatted(.number.precision(.significantDigits(3)))) iter/s" }
         let target=scenario.steady ? "Estacionario" : (speed == 0 ? "Máxima" : speedPreset)
         return "\(target) · efectiva \(effectiveSpeed.formatted(.number.precision(.significantDigits(3))))×"
     }
     var steadyDescription: String {
         guard scenario.steady else { return "t = \(time.formatted(.number.precision(.fractionLength(4)))) s · paso \(steps)" }
+        let c=scenario.convergence
+        let delta=steadyMetrics[c.criterion].map { " · \(c.criterion.label): \($0.value.formatted(.number.precision(.significantDigits(3)))) / \((c.delta_atol+c.delta_rtol*$0.scale).formatted(.number.precision(.significantDigits(3)))) K" } ?? ""
         if let steadyReason {
-            let outcome=steadyReason == "converged" ? "Estacionario alcanzado" : (steadyReason == "nonfinite" ? "Cálculo no finito" : "Límite sin convergencia")
-            return "\(outcome) · \(steps) \(directStationary ? "iteraciones" : "pasos") · residuo \(steadyResidual.rate.formatted(.number.precision(.significantDigits(3)))) K/s"
+            let outcome=steadyReason == "converged" ? "Estacionario alcanzado" : (steadyReason == "criterion_met" ? "Criterio ΔT cumplido; residuo físico sin confirmar" : (steadyReason == "nonfinite" ? "Cálculo no finito" : "Límite sin convergencia"))
+            return "\(outcome) · \(steps) \(directStationary ? "iteraciones" : "pasos") · residuo \(steadyResidual.rate.formatted(.number.precision(.significantDigits(3)))) K/s"+delta
         }
-        return "Residuo máx. \(steadyResidual.rate.formatted(.number.precision(.significantDigits(3)))) K/s · \(steadySuccesses)/\(scenario.steady_confirmations) confirmaciones"
+        return "Residuo máx. \(steadyResidual.rate.formatted(.number.precision(.significantDigits(3)))) K/s · \(steadySuccesses)/\(scenario.steady_confirmations) confirmaciones"+delta
     }
 
     func toggleRun() {
@@ -120,7 +129,7 @@ final class SimulationModel: ObservableObject {
             do { try thermalOperator.validateStationarySystem() }
             catch { errorMessage=error.localizedDescription; status="Sistema estacionario sin referencia"; return }
         }
-        running=true; status=directStationary ? "Resolviendo estacionario · Jacobi" : "En ejecución"
+        running=true; status=directStationary ? "Resolviendo \(scenario.steady_method.label)" : "En ejecución"
         runTask=Task { [weak self] in
             guard let self else { return }
             while !Task.isCancelled && self.running {
@@ -152,6 +161,7 @@ final class SimulationModel: ObservableObject {
                     if Task.isCancelled { break }
                     self.temperature=result.field; self.steps += plan.count
                     self.linearIterations=result.iterations; self.linearResidual=result.residual
+                    self.totalLinearIterations += result.iterations;self.confirmedBackend=self.backend
                     self.measureSpeed()
                     self.checkSteadyIfNeeded()
                     let now=ProcessInfo.processInfo.systemUptime
@@ -193,7 +203,8 @@ final class SimulationModel: ObservableObject {
 
     func reset() {
         pause(); linearIterations=0; linearResidual=0; steps=0; steadySuccesses=0; steadyReason=nil
-        temperature=thermalOperator.initialTemperature()
+        convergenceHistory=ConvergenceHistory();totalLinearIterations=0;confirmedBackend=nil
+        temperature=thermalOperator.initialTemperature();steadyPrevious=temperature;steadyMetrics=[:];steadyPhysicalSuccesses=0
         let values=temperature.map(Double.init)
         minimumTemperature=values.min() ?? 0
         maximumTemperature=values.max() ?? minimumTemperature+50
@@ -257,7 +268,7 @@ final class SimulationModel: ObservableObject {
         guard selection != .metal || metalStepper != nil else {
             backend = .cpu; errorMessage=SolverError.noMetal.localizedDescription; return
         }
-        backend=selection
+        if backend != selection { reset();backend=selection }
     }
 
     func useScenario(_ scenario: Scenario, named name: String) {
@@ -336,6 +347,24 @@ final class SimulationModel: ObservableObject {
         panel.allowedContentTypes=[.commaSeparatedText]
         panel.nameFieldStringValue="campo_termico.csv"
         guard panel.runModal() == .OK, let url=panel.url else { return }
+        do {
+            try exportSnapshot(to:url)
+            status="Campo, metadatos, escenario e historial exportados: \(url.lastPathComponent)"
+        } catch { errorMessage=error.localizedDescription }
+    }
+
+    func exportHistory() {
+        let panel=NSSavePanel();panel.allowedContentTypes=[.commaSeparatedText]
+        panel.nameFieldStringValue="historial_convergencia.csv"
+        guard panel.runModal() == .OK,let url=panel.url else {return}
+        do {
+            try convergenceHistory.csv.write(to:url,atomically:true,encoding:.utf8)
+            status="Historial exportado: \(convergenceHistory.records.count) controles; \(convergenceHistory.discarded) anteriores descartados"
+        } catch {errorMessage=error.localizedDescription}
+    }
+
+    /// A synchronous snapshot on MainActor: field and metadata belong to the same confirmed batch.
+    func exportSnapshot(to url:URL) throws {
         let g=scenario.grid
         var rows=["i,j,x_m,y_m,temperatura_C,activo"]
         rows.reserveCapacity(g.count+1)
@@ -343,10 +372,24 @@ final class SimulationModel: ObservableObject {
             let p=j*g.nx+i
             rows.append("\(i),\(j),\(Double(i)*g.dx),\(Double(j)*g.dy),\(temperature[p]),\(thermalOperator.active[p] ? 1 : 0)")
         }}
-        do {
-            try (rows.joined(separator:"\n")+"\n").write(to:url,atomically:true,encoding:.utf8)
-            status="Campo exportado: \(url.lastPathComponent)"
-        } catch { errorMessage=error.localizedDescription }
+        let encoder=JSONEncoder();encoder.outputFormatting=[.prettyPrinted,.sortedKeys]
+        encoder.nonConformingFloatEncodingStrategy = .convertToString(positiveInfinity:"Infinity",negativeInfinity:"-Infinity",nan:"NaN")
+        let snapshotResidual=thermalOperator.residualStats(temperature)
+        let metadata=FieldMetadata(method:directStationary ? scenario.steady_method.rawValue : scenario.temporal_method.rawValue,
+            requestedBackend:backend.rawValue,effectiveBackend:(confirmedBackend ?? backend).rawValue,
+            device:(confirmedBackend ?? backend) == .metal ? gpuName : "CPU Swift",steps:steps,
+            countUnit:directStationary ? "iterations" : "time_steps",physicalTimeSeconds:directStationary ? nil : time,
+            dtSeconds:directStationary ? nil : scenario.timestep,
+            stopReason:steadyReason ?? (finished ? "final_time" : (running ? "running" : "paused")),
+            linearIterations:totalLinearIterations,lastLinearResidualK:linearResidual,
+            physicalRate:snapshotResidual.rate,physicalBalance:snapshotResidual.balance,
+            criterionConfirmations:steadySuccesses,physicalConfirmations:steadyPhysicalSuccesses,
+            historyCount:convergenceHistory.records.count,historyDiscarded:convergenceHistory.discarded,scenario:scenario)
+        let base=url.deletingPathExtension()
+        try (rows.joined(separator:"\n")+"\n").write(to:url,atomically:true,encoding:.utf8)
+        try encoder.encode(metadata).write(to:base.appendingPathExtension("metadata.json"),options:.atomic)
+        try encoder.encode(scenario).write(to:base.appendingPathExtension("scenario.json"),options:.atomic)
+        try convergenceHistory.csv.write(to:base.appendingPathExtension("convergence.csv"),atomically:true,encoding:.utf8)
     }
 
     private var finished: Bool {
@@ -376,13 +419,31 @@ final class SimulationModel: ObservableObject {
         let stats=thermalOperator.residualStats(temperature)
         steadyResidual=stats
         guard stats.rate.isFinite, stats.balance.isFinite else { steadyReason="nonfinite"; return }
-        let totalWeight=thermalOperator.weights.reduce(0,+)
+        let totalWeight=thermalOperator.weights.reduce(0.0) {$0+Double($1)}
         let rateLimit=scenario.steady_atol+scenario.steady_rtol*steadyInitial.rate
-        let balanceLimit=scenario.steady_atol*Double(totalWeight)+scenario.steady_rtol*steadyInitial.balance
-        if stats.rate <= rateLimit && stats.balance <= balanceLimit { steadySuccesses += 1 }
-        else { steadySuccesses=0 }
-        if steadySuccesses >= scenario.steady_confirmations { steadyReason="converged" }
+        let balanceLimit=scenario.steady_atol*totalWeight+scenario.steady_rtol*steadyInitial.balance
+        let physical=stats.rate <= rateLimit && stats.balance <= balanceLimit
+        steadyPhysicalSuccesses=physical ? steadyPhysicalSuccesses+1 : 0
+        steadyMetrics=thermalOperator.convergenceMetrics(temperature,previous:steadyPrevious)
+        steadyPrevious=temperature
+        let c=scenario.convergence
+        var passed=physical
+        if c.criterion != .residual {
+            if let metric=steadyMetrics[c.criterion] {
+                let limit=c.delta_atol+c.delta_rtol*metric.scale
+                passed=metric.available && metric.value.isFinite && limit.isFinite && metric.value<=limit
+            } else {passed=false}
+        }
+        steadySuccesses=passed ? steadySuccesses+1 : 0
+        if steadySuccesses >= scenario.steady_confirmations {
+            steadyReason=steadyPhysicalSuccesses>=scenario.steady_confirmations ? "converged" : "criterion_met"
+        }
         else if steps >= scenario.steady_max_steps { steadyReason="max_steps" }
+        convergenceHistory.append(ConvergenceControl(step:steps,interval:steps-(convergenceHistory.records.last?.step ?? 0),
+            criterion:c.criterion,metric:steadyMetrics[c.criterion],deltaAtol:c.delta_atol,deltaRtol:c.delta_rtol,
+            rate:stats.rate,rateLimit:rateLimit,balance:stats.balance,balanceLimit:balanceLimit,
+            criterionConfirmations:steadySuccesses,physicalConfirmations:steadyPhysicalSuccesses,
+            sampling:c.sampling,sampleCount:c.sample_count,seed:c.sample_seed,reason:steadyReason ?? "running"))
     }
 }
 

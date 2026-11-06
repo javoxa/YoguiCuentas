@@ -1,0 +1,118 @@
+numpy: energy
+  energy/Rectángulo/explicit/Q0
+  energy/Rectángulo/explicit/Q3
+  energy/Rectángulo/crankNicolson/Q0
+  energy/Rectángulo/crankNicolson/Q3
+  energy/Elíptica/explicit/Q0
+  energy/Elíptica/explicit/Q3
+  energy/Elíptica/crankNicolson/Q0
+  energy/Elíptica/crankNicolson/Q3
+numpy: boundary_energy
+  boundary-energy/explicit/Neumann
+  boundary-energy/explicit/Robin
+  boundary-energy/crankNicolson/Neumann
+  boundary-energy/crankNicolson/Robin
+numpy: temporal
+  temporal/explicit/0.04
+  temporal/explicit/0.02
+  temporal/explicit/0.01
+  temporal/crankNicolson/0.04
+  temporal/crankNicolson/0.02
+  temporal/crankNicolson/0.01
+numpy: spatial
+  spatial/explicit/17
+  spatial/explicit/33
+  spatial/explicit/65
+  spatial/crankNicolson/17
+  spatial/crankNicolson/33
+  spatial/crankNicolson/65
+numpy: stationary
+  stationary/explicit/source
+    2016 iterations: converged; residual 6.95069e-11 K/s
+  stationary/explicit/interface
+    5376 iterations: converged; residual 8.48848e-11 K/s
+  stationary/explicit/mixed
+    17824 iterations: converged; residual 9.34176e-11 K/s
+  stationary/jacobi/source
+    2432 iterations: converged; residual 6.31226e-11 K/s
+  stationary/jacobi/interface
+    2560 iterations: converged; residual 6.97602e-11 K/s
+  stationary/jacobi/mixed
+    19552 iterations: converged; residual 9.55352e-11 K/s
+  stationary/gaussSeidel/source
+    864 iterations: converged; residual 2.81217e-11 K/s
+  stationary/gaussSeidel/interface
+    896 iterations: converged; residual 3.9712e-11 K/s
+  stationary/gaussSeidel/mixed
+    6752 iterations: converged; residual 8.97569e-11 K/s
+numpy: curved
+  curved/circle/17
+    256 iterations: converged; residual 1.44329e-15 K/s
+  curved/circle/33
+    768 iterations: converged; residual 9.66395e-11 K/s
+  curved/circle/65
+    2944 iterations: converged; residual 3.87286e-10 K/s
+numpy: oscillations
+numpy: precision_floor
+opencl: energy
+  energy/Rectángulo/explicit/Q0
+  energy/Rectángulo/explicit/Q3
+  energy/Rectángulo/crankNicolson/Q0
+  energy/Rectángulo/crankNicolson/Q3
+  energy/Elíptica/explicit/Q0
+  energy/Elíptica/explicit/Q3
+  energy/Elíptica/crankNicolson/Q0
+  energy/Elíptica/crankNicolson/Q3
+opencl: boundary_energy
+  boundary-energy/explicit/Neumann
+  boundary-energy/explicit/Robin
+  boundary-energy/crankNicolson/Neumann
+  boundary-energy/crankNicolson/Robin
+opencl: temporal
+  temporal/explicit/0.04
+  temporal/explicit/0.02
+  temporal/explicit/0.01
+  temporal/crankNicolson/0.04
+  temporal/crankNicolson/0.02
+  temporal/crankNicolson/0.01
+opencl: spatial
+  spatial/explicit/17
+  spatial/explicit/33
+  spatial/explicit/65
+  spatial/crankNicolson/17
+  spatial/crankNicolson/33
+  spatial/crankNicolson/65
+opencl: stationary
+  stationary/explicit/source
+    928 iterations: converged; residual 9.99834e-06 K/s
+  stationary/explicit/interface
+    2688 iterations: converged; residual 1.46748e-05 K/s
+  stationary/explicit/mixed
+    7584 iterations: converged; residual 1.72302e-05 K/s
+  stationary/jacobi/source
+    1088 iterations: converged; residual 1.34435e-05 K/s
+  stationary/jacobi/interface
+    1280 iterations: converged; residual 1.72079e-05 K/s
+  stationary/jacobi/mixed
+    8256 iterations: converged; residual 1.89468e-05 K/s
+  stationary/gaussSeidel/source
+    416 iterations: converged; residual 5.9226e-06 K/s
+  stationary/gaussSeidel/interface
+    480 iterations: converged; residual 3.49886e-06 K/s
+  stationary/gaussSeidel/mixed
+    2944 iterations: converged; residual 1.89878e-05 K/s
+opencl: curved
+  curved/circle/17
+    192 iterations: converged; residual 3.91879e-07 K/s
+  curved/circle/33
+    512 iterations: converged; residual 1.53029e-06 K/s
+  curved/circle/65
+    1792 iterations: converged; residual 6.15266e-06 K/s
+opencl: oscillations
+opencl: precision_floor
+{
+  "passed": true,
+  "checks": 217,
+  "failures": [],
+  "output": "verification/2026-10-29/numerical"
+}

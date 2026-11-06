@@ -1,0 +1,15 @@
+test_batch_partition_does_not_change_checkpoints_or_history (test_convergence_criteria.ConvergenceCriteriaTests.test_batch_partition_does_not_change_checkpoints_or_history) ... ok
+test_configuration_exposes_and_saves_criteria_and_sampling (test_convergence_criteria.ConvergenceCriteriaTests.test_configuration_exposes_and_saves_criteria_and_sampling) ... ok
+test_fixed_seed_no_replacement_and_sample_can_miss_hotspot (test_convergence_criteria.ConvergenceCriteriaTests.test_fixed_seed_no_replacement_and_sample_can_miss_hotspot) ... ok
+test_gpu_matches_independent_host_metrics_and_reset_for_every_integrator (test_convergence_criteria.ConvergenceCriteriaTests.test_gpu_matches_independent_host_metrics_and_reset_for_every_integrator) ... ok
+test_nonfinite_physics_is_never_hidden_by_zero_delta (test_convergence_criteria.ConvergenceCriteriaTests.test_nonfinite_physics_is_never_hidden_by_zero_delta) ... ok
+test_norms_match_numpy_and_distinguish_vector_from_matrix_inf (test_convergence_criteria.ConvergenceCriteriaTests.test_norms_match_numpy_and_distinguish_vector_from_matrix_inf) ... ok
+test_persistence_v1_v2_and_legacy_defaults (test_convergence_criteria.ConvergenceCriteriaTests.test_persistence_v1_v2_and_legacy_defaults) ... ok
+test_temperature_offset_invariance_and_empty_diagonal (test_convergence_criteria.ConvergenceCriteriaTests.test_temperature_offset_invariance_and_empty_diagonal) ... ok
+test_tiny_dt_can_pass_delta_without_physical_convergence (test_convergence_criteria.ConvergenceCriteriaTests.test_tiny_dt_can_pass_delta_without_physical_convergence) ... ok
+test_trace_and_mean_can_cancel_changes (test_convergence_criteria.ConvergenceCriteriaTests.test_trace_and_mean_can_cancel_changes) ... ok
+
+----------------------------------------------------------------------
+Ran 10 tests in 2.336s
+
+OK

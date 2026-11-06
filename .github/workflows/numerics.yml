@@ -1,0 +1,37 @@
+name: CPU numerical verification
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+  workflow_call:
+
+permissions:
+  contents: read
+
+jobs:
+  cpu:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v7
+      - name: Prepare isolated NumPy environment
+        run: |
+          python3 -m venv .venv-ci
+          .venv-ci/bin/python -m pip install .
+      - name: Check shared language catalogue
+        run: python3 scripts/sincronizar_traducciones.py --check
+      - name: Prepare interface verification
+        run: sudo apt-get update && sudo apt-get install -y python3-tk xvfb
+      - name: Language switching and canonical settings
+        run: xvfb-run -a env YOGUI_TEST_GL=1 .venv-ci/bin/python -m unittest discover -s tests -p test_i18n.py -v
+      - name: Analytic solutions, energy and convergence
+        run: .venv-ci/bin/python -m yoguicuentas.verification --backend numpy --skip-benchmark --output verification-ci
+      - name: Stopping criteria, sampling and false convergence (CPU)
+        run: .venv-ci/bin/python -m unittest discover -s tests -p test_convergence_criteria.py -v > verification-ci/criteria-unittest.log 2>&1
+      - name: Preserve quantitative results on success or failure
+        if: always()
+        uses: actions/upload-artifact@v7
+        with:
+          name: numerical-cpu
+          path: verification-ci/
+          if-no-files-found: error

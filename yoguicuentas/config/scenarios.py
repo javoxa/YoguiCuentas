@@ -27,12 +27,18 @@ class Scenario:
     dt: float | None = None  # segundos; None usa safety*dt_limit
 
     steady: bool = False
-    steady_method: str = "explicit"  # explicit time evolution or direct weighted Jacobi
+    steady_method: str = "explicit"  # evolution, weighted Jacobi or red–black GS
     steady_rtol: float = 1e-5
     steady_atol: float = 1e-5  # K/s; residual of stationary equations, not delta T
     steady_check_every: int = 128
     steady_confirmations: int = 3
     steady_max_steps: int = 1000000
+    steady_criterion: str = 'residual'
+    steady_delta_atol: float = 1e-5  # K, between checks, independent of K/s audit
+    steady_delta_rtol: float = 1e-5
+    steady_sampling: str = 'all'
+    steady_sample_count: int = 32
+    steady_sample_seed: int = 1
 
     scene: Scene | None = None
     default_boundary: Boundary = field(default_factory=lambda:Boundary('Adiabático'))
@@ -96,8 +102,8 @@ class Scenario:
         if self.dt is not None and (not math.isfinite(self.dt) or self.dt <= 0 or (self.temporal_method=='explicit' and self.dt > self.dt_limit)):
             raise ValueError("dt debe ser positivo y no superar el límite explícito")
 
-        if self.steady_method not in ('explicit','jacobi'):
-            raise ValueError('Método estacionario debe ser explicit o jacobi')
+        if self.steady_method not in ('explicit','jacobi','gaussSeidel'):
+            raise ValueError('Método estacionario debe ser explicit, jacobi o gaussSeidel')
         if type(self.steady) is not bool:
             raise ValueError('steady debe ser booleano')
         for name in ('steady_rtol','steady_atol'):
@@ -106,6 +112,18 @@ class Scenario:
                 raise ValueError(f'{name} debe ser finita y no negativa')
         if self.steady_rtol==0 and self.steady_atol==0:
             raise ValueError('Alguna tolerancia de estacionario debe ser positiva')
+        from ..numerics.convergence import CRITERIA,SAMPLING
+        if self.steady_criterion not in CRITERIA or self.steady_sampling not in SAMPLING:
+            raise ValueError('Criterio o muestreo de estacionario inválido')
+        for name in ('steady_delta_atol','steady_delta_rtol'):
+            if not math.isfinite(getattr(self,name)) or getattr(self,name)<0:
+                raise ValueError('Tolerancias ΔT finitas y no negativas')
+        if self.steady_delta_atol==self.steady_delta_rtol==0:
+            raise ValueError('Alguna tolerancia ΔT debe ser positiva')
+        if type(self.steady_sample_count) is not int or self.steady_sample_count<1:
+            raise ValueError('Cantidad de nodos de muestra debe ser un entero positivo')
+        if type(self.steady_sample_seed) is not int or not 0<=self.steady_sample_seed<=0xffffffff:
+            raise ValueError('Semilla debe ser un entero entre 0 y 4294967295')
         for name in ('steady_check_every','steady_confirmations','steady_max_steps'):
             if type(getattr(self,name)) is not int or getattr(self,name)<1:
                 raise ValueError(f'{name} debe ser un entero positivo')
@@ -123,7 +141,12 @@ class Scenario:
 
     @property
     def direct_steady(self):
-        return self.steady and self.steady_method=='jacobi'
+        return self.steady and self.steady_method in ('jacobi','gaussSeidel')
+
+    @property
+    def steady_label(self):
+        return {'explicit':'Evolución temporal','jacobi':'Jacobi ponderado (ω=2/3)',
+                'gaussSeidel':'Gauss–Seidel rojo–negro (ω=1)'}[self.steady_method]
 
     @property
     def final_steps(self):

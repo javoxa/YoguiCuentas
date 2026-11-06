@@ -1,6 +1,7 @@
 """Ventanas acotadas a pantalla y formularios desplazables con acciones fijas."""
-import tkinter as tk
-from tkinter import ttk,font as tkfont
+from .i18n import tk
+from .i18n import ttk
+from tkinter import font as tkfont
 
 
 def fit_window(window,width,height,parent=None):

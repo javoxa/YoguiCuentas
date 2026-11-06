@@ -1,4 +1,14 @@
-# YoguiCuentas Metal
+# YoguiCuentas Metal — candidata 0.12.0
+
+Desarrollo posterior a Metal 0.11.0: Gauss–Seidel rojo–negro y ensayos de
+conservación, perfiles analíticos y refinamiento espacial/temporal. Para verificar
+CPU Swift y GPU Metal en el M1 ejecutá `bash verificar_numerica.sh` desde esta
+carpeta. El script conserva registros aun si falla una prueba. El código nuevo
+fue compilado y ensayado en la M1: 103 XCTest aprobados, sin fallos ni omisiones.
+Las fuentes finales están integradas; la aceptación visual y la primera apertura
+en otra Mac siguen pendientes. [Informe CPU/GPU](../../INFORME_VALIDACION_CPU_GPU_20261029.md). Método y alcance de la grilla estructurada: [guía numérica](../../VERIFICACION_NUMERICA.md).
+
+Para integrar y completar esta etapa en la Mac: [traspaso M1, pruebas y devolución de resultados](../../TRASPASO_METAL_M1.md).
 
 Port nativo para macOS con SwiftUI, AppKit y Metal. La versión Metal y la versión Python/OpenCL tienen numeración independiente. Los archivos JSON de escenario están en `Sources/YoguiCuentasMetal/Resources/Scenarios`.
 
@@ -10,7 +20,7 @@ Port nativo para macOS con SwiftUI, AppKit y Metal. La versión Metal y la versi
 
 El ZIP se genera automáticamente al publicar una Release. La app usa firma local y no está notarizada; si macOS bloquea la primera apertura, seguí [estos pasos](INSTALACION_APPLE_M1.md#si-macos-bloquea-la-primera-apertura). No necesitás instalar Xcode, Python, Homebrew ni OpenCL para usar el ZIP.
 
-Si aún no aparece el ZIP en **Assets**, consultá [Actions](https://github.com/javoxa/YoguiCuentas/actions) y esperá a que termine correctamente **Build release packages** para `v0.2.4`.
+Si aún no aparece el ZIP en **Assets**, consultá [Actions](https://github.com/javoxa/YoguiCuentas/actions) y esperá a que termine correctamente **Build release packages** para la nueva etiqueta Linux `v0.2.5`.
 
 ## Animación con Crank–Nicolson (0.11.0)
 
@@ -132,4 +142,12 @@ La carga acepta v1 y v2; el guardado siempre escribe v2. Las máscaras v1 se con
 
 **Curvas:** no se garantiza convergencia del balance Robin al círculo ideal sin ponderación geométrica. El documento de formato registra el sesgo de perímetro y el ensayo de refinamiento; se conserva el esquema escalonado solicitado.
 
-Pruebas: `swift test`. Compilación, firma y apertura: `bash crear_app.sh`. La equivalencia completa con Python/OpenCL sigue pendiente de una campaña específica.
+Pruebas: `swift test`. Compilación, firma y apertura: `bash crear_app.sh`. La campaña CPU/GPU está documentada en el informe integrado; no se afirma equivalencia bit a bit ni aceptación visual completa.
+
+## Interfaz bilingüe (06/11/2026)
+
+Español inicial; menú Idioma con Español y English. Los textos se traducen al
+presentarlos y los identificadores del escenario se conservan. Las fuentes
+incorporan el catálogo compartido y `LanguageTests`. Esta modificación necesita
+compilación y aceptación visual en macOS; consultar [protocolo](../../IDIOMAS.md).
+El resultado numérico M1 de octubre no sustituye esa aceptación.

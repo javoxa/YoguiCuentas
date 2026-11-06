@@ -16,9 +16,16 @@ def main(argv=None):
     parser.add_argument("--scenario", type=Path)
     parser.add_argument("--steps", type=int, default=None)
     parser.add_argument("--steady", action="store_true", help="Hasta estacionario, a máxima velocidad")
-    parser.add_argument("--steady-method",choices=("explicit","jacobi"),
-                        help="Activa estacionario con evolución explícita o Jacobi directo")
+    parser.add_argument("--steady-method",choices=("explicit","jacobi","gaussSeidel"),
+                        help="Activa estacionario con evolución temporal, Jacobi o Gauss–Seidel rojo–negro")
     parser.add_argument("--temporal-method",choices=("explicit","crankNicolson"))
+    from .numerics.convergence import CRITERIA,SAMPLING
+    parser.add_argument('--steady-criterion',choices=tuple(CRITERIA))
+    parser.add_argument('--steady-sampling',choices=tuple(SAMPLING))
+    parser.add_argument('--steady-sample-count',type=int)
+    parser.add_argument('--steady-sample-seed',type=int)
+    parser.add_argument('--steady-delta-atol',type=float)
+    parser.add_argument('--steady-delta-rtol',type=float)
     parser.add_argument("--batch-size", type=int, default=128)
     parser.add_argument("--output", type=Path, default=Path("resultados"))
     parser.add_argument("--backend", choices=("numpy", "opencl"), default="numpy")
@@ -41,6 +48,9 @@ def main(argv=None):
         if args.steady or args.steady_method:
             scenario=replace(scenario,steady=True,final_time=None,
                              steady_method=args.steady_method or scenario.steady_method)
+        options={name:getattr(args,name) for name in ('steady_criterion','steady_sampling','steady_sample_count',
+                 'steady_sample_seed','steady_delta_atol','steady_delta_rtol') if getattr(args,name) is not None}
+        if options:scenario=replace(scenario,steady=True,final_time=None,**options)
         if args.gui:
             from .ui.main_window import run_window
             run_window(scenario, args.device, args.batch_size, args.smoke_seconds, args.output, transfer=args.transfer,compute_backend=args.processor)
@@ -81,7 +91,12 @@ def main(argv=None):
     np.save(args.output / "active_mask.npy", active)
     from .capture.fields import write_csv
     write_csv(args.output/'temperature.csv',temperature,active,scenario.grid,scheduler.steps,controller.time,
-              'jacobi' if scenario.direct_steady else scenario.temporal_method)
+              scenario.steady_method if scenario.direct_steady else scenario.temporal_method)
     scenario.save(args.output / "scenario.json")
+    if scenario.steady and scheduler.steady.history:
+        import csv
+        with (args.output/'convergence.csv').open('w',newline='') as handle:
+            writer=csv.DictWriter(handle,fieldnames=list(scheduler.steady.history[0]))
+            writer.writeheader();writer.writerows(scheduler.steady.history)
     (args.output / "report.json").write_text(json.dumps(report, indent=2) + "\n")
     print(json.dumps(report, indent=2))

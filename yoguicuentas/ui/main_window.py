@@ -1,13 +1,14 @@
 import json
 from pathlib import Path
 import time
-import tkinter as tk
-from tkinter import ttk, messagebox, simpledialog, filedialog
+from .i18n import tk
+from .i18n import ttk, messagebox, simpledialog, filedialog
 from .. import __version__
 from ..render.renderer import MODES
 from .configuration import open_configuration, load_configuration
 from .layout import fit_window, ScrollablePage
 from .view_menu import add_view_menu
+from .i18n import add_language_menu
 from ..render.canvas import HeatCanvas
 
 
@@ -99,6 +100,7 @@ def run_window(scenario, device_index, batch_size, smoke_seconds=None, output=Pa
             capture_status.set('Guardando imagen…')
         monitor=canvas.scheduler.steady
         terminal=('Estacionario alcanzado' if monitor.reason=='converged' else
+                  'Criterio ΔT cumplido · residuo físico sin verificar' if monitor.reason=='criterion_met' else
                   f"Límite de {'iteraciones' if scenario.direct_steady else 'pasos'}: sin converger" if monitor.reason=='max_steps' else 'Finalizado')
         state = ('Reiniciando…' if resetting else terminal if c.finished else 'Listo para iniciar' if not c.started else
                  'Pausando…' if c.paused and (c.ticket is not None or c.publish_pending or
@@ -117,6 +119,13 @@ def run_window(scenario, device_index, batch_size, smoke_seconds=None, output=Pa
                         f"Estacionario: Rmáx={r['max_rate_K_s']:.3g} / {r['rate_limit_K_s']:.3g} K/s"
                         f" · balance L1={r['balance_L1_W_per_m']:.3g} / {r['balance_limit_W_per_m']:.3g} W/m"
                         f" · confirma {monitor.successes}/{scenario.steady_confirmations} · control {'iteración' if scenario.direct_steady else 'paso'} {monitor.checked_step}")
+            if monitor.last is not None and scenario.steady_criterion!='residual':
+                value=r['criterion_value_K'];limit=r['criterion_limit_K']
+                from ..numerics.convergence import CRITERIA
+                text=f"{CRITERIA[scenario.steady_criterion]}: {value:.3g} / {limit:.3g} K" if r['criterion_available'] else 'Criterio sin nodos elegibles: no puede confirmar'
+                residual_text.set(residual_text.get()+'\n'+text+
+                                  f" · {r['sampling']} · ΔT entre controles ({r['interval_steps']} pasos/iter.)"+
+                                  (' · residuo físico cumple' if r['physical_residual_verified'] else ' · residuo físico aún sin confirmar'))
         else:
             residual_label.pack_forget()
         requested=None if scenario.steady else c.pacer.speed
@@ -142,14 +151,14 @@ def run_window(scenario, device_index, batch_size, smoke_seconds=None, output=Pa
                  f'residuo {canvas.scheduler.cn_last_residual} K\n' if scenario.uses_cn else '')
         details.set(
             f'Estado: {state}\n' +
-            ('Sin tiempo físico · Jacobi directo\n' if scenario.direct_steady else
+            (f'Sin tiempo físico · {scenario.steady_label}\n' if scenario.direct_steady else
              f'Tiempo visible: {scenario.time_at_step(c.display_steps):.6g} s\n') +
             ('Objetivo: estacionario\n' if scenario.steady else
              f"Tiempo final: {scenario.final_time if scenario.final_time is not None else 'sin límite'} s\n") +
             f"{'Iteración' if scenario.direct_steady else 'Paso'} visible: {c.display_steps}\n"
             f"{'Iteraciones' if scenario.direct_steady else 'Pasos'} calculados: {canvas.scheduler.steps}\n\n"
             f'{initial_text}\n'
-            f"Método: {'Jacobi ponderado (ω=2/3)' if scenario.direct_steady else 'Crank–Nicolson' if scenario.uses_cn else 'Euler explícito'}\n"
+            f"Método: {scenario.steady_label if scenario.direct_steady else 'Crank–Nicolson' if scenario.uses_cn else 'Euler explícito'}\n"
             f'{cn_text}'
             f'Grilla: {g.nx} × {g.ny} nodos\n'
             f"Dominio: {g.lx:g} × {g.ly:g} m; {'Escena v2' if scenario.scene is not None else scenario.domain.shape}\n"
@@ -387,6 +396,7 @@ def run_window(scenario, device_index, batch_size, smoke_seconds=None, output=Pa
     files.add_command(label='Exportar campo visible a CSV…',command=save_csv)
     menubar.add_cascade(label='Archivo',menu=files)
     view_menu,colorbar_visible=add_view_menu(menubar,canvas,edit_scale)
+    add_language_menu(menubar)
     root.configure(menu=menubar)
     vectors=tk.BooleanVar(value=False)
     isotherms=tk.BooleanVar(value=False)

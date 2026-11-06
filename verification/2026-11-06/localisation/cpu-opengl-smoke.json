@@ -1,0 +1,74 @@
+{
+  "transfer": "cpu",
+  "transfer_reason": null,
+  "sources": 1,
+  "regions": 1,
+  "interface_mean": "Arm\u00f3nica",
+  "requested_speed": 0.5,
+  "playback_not_ahead": true,
+  "grid_shape": [
+    31,
+    47
+  ],
+  "final_time": 0.205,
+  "visible_time": 0.205,
+  "finished": true,
+  "shader_linear_rgb_error": {
+    "2": 0.25,
+    "3": 0.25,
+    "regional_flux": 0.19240506329113316
+  },
+  "modes": {
+    "Mapa de temperatura": {
+      "gl_error": 0,
+      "pixel_std": 67.79991224019145
+    },
+    "Superficie 3D": {
+      "gl_error": 0,
+      "pixel_std": 34.28261846081839
+    },
+    "Gradiente t\u00e9rmico": {
+      "gl_error": 0,
+      "pixel_std": 74.73735236375089
+    },
+    "Flujo de calor": {
+      "gl_error": 0,
+      "pixel_std": 70.92019954995453
+    },
+    "Temperatura + flujo": {
+      "gl_error": 0,
+      "pixel_std": 67.34148541287756
+    }
+  },
+  "gl": {
+    "renderer": "NVIDIA RTX A2000/PCIe/SSE2",
+    "version": "4.6.0 NVIDIA 570.86.10"
+  },
+  "cl": {
+    "name": "CPU \u00b7 NumPy float64",
+    "backend": "numpy-float64",
+    "numpy": "1.26.4"
+  },
+  "frames": 435,
+  "publications": 12,
+  "steps": 21,
+  "display_steps": 21,
+  "cpu_vbo_linf_K": 3.790245202139886e-06,
+  "ui_checks": {
+    "initial_steps": 0,
+    "initial_paused": true,
+    "info_hidden": true,
+    "info_shown": true,
+    "speed_selected": true,
+    "button_started": true,
+    "reset_steps_zero": true,
+    "reset_visible_zero": true,
+    "reset_paused": true,
+    "screenshot_saved": true,
+    "screenshot_error": null,
+    "configuration_applied": true,
+    "configuration_stopped": true,
+    "speed_preserved": true
+  },
+  "errors": []
+}

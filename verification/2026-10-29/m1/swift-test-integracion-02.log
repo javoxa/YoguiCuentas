@@ -1,0 +1,50 @@
+[0/1] Planning build
+Building for debugging...
+[0/7] Write sources
+[1/7] Write swift-version--58304C5D6DBC2206.txt
+[3/13] Compiling YoguiCuentasMetal SimulationModel.swift
+[4/13] Compiling YoguiCuentasMetal Scenario.swift
+[5/13] Emitting module YoguiCuentasMetal
+[6/13] Compiling YoguiCuentasMetal ResultExport.swift
+[7/13] Compiling YoguiCuentasMetal Convergence.swift
+[8/13] Compiling YoguiCuentasMetal ContentView.swift
+[9/22] Compiling YoguiCuentasMetal VisualFields.swift
+[10/22] Compiling YoguiCuentasMetal ThermalCanvas.swift
+[11/22] Compiling YoguiCuentasMetal ThermalSolver.swift
+[12/22] Compiling YoguiCuentasMetal Surface3DView.swift
+[13/22] Compiling YoguiCuentasMetal SceneEditor.swift
+[14/22] Compiling YoguiCuentasMetal SceneBoundarySegments.swift
+[15/22] Compiling YoguiCuentasMetal Scene.swift
+[16/22] Compiling YoguiCuentasMetal CrankNicolson.swift
+[17/22] Compiling YoguiCuentasMetal FieldOverlays.swift
+[17/22] Write Objects.LinkFileList
+[18/22] Linking yoguicuentas_metal
+[19/23] Write yoguicuentas_metal-entitlement.plist
+[20/23] Applying yoguicuentas_metal
+[22/33] Compiling SceneTests SourceDomainTests.swift
+[23/34] Compiling SceneTests RegionApplyTests.swift
+[24/34] Compiling SceneTests BoundarySegmentTests.swift
+[25/34] Compiling SceneTests ConvergenceCriteriaTests.swift
+[26/34] Compiling SceneTests RegionTests.swift
+[27/34] Compiling SceneTests SceneTests.swift
+[28/34] Compiling SceneTests StationaryTests.swift
+[29/34] Compiling SceneTests CrankNicolsonTests.swift
+[30/34] Compiling SceneTests FreehandWorkflowTests.swift
+[31/34] Emitting module SceneTests
+[32/34] Compiling SceneTests NumericalVerificationTests.swift
+/Users/javo/Documents/yogui/yoguicuentas_metal/Tests/SceneTests/NumericalVerificationTests.swift:38:31: error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+ 36 |     func lambda(_ s:Scenario,_ continuum:Bool=false) -> Double {
+ 37 |         let g=s.grid
+ 38 |         if continuum { return s.alpha * .pi * .pi * (1/(g.lx*g.lx)+1/(g.ly*g.ly)) }
+    |                               `- error: the compiler is unable to type-check this expression in reasonable time; try breaking up the expression into distinct sub-expressions
+ 39 |         return 4*s.alpha*(pow(sin(.pi/(2*Double(g.nx-1))),2)/(g.dx*g.dx)+pow(sin(.pi/(2*Double(g.ny-1))),2)/(g.dy*g.dy))
+ 40 |     }
+
+/Users/javo/Documents/yogui/yoguicuentas_metal/Tests/SceneTests/NumericalVerificationTests.swift:39:20: error: value of type 'Scenario' has no member 'alpha'
+ 37 |         let g=s.grid
+ 38 |         if continuum { return s.alpha * .pi * .pi * (1/(g.lx*g.lx)+1/(g.ly*g.ly)) }
+ 39 |         return 4*s.alpha*(pow(sin(.pi/(2*Double(g.nx-1))),2)/(g.dx*g.dx)+pow(sin(.pi/(2*Double(g.ny-1))),2)/(g.dy*g.dy))
+    |                    `- error: value of type 'Scenario' has no member 'alpha'
+ 40 |     }
+ 41 |     func temporal(_ metal:Bool) throws {
+error: fatalError

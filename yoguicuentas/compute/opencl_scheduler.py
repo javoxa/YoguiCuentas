@@ -58,8 +58,13 @@ class OpenCLScheduler:
         from ..numerics.steady import steady_data, SteadyMonitor
         arrays,weights=steady_data(s,arrays)
         self.steady=SteadyMonitor(s,initial,arrays,weights)
-        self._residual_host=np.empty(2,dtype=np.float32)
-        self._residual_buffer=cl.Buffer(self.context,cl.mem_flags.WRITE_ONLY,8)
+        self._residual_host=np.empty(15,dtype=np.float32)
+        self._residual_buffer=cl.Buffer(self.context,cl.mem_flags.WRITE_ONLY,self._residual_host.nbytes)
+        from ..numerics.convergence import selection_masks
+        selected,diagonal=selection_masks(s,weights)
+        self._steady_selected=cl.Buffer(self.context,cl.mem_flags.READ_ONLY|cl.mem_flags.COPY_HOST_PTR,hostbuf=selected.astype(np.uint8))
+        self._steady_diagonal=cl.Buffer(self.context,cl.mem_flags.READ_ONLY|cl.mem_flags.COPY_HOST_PTR,hostbuf=diagonal.astype(np.uint8))
+        self._previous_check=cl.Buffer(self.context,cl.mem_flags.READ_WRITE|cl.mem_flags.COPY_HOST_PTR,hostbuf=initial)
         with np.errstate(over='ignore'):
             weights32=np.ascontiguousarray(weights,dtype=np.float32)
         if not np.all(np.isfinite(weights32)):
@@ -97,13 +102,16 @@ class OpenCLScheduler:
         if self.build_log.strip():
             logger.info("Compilación OpenCL: %s", self.build_log)
         self.residual_kernel = cl.Kernel(self.program, 'steady_residual')
+        self.comparison_kernel = cl.Kernel(self.program, 'steady_comparison')
         self._residual_size=1
         limit=min(64,self.device.max_work_group_size,
+                  self.comparison_kernel.get_work_group_info(cl.kernel_work_group_info.WORK_GROUP_SIZE,self.device),
                   self.residual_kernel.get_work_group_info(
                       cl.kernel_work_group_info.WORK_GROUP_SIZE,self.device))
         while self._residual_size*2<=limit:
             self._residual_size*=2
-        self.kernel = cl.Kernel(self.program, 'stationary_jacobi' if s.direct_steady else 'explicit_heat')
+        name=('stationary_gauss_seidel' if s.steady_method=='gaussSeidel' else 'stationary_jacobi') if s.direct_steady else 'explicit_heat'
+        self.kernel = cl.Kernel(self.program,name)
         self.buffers = TemperatureBuffers(self.context, initial)
         import pyopencl as cl
         self._initial = cl.Buffer(self.context, cl.mem_flags.READ_ONLY |
@@ -129,9 +137,12 @@ class OpenCLScheduler:
         args=(*self._args[:-1],dt32)
         events = []
         for _ in range(count):
-            events.append(self.kernel(self.queue, (self.scenario.grid.nx, self.scenario.grid.ny),
-                                      None, self.buffers.current, self.buffers.next, *args, np.float32(self.scenario.initial_base), self._active))
-            self.buffers.swap()
+            colors=(0,1) if self.scenario.direct_steady and self.scenario.steady_method=='gaussSeidel' else (None,)
+            for color in colors:
+                extra=() if color is None else (np.int32(color),)
+                events.append(self.kernel(self.queue, (self.scenario.grid.nx, self.scenario.grid.ny),
+                                          None, self.buffers.current, self.buffers.next, *args, np.float32(self.scenario.initial_base), self._active,*extra))
+                self.buffers.swap()
         self._checking=self.steady.due(self.steps+count)
         if self._checking:
             events.extend(self._enqueue_residual())
@@ -145,6 +156,11 @@ class OpenCLScheduler:
         events=[self.residual_kernel(self.queue,(self._residual_size,),(self._residual_size,),self.buffers.current,
                     *self._args[:-1],np.float32(self.scenario.initial_base),self._weights,
                     self._residual_buffer,cl.LocalMemory(self._residual_size*8))]
+        events.append(self.comparison_kernel(self.queue,(self._residual_size,),(self._residual_size,),
+                      self.buffers.current,self._previous_check,self._steady_selected,self._steady_diagonal,
+                      np.int32(self.scenario.grid.nx),np.int32(self.scenario.grid.ny),np.float32(self.scenario.initial_base),
+                      self._residual_buffer,cl.LocalMemory(self._residual_size*13*4)))
+        events.append(cl.enqueue_copy(self.queue,self._previous_check,self.buffers.current))
         events.append(cl.enqueue_copy(self.queue,self._residual_host,self._residual_buffer,is_blocking=False))
         return events
 
@@ -158,7 +174,8 @@ class OpenCLScheduler:
         if self._pending is not None:
             raise RuntimeError('Confirmar el lote pendiente antes de reiniciar')
         event = cl.enqueue_copy(self.queue, self.buffers.current, self._initial)
-        ticket = Ticket(0, (event,), reset=True)
+        previous = cl.enqueue_copy(self.queue,self._previous_check,self._initial)
+        ticket = Ticket(0, (event,previous), reset=True)
         self._pending = ticket
         self.queue.flush()
         return ticket
@@ -196,7 +213,9 @@ class OpenCLScheduler:
         else:
             self.steps += ticket.steps
             if self._checking:
-                self.steady.update(self.steps,self._residual_host)
+                from ..numerics.convergence import decode_comparison
+                comparison=decode_comparison(self._residual_host[2:],self.steady.selected_count,self.steady.diagonal_count)
+                self.steady.update(self.steps,self._residual_host[:2],comparison)
                 self._checking=False
         self._pending = None
         return True

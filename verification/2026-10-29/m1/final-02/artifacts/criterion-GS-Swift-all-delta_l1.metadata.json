@@ -1,0 +1,185 @@
+{
+  "countUnit" : "iterations",
+  "criterionConfirmations" : 2,
+  "device" : "CPU Swift",
+  "effectiveBackend" : "CPU · Swift",
+  "historyCount" : 7,
+  "historyDiscarded" : 0,
+  "lastLinearResidualK" : 0,
+  "linearIterations" : 0,
+  "method" : "gaussSeidel",
+  "physicalBalance" : 8.147008716004211e-07,
+  "physicalConfirmations" : 4,
+  "physicalRate" : 4.1898894123374906e-07,
+  "precision" : "float32",
+  "requestedBackend" : "CPU · Swift",
+  "scenario" : {
+    "canvas" : {
+      "Lx" : 1,
+      "Ly" : 1,
+      "boundaries" : {
+        "bottom" : {
+          "h" : 0,
+          "kind" : "Dirichlet",
+          "value" : 0
+        },
+        "left" : {
+          "h" : 0,
+          "kind" : "Dirichlet",
+          "value" : 0
+        },
+        "right" : {
+          "h" : 0,
+          "kind" : "Dirichlet",
+          "value" : 0
+        },
+        "top" : {
+          "h" : 0,
+          "kind" : "Dirichlet",
+          "value" : 0
+        }
+      },
+      "defaultBoundary" : {
+        "h" : 0,
+        "kind" : "Adiabático",
+        "value" : 0
+      },
+      "initial" : {
+        "amplitude" : 1,
+        "sigma" : 0.05,
+        "temperature" : 0,
+        "type" : "sine"
+      },
+      "interfaceMean" : "Armónica",
+      "material" : {
+        "cp" : 0.0011160714285714285,
+        "k" : 1,
+        "rho" : 8960
+      },
+      "nx" : 7,
+      "ny" : 7,
+      "time" : {
+        "atol" : 0.001,
+        "checkEvery" : 8,
+        "cn" : {
+          "atol" : 1e-06,
+          "checkEvery" : 16,
+          "maxIterations" : 2000,
+          "rannacher" : false,
+          "rtol" : 1e-05,
+          "stepFactor" : 10
+        },
+        "confirmations" : 2,
+        "convergence" : {
+          "criterion" : "delta_l1",
+          "delta_atol" : 0.001,
+          "delta_rtol" : 0,
+          "sample_count" : 3,
+          "sample_seed" : 123,
+          "sampling" : "all"
+        },
+        "maxSteps" : 64,
+        "method" : "gaussSeidel",
+        "rtol" : 0,
+        "safety" : 0.8,
+        "steady" : true,
+        "temporalMethod" : "explicit"
+      },
+      "uniformSource" : 0
+    },
+    "scene" : [
+      {
+        "boundaries" : {
+          "edge" : {
+            "h" : 0,
+            "kind" : "Adiabático",
+            "value" : 0
+          }
+        },
+        "domain" : {
+          "operation" : "replace"
+        },
+        "geometry" : {
+          "closed" : false,
+          "height" : 0.1,
+          "points" : [
+
+          ],
+          "radius" : 0.05,
+          "radiusX" : 0.05,
+          "radiusY" : 0.05,
+          "raster" : [
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true,
+            true
+          ],
+          "rasterGrid" : {
+            "lx" : 1,
+            "ly" : 1,
+            "nx" : 7,
+            "ny" : 7
+          },
+          "rotation" : 0,
+          "width" : 0.1,
+          "x" : 0.1,
+          "y" : 0.1
+        },
+        "id" : "B53CDC0F-D89D-43C5-874C-E056E2C6848C",
+        "locked" : false,
+        "name" : "Máscara v1 (edición limitada)",
+        "type" : "legacyMask",
+        "visible" : true
+      }
+    ],
+    "version" : 2
+  },
+  "schemaVersion" : 1,
+  "steps" : 56,
+  "stopReason" : "converged"
+}

@@ -1,8 +1,8 @@
 """Selección y edición de fuentes/trazos del dominio, con portapapeles local."""
 from dataclasses import replace
 from types import SimpleNamespace
-import tkinter as tk
-from tkinter import ttk,messagebox
+from .i18n import tk
+from .i18n import ttk,messagebox
 from ..model.sources import HeatSource,validate_sources
 from ..model.domain import validate_domain
 from .objects import bounds,hit,translated

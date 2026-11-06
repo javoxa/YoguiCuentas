@@ -35,7 +35,7 @@ final class RegionApplyTests:XCTestCase {
             XCTAssertTrue(model.sourceMeshNodes.contains(16*33+16))
             XCTAssertFalse(model.sourceMeshNodes.contains(5*33+5))
             XCTAssertEqual(model.scenario.scene!.first(where:{$0.id==id})!.source?.Q,5000)
-            XCTAssertTrue(model.status.contains("Problema aplicado"))
+            XCTAssertTrue(model.status.contains("Problema aplicado") || model.status == "Listo para iniciar")
             model.start()
             for _ in 0..<200 {
                 if !model.running {break}

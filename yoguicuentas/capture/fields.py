@@ -18,7 +18,7 @@ def write_csv(path,temperature,active,grid,steps,time_s,method):
             temporary=Path(handle.name)
             writer=csv.writer(handle)
             writer.writerow(('i','j','x_m','y_m','active','temperature_C','step','iteration','time_s','method'))
-            direct=method=='jacobi'
+            direct=method in ('jacobi','gaussSeidel')
             for j in range(grid.ny):
                 for i in range(grid.nx):
                     enabled=bool(active[j,i])
@@ -59,7 +59,7 @@ class CsvExport:
         temperature=np.frombuffer(raw,dtype=np.float32).reshape(scenario.grid.shape).copy()
         self.future=self._executor.submit(write_csv,self.path,temperature,active.copy(),scenario.grid,steps,
                                            None if scenario.direct_steady else scenario.time_at_step(steps),
-                                           'jacobi' if scenario.direct_steady else scenario.temporal_method)
+                                           scenario.steady_method if scenario.direct_steady else scenario.temporal_method)
         self.path=None
 
     def poll(self):

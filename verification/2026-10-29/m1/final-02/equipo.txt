@@ -1,0 +1,66 @@
+Thu Oct 29 22:39:05 UTC 2026
+ProductName:		macOS
+ProductVersion:		15.4.1
+BuildVersion:		24E263
+arm64
+Apple M1
+swift-driver version: 1.120.5 Apple Swift version 6.1.2 (swiftlang-6.1.2.1.2 clang-1700.0.13.5)
+Target: arm64-apple-macosx15.0
+Código fuente sin metadatos Git (por ejemplo, archivo ZIP).
+Graphics/Displays:
+
+    Apple M1:
+
+      Chipset Model: Apple M1
+      Type: GPU
+      Bus: Built-In
+      Total Number of Cores: 7
+      Vendor: Apple (0x106b)
+      Metal Support: Metal 3
+      Displays:
+        Color LCD:
+          Display Type: Built-In Retina LCD
+          Resolution: 2560 x 1600 Retina
+          Main Display: Yes
+          Mirror: Off
+          Online: Yes
+          Automatically Adjust Brightness: Yes
+          Connection Type: Internal
+
+8589934592
+8
+Now drawing from 'Battery Power'
+ -InternalBattery-0 (id=8323171)	74%; discharging; 3:06 remaining present: true
+Battery Power:
+ Sleep On Power Button 1
+ lowpowermode         0
+ standby              1
+ ttyskeepawake        1
+ hibernatemode        3
+ powernap             1
+ hibernatefile        /var/vm/sleepimage
+ displaysleep         15
+ womp                 0
+ networkoversleep     0
+ sleep                1
+ lessbright           0
+ tcpkeepalive         1
+ disksleep            10
+AC Power:
+ Sleep On Power Button 1
+ lowpowermode         0
+ standby              1
+ ttyskeepawake        1
+ hibernatemode        3
+ powernap             1
+ hibernatefile        /var/vm/sleepimage
+ displaysleep         60
+ womp                 0
+ networkoversleep     0
+ sleep                1
+ tcpkeepalive         1
+ disksleep            10
+19:39  up 5 days,  7:19, 2 users, load averages: 3.47 3.23 2.87
+/Applications/Xcode.app/Contents/Developer
+Xcode 16.4
+Build version 16F6
